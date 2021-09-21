@@ -4,7 +4,7 @@
       <nav>
         <ul>
           <li>
-            <a >Vending Machine Admin</a>
+            <a >Smart Tanning Device Admin</a>
           </li>
           <!-- <li>
             <a href="https://creative-tim.com/presentation">

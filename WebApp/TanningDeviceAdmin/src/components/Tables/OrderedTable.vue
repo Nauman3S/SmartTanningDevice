@@ -3,10 +3,18 @@
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
-        <md-table-cell md-label="Fingerprint">{{ item.Fingerprint }}</md-table-cell>
-        <md-table-cell md-label="Last Vend">{{ item.LastVend }}</md-table-cell>
-        <md-table-cell md-label="Vend Machine">{{ item.MachineNumber }}</md-table-cell>
-        <md-table-cell md-label="Total Vends">{{ item.TotalVends }}</md-table-cell>
+        <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
+        <md-table-cell md-label="StartSession">{{ item.StartSession }}</md-table-cell>
+        <md-table-cell md-label="EndSession">{{ item.EndSession }}</md-table-cell>
+        <md-table-cell md-label="EndSessionType">{{ item.EndSessionType }}</md-table-cell>
+        <md-table-cell md-label="Temperature">{{ item.Temperature }}</md-table-cell>
+        <md-table-cell md-label="SensorFilters">{{ item.SensorFilters }}</md-table-cell>
+        <md-table-cell md-label="LampMaintenance">{{ item.LampMaintenance }}</md-table-cell>
+        <md-table-cell md-label="PowerFactorCorrection">{{ item.PowerFactorCorrection }}</md-table-cell>
+        <md-table-cell md-label="AnemometerSensor">{{ item.AnemometerSensor }}</md-table-cell>
+        <md-table-cell md-label="InputVoltage">{{ item.InputVoltage }}</md-table-cell>
+        <md-table-cell md-label="PresencePhases">{{ item.PresencePhases }}</md-table-cell>
+
         
         
       </md-table-row>
@@ -78,22 +86,21 @@ const requestOptions = {
 
         this.users=this.allData
         this.$store.state.logsData=this.users;
-        var i=0;
-        var sum=0;
-        var rews=0;
-        for(i=0;i<this.users.length;i++){
-          var g=this.users[i]['TotalVends']
-          //var m=this.users[i]['RewardPointsEarned']
-          if(g!='NaN'){
-            sum=sum+parseInt(g)
-            // rews=rews+parseInt(m)
-          }
-        }
+        // var i=0;
+        // var sum=0;
+        // var rews=0;
+        // for(i=0;i<this.users.length;i++){
+        //   var g=this.users[i]['TotalVends']
+         
+        //   if(g!='NaN'){
+        //     sum=sum+parseInt(g)
+          
+        //   }
+        // }
 
-        this.$store.state.allTimeSales=sum;
-        this.$store.state.allTimeJobs=this.users.length;
-        // this.$store.state.allTimeRewardsIssued=rews;
-        // console.log(this.users)
+        // this.$store.state.allTimeSales=sum;
+        // this.$store.state.allTimeJobs=this.users.length;
+     
         });
   },
 },

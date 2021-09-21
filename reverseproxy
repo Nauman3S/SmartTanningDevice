@@ -1,0 +1,12 @@
+server {
+        listen       8080;
+        server_name  localhost;
+ add_header 'Access-Control-Allow-Origin' '*';
+        location / {
+      proxy_pass http://localhost:8001;
+        }
+        location /v1/ {
+           proxy_pass http://localhost:8002;
+
+        }
+}

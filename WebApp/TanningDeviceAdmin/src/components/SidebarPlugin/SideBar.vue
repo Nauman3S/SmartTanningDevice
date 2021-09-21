@@ -47,7 +47,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "VendMachine"
+      default: "SmartTDevice"
     },
     sidebarBackgroundImage: {
       type: String,

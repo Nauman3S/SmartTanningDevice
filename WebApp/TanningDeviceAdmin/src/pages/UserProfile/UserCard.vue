@@ -5,7 +5,7 @@
     </div>
 
     <md-card-content>
-      <h6 class="category text-gray">Vend Machine Admin</h6>
+      <h6 class="category text-gray">Smart Tanning Device Admin</h6>
       <h4 class="card-title">{{this.$store.state.loggedInUserDetails['FName']}} {{this.$store.state.loggedInUserDetails['LName']}}</h4>
       <p class="card-description">
         {{aboutme}}

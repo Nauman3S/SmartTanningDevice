@@ -1,6 +1,6 @@
 import express from 'express';
 import { indexPage, tempHandlePage } from '../controllers';
-import { cashHandlePage } from '../controllers';
+import { tempHandlePage } from '../controllers';
 import mysql from 'mysql'
 //import helmet from 'helmet'
 //import 'axios'

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-const API_URL_LedgerLog = "http://0.0.0.0:8080/v1/getLogs";
+const API_URL_LedgerLog = "http://34.214.65.82:8080/v1/getLogs";
 export default {
   name: "ordered-table",
   props: {

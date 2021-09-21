@@ -2,6 +2,6 @@
 module.exports = {
     // options...
     devServer: {
-        proxy: 'http://localhost:3000/v1',
+        proxy: 'http://localhost:3000',
     }
   }

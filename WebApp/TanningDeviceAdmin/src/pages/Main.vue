@@ -109,8 +109,12 @@ export default {
       
     },
 getData(){
+ const headers= {
+    "Access-Control-Allow-Origin": "*",
+ }
+
 fetch(API_URL)
-       fetch(API_URL)
+       fetch(API_URL,{headers})
       .then(response => response.json())
       .then(result => {
         

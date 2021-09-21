@@ -158,7 +158,7 @@
 </template>
 
 <script>
-const API_URL = "http://edc-backend.production.wrapdrive.tech/v1/getActive";
+const API_URL = "http://34.214.65.82:8080/v1/getActive";
 import {
   StatsCard,
   ChartCard,

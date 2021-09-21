@@ -5,32 +5,64 @@
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
-        <md-table-cell md-label="StartSession">{{ item.StartSession }}</md-table-cell>
-        <md-table-cell md-label="EndSession">{{ item.EndSession }}</md-table-cell>
-        <md-table-cell md-label="EndSessionType">{{ item.EndSessionType }}</md-table-cell>
-        <md-table-cell md-label="Temperature">{{ item.Temperature }}</md-table-cell>
-        <md-table-cell md-label="SensorFilters">{{ item.SensorFilters }}</md-table-cell>
-       
-
-        
-        
+        <md-table-cell md-label="StartSession">{{
+          item.StartSession
+        }}</md-table-cell>
+        <md-table-cell md-label="EndSession">{{
+          item.EndSession
+        }}</md-table-cell>
+        <md-table-cell md-label="EndSessionType">{{
+          item.EndSessionType
+        }}</md-table-cell>
+        <md-table-cell md-label="Temperature">{{
+          item.Temperature
+        }}</md-table-cell>
+        <md-table-cell md-label="AnemometerSensor">{{
+          item.AnemometerSensor
+        }}</md-table-cell>
       </md-table-row>
     </md-table>
 
-     <md-table v-model="users" :table-header-color="tableHeaderColor">
-        <md-table-row slot="md-table-row" slot-scope="{ item }">
-      <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
-        <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
-         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
-          <md-table-cell md-label="LampMaintenance">{{ item.LampMaintenance }}</md-table-cell>
-        <md-table-cell md-label="AnnualMaintenance">{{ item.AnnualMaintenance }}</md-table-cell>
-        <md-table-cell md-label="PowerFactorCorrection">{{ item.PowerFactorCorrection }}</md-table-cell>
-        <md-table-cell md-label="AnemometerSensor">{{ item.AnemometerSensor }}</md-table-cell>
-        <md-table-cell md-label="InputVoltage">{{ item.InputVoltage }}</md-table-cell>
-        <md-table-cell md-label="PresencePhases">{{ item.PresencePhases }}</md-table-cell>
-        </md-table-row>
-      </md-table>
+    <div
+      class="md-layout-item md-medium-size-100 md-xsmall-size-150 md-size-150"
+    >
+      <md-card>
+        <md-card-header data-background-color="blue">
+          <h4 class="title">Maintenance</h4>
+          <p class="category">Logs</p>
+        </md-card-header>
+        <md-card-content>
+          <ordered-table table-header-color="blue"></ordered-table>
+        </md-card-content>
+      </md-card>
+    </div>
 
+    <md-table v-model="users" :table-header-color="tableHeaderColor">
+      <md-table-row slot="md-table-row" slot-scope="{ item }">
+        <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
+        <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
+        <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
+        <md-table-cell md-label="SensorFilters">{{
+          item.SensorFilters
+        }}</md-table-cell>
+        <md-table-cell md-label="LampMaintenance">{{
+          item.LampMaintenance
+        }}</md-table-cell>
+        <md-table-cell md-label="AnnualMaintenance">{{
+          item.AnnualMaintenance
+        }}</md-table-cell>
+        <md-table-cell md-label="PowerFactorCorrection">{{
+          item.PowerFactorCorrection
+        }}</md-table-cell>
+
+        <md-table-cell md-label="InputVoltage">{{
+          item.InputVoltage
+        }}</md-table-cell>
+        <md-table-cell md-label="PresencePhases">{{
+          item.PresencePhases
+        }}</md-table-cell>
+      </md-table-row>
+    </md-table>
   </div>
 </template>
 
@@ -41,88 +73,85 @@ export default {
   props: {
     tableHeaderColor: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
       selected: [],
-      allData:[],
+      allData: [],
       users: [
         {
           id: 1,
           name: "D1akota Rice",
           salary: "$36,738",
           country: "Niger",
-          city: "Oud-Turnhout"
+          city: "Oud-Turnhout",
         },
         {
           id: 2,
           name: "Minerva Hooper",
           salary: "$23,738",
           country: "Curaçao",
-          city: "Sinaai-Waas"
+          city: "Sinaai-Waas",
         },
         {
           id: 3,
           name: "Sage Rodriguez",
           salary: "$56,142",
           country: "Netherlands",
-          city: "Overland Park"
+          city: "Overland Park",
         },
         {
           id: 4,
           name: "Philip Chaney",
           salary: "$38,735",
           country: "Korea, South",
-          city: "Gloucester"
-        }
-      ]
+          city: "Gloucester",
+        },
+      ],
     };
   },
 
-  
-methods:{
-getData(){
-const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: ''
-  };
-  fetch(API_URL_LedgerLog, requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        
-        // console.log(result.data)
-        this.allData = result['data']
+  methods: {
+    getData() {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "",
+      };
+      fetch(API_URL_LedgerLog, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          // console.log(result.data)
+          this.allData = result["data"];
 
-        this.users=this.allData
-        this.$store.state.logsData=this.users;
-        // var i=0;
-        // var sum=0;
-        // var rews=0;
-        // for(i=0;i<this.users.length;i++){
-        //   var g=this.users[i]['TotalVends']
-         
-        //   if(g!='NaN'){
-        //     sum=sum+parseInt(g)
-          
-        //   }
-        // }
+          this.users = this.allData;
+          this.$store.state.logsData = this.users;
+          // var i=0;
+          // var sum=0;
+          // var rews=0;
+          // for(i=0;i<this.users.length;i++){
+          //   var g=this.users[i]['TotalVends']
 
-        // this.$store.state.allTimeSales=sum;
-        // this.$store.state.allTimeJobs=this.users.length;
-     
+          //   if(g!='NaN'){
+          //     sum=sum+parseInt(g)
+
+          //   }
+          // }
+
+          // this.$store.state.allTimeSales=sum;
+          // this.$store.state.allTimeJobs=this.users.length;
         });
+    },
   },
-},
-  mounted(){
+  mounted() {
     this.$nextTick(function () {
-            window.setInterval(() => {
-                this.getData();
-            },2000);
-        })
+      window.setInterval(() => {
+        this.getData();
+      }, 2000);
+    });
     // this.getData()
-  }
+  },
 };
 </script>

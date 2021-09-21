@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: srv-captain--gh-mysqldb-db:3306
--- Generation Time: Sep 21, 2021 at 05:01 AM
+-- Generation Time: Sep 21, 2021 at 06:41 AM
 -- Server version: 5.7.35
 -- PHP Version: 7.4.20
 
@@ -32,14 +32,14 @@ CREATE TABLE `Admin` (
   `Email` text NOT NULL,
   `FName` text NOT NULL,
   `LName` text NOT NULL,
-  `Passowrd` text NOT NULL
+  `Password` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Admin`
 --
 
-INSERT INTO `Admin` (`ID`, `Email`, `FName`, `LName`, `Passowrd`) VALUES
+INSERT INTO `Admin` (`ID`, `Email`, `FName`, `LName`, `Password`) VALUES
 (1, 'admin@admin.com', 'Admin', 'Admin', 'admin');
 
 -- --------------------------------------------------------

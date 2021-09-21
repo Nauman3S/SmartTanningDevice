@@ -2,8 +2,6 @@
 module.exports = {
     // options...
     devServer: {
-        proxyTable: {
-            "/": "http://localhost:3000/v1/login"
-          }
+        proxy: 'http://localhost/v1/loginAdmin',
     }
   }

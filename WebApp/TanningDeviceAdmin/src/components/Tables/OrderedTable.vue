@@ -18,6 +18,9 @@
     </md-table>
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
+         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
+        <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
+        <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
         <md-table-cell md-label="Temperature">{{
           item.Temperature
         }}</md-table-cell>

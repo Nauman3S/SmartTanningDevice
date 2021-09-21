@@ -33,7 +33,7 @@
 </template>
 
 <script>
-const API_URL = "http://vend-backend.production.wrapdrive.tech/v1/loginAdmin";
+const API_URL = "http://localhost:3000/v1/loginAdmin";
 
 
 export default {

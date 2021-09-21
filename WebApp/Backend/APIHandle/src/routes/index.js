@@ -245,7 +245,7 @@ indexRouter.post('/ledgerUpdate', cors(),function(req, res) {
   })
 });
 //////////////////////////ADMIN
-indexRouter.post('/loginAdmin',cors(), function(req, res) {
+indexRouter.post('/loginAdmin', function(req, res) {
   let sql = `SELECT * FROM Admin WHERE Email='`+req.body.email+`' AND Password='`+req.body.password+`'`;
   db.query(sql, function(err, data, fields) {
     if (err) throw err;

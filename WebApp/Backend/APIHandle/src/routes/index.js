@@ -34,7 +34,7 @@ const cashHandleRouter = express.Router();
 
 // })
 //const mqtt = require('mqtt')
-const client = mqtt.connect('mqtt://broker.hivemq.com')
+const client = mqtt.connect('mqtt://34.214.65.82')
 
 var garageState = ''
 var connected = false
@@ -42,7 +42,7 @@ var connected = false
 client.on('connect', () => {
   client.subscribe('bkc-device/filesList')
   client.subscribe('bkc-device/cancelAllJobs')
-  client.subscribe('edc-monitor/createNew')
+  client.subscribe('tanning-device/createNew')
   client.subscribe('edc-monitor/updatePlayer')
   client.subscribe('edc-monitor/playerExists')
 })
@@ -50,13 +50,13 @@ client.on('connect', () => {
 
 var db = mysql.createConnection({
   host: 'localhost',
-  port:3306,
+  port: 3306,
   user: 'root',
   password: 'gh-mysqldb',
   database: 'tanningdevice',
   multipleStatements: true
 })
-db.connect(function(err) {
+db.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 });
@@ -66,9 +66,9 @@ db.connect(function(err) {
 indexRouter.get('/', cors(), indexPage);
 indexRouter.get('/temp', cors(), tempHandlePage);
 
-indexRouter.post('/getLogs',cors(), function(req, res) {
+indexRouter.post('/getLogs', cors(), function (req, res) {
   let sql = `SELECT * FROM VLedger`;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -78,9 +78,9 @@ indexRouter.post('/getLogs',cors(), function(req, res) {
   })
 });
 
-indexRouter.post('/verifyFingerPrint',cors(), function(req, res) {
-  let sql = `SELECT * FROM VLedger WHERE Fingerprint='`+req.body.Fingerprint+`'`;
-  db.query(sql, function(err, data, fields) {
+indexRouter.post('/verifyFingerPrint', cors(), function (req, res) {
+  let sql = `SELECT * FROM VLedger WHERE Fingerprint='` + req.body.Fingerprint + `'`;
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -89,63 +89,63 @@ indexRouter.post('/verifyFingerPrint',cors(), function(req, res) {
     })
   })
 });
-indexRouter.post('/newFingerPrint', cors(),function(req, res) {
+indexRouter.post('/newFingerPrint', cors(), function (req, res) {
   let sql = `INSERT INTO VLedger(Fingerprint, LastVend, MachineNumber, TotalVends) VALUES (?)`;
   let values = [
     req.body.Fingerprint,
     req.body.LastVend,
     req.body.MachineNumber,
     '0'
-    
-    
+
+
   ];
-  db.query(sql, [values], function(err, data, fields) {
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
       message: "New fingerprint added successfully"
     })
   })
-  client.publish('vend-machine/vend',values[2])
+  client.publish('vend-machine/vend', values[2])
 });
 
 //UPDATE Users SET Credits=(CreditsRequest+Credits), CreditsRequest='0' WHERE Email='n@n.com'
 
-indexRouter.post('/vend',cors(), function(req, res) {
+indexRouter.post('/vend', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
+
     req.body.Fingerprint,
     req.body.LastVend,
     req.body.MachineNumber
-    
-    
-    
+
+
+
   ];
-  let sql = `UPDATE VLedger SET LastVend='`+values[1]+`' ,MachineNumber='`+values[2]+`' , TotalVends=(TotalVends+1) WHERE Fingerprint='`+values[0]+`'`;
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE VLedger SET LastVend='` + values[1] + `' ,MachineNumber='` + values[2] + `' , TotalVends=(TotalVends+1) WHERE Fingerprint='` + values[0] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
       message: "vending initiated"
     })
   })
-  client.publish('vend-machine/vend',values[2])
+  client.publish('vend-machine/vend', values[2])
 });
 
-indexRouter.post('/credReq',cors(), function(req, res) {
+indexRouter.post('/credReq', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
+
     req.body.CreditsRequest,
     req.body.Email,
-    
-    
+
+
   ];
-  let sql = `UPDATE Users SET CreditsRequest='`+values[0]+`' WHERE Email='`+values[1]+`'`;
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE Users SET CreditsRequest='` + values[0] + `' WHERE Email='` + values[1] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -154,10 +154,10 @@ indexRouter.post('/credReq',cors(), function(req, res) {
   })
 });
 
-indexRouter.get('/rewardEqCredits', cors(),function(req, res) {
-  
+indexRouter.get('/rewardEqCredits', cors(), function (req, res) {
+
   let sql = `SELECT RewardEqCredits FROM Admin`;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -168,18 +168,18 @@ indexRouter.get('/rewardEqCredits', cors(),function(req, res) {
 });
 
 
-indexRouter.post('/rewardToCred',cors(), function(req, res) {
+indexRouter.post('/rewardToCred', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
+
     req.body.RewardPoints,
     req.body.Credits,
     req.body.Email
-    
+
   ];
-  let sql = `UPDATE Users SET RewardPoints='`+values[0]+`' ,Credits='`+values[1]+`' WHERE Email='`+values[2]+`'`;
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE Users SET RewardPoints='` + values[0] + `' ,Credits='` + values[1] + `' WHERE Email='` + values[2] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -191,19 +191,19 @@ indexRouter.post('/rewardToCred',cors(), function(req, res) {
 
 
 //On new jobs//
-indexRouter.post('/rewardCredsUpdate',cors(), function(req, res) {
+indexRouter.post('/rewardCredsUpdate', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
+
     req.body.RewardPoints,
     req.body.Credits,
     req.body.Email,
-    
-    
+
+
   ];
-  let sql = `UPDATE Users SET RewardPoints='`+values[0]+`' ,Credits='`+values[1]+`' WHERE Email='`+values[2]+`'`;
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE Users SET RewardPoints='` + values[0] + `' ,Credits='` + values[1] + `' WHERE Email='` + values[2] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -211,9 +211,9 @@ indexRouter.post('/rewardCredsUpdate',cors(), function(req, res) {
     })
   })
 });
-indexRouter.post('/getUserLedger',cors(), function(req, res) {
-  let sql = `SELECT * FROM Ledger WHERE Email='`+req.body.email+`'`;
-  db.query(sql, function(err, data, fields) {
+indexRouter.post('/getUserLedger', cors(), function (req, res) {
+  let sql = `SELECT * FROM Ledger WHERE Email='` + req.body.email + `'`;
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -223,19 +223,19 @@ indexRouter.post('/getUserLedger',cors(), function(req, res) {
   })
 });
 
-indexRouter.post('/ledgerUpdate', cors(),function(req, res) {
+indexRouter.post('/ledgerUpdate', cors(), function (req, res) {
   let sql = `INSERT INTO Ledger( FileName, JobType, CreditsUsed, RewardPointsEarned, Email) VALUES (?)`;
   let values = [
-    
+
     req.body.FileName,
     req.body.JobType,
     req.body.CreditsUsed,
     req.body.RewardPointsEarned,
     req.body.Email,
-    
-    
+
+
   ];
-  db.query(sql, [values], function(err, data, fields) {
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -245,9 +245,9 @@ indexRouter.post('/ledgerUpdate', cors(),function(req, res) {
   })
 });
 //////////////////////////ADMIN
-indexRouter.post('/loginAdmin',cors(), function(req, res) {
-  let sql = `SELECT * FROM Admin WHERE Email='`+req.body.email+`' AND Password='`+req.body.password+`'`;
-  db.query(sql, function(err, data, fields) {
+indexRouter.post('/loginAdmin', cors(), function (req, res) {
+  let sql = `SELECT * FROM Admin WHERE Email='` + req.body.email + `' AND Password='` + req.body.password + `'`;
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -257,20 +257,20 @@ indexRouter.post('/loginAdmin',cors(), function(req, res) {
   })
 });
 
-indexRouter.post('/updateAdmin',cors(), function(req, res) {
+indexRouter.post('/updateAdmin', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
+
     req.body.FName,
     req.body.LName,
     req.body.Email,
     req.body.Password
-    
-    
+
+
   ];
-  let sql = `UPDATE Admin SET FName='`+values[0]+`', LName='`+values[1]+`', Email='`+values[2]+`', Password='`+values[3]+`' WHERE Email='`+values[2]+`'`;
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE Admin SET FName='` + values[0] + `', LName='` + values[1] + `', Email='` + values[2] + `', Password='` + values[3] + `' WHERE Email='` + values[2] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -280,17 +280,17 @@ indexRouter.post('/updateAdmin',cors(), function(req, res) {
 });
 
 
-indexRouter.post('/updateAdminRewVal',cors(), function(req, res) {
+indexRouter.post('/updateAdminRewVal', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
+
     req.body.RewardEqCredits
-    
-    
+
+
   ];
-  let sql = `UPDATE Admin SET RewardEqCredits='`+values[0]+`'`;
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE Admin SET RewardEqCredits='` + values[0] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -299,9 +299,9 @@ indexRouter.post('/updateAdminRewVal',cors(), function(req, res) {
   })
 });
 
-indexRouter.post('/allCredReqs',cors(), function(req, res) {
+indexRouter.post('/allCredReqs', cors(), function (req, res) {
   let sql = `SELECT * FROM Users WHERE CreditsRequest>0`;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -311,9 +311,9 @@ indexRouter.post('/allCredReqs',cors(), function(req, res) {
   })
 });
 
-indexRouter.post('/ledgerLog',cors(), function(req, res) {
+indexRouter.post('/ledgerLog', cors(), function (req, res) {
   let sql = `SELECT * FROM Ledger `;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -323,40 +323,38 @@ indexRouter.post('/ledgerLog',cors(), function(req, res) {
   })
 });
 
-indexRouter.post('/jobOperations',cors(), function(req, res) {
-  if(req.body.operation=='cancel')
-  {
-  client.publish("bkc-device/allJobsOperation","cancel")
-  res.json({
-    status: 200,
-    
-    message: "Jobs canceled successfully"
-  })
+indexRouter.post('/jobOperations', cors(), function (req, res) {
+  if (req.body.operation == 'cancel') {
+    client.publish("bkc-device/allJobsOperation", "cancel")
+    res.json({
+      status: 200,
+
+      message: "Jobs canceled successfully"
+    })
   }
-  else if(req.body.operation=='restore')
-  {
-  client.publish("bkc-device/allJobsOperation","restore")
-  res.json({
-    status: 200,
-    
-    message: "Jobs restored successfully"
-  })
+  else if (req.body.operation == 'restore') {
+    client.publish("bkc-device/allJobsOperation", "restore")
+    res.json({
+      status: 200,
+
+      message: "Jobs restored successfully"
+    })
   }
-    
-  
+
+
 });
 //UPDATE Users SET Credits=(CreditsRequest+Credits), CreditsRequest='0' WHERE Email='n@n.com'
-indexRouter.post('/approveCredReq',cors(), function(req, res) {
+indexRouter.post('/approveCredReq', cors(), function (req, res) {
   //console.log(req);
   let values = [
-    
-    
+
+
     req.body.Email
-    
+
   ];
-  let sql = `UPDATE Users SET Credits=(CreditsRequest+Credits), CreditsRequest='0' WHERE Email='`+values[0]+`'`
-  
-  db.query(sql, [values], function(err, data, fields) {
+  let sql = `UPDATE Users SET Credits=(CreditsRequest+Credits), CreditsRequest='0' WHERE Email='` + values[0] + `'`
+
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -367,10 +365,10 @@ indexRouter.post('/approveCredReq',cors(), function(req, res) {
 
 
 
-indexRouter.get('/listAll', cors(),function(req, res) {
-  
+indexRouter.get('/listAll', cors(), function (req, res) {
+
   let sql = `SELECT * FROM Admin`;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -380,9 +378,9 @@ indexRouter.get('/listAll', cors(),function(req, res) {
   })
 });
 
-indexRouter.get('/getActive', cors(),function(req, res) {
+indexRouter.get('/getActive', cors(), function (req, res) {
   let sql = `SELECT * FROM data WHERE ActiveStatus='1'`;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -392,9 +390,9 @@ indexRouter.get('/getActive', cors(),function(req, res) {
   })
 });
 
-indexRouter.get('/getUser',cors(), function(req, res) {
+indexRouter.get('/getUser', cors(), function (req, res) {
   let sql = `SELECT * FROM user`;
-  db.query(sql, function(err, data, fields) {
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -406,7 +404,7 @@ indexRouter.get('/getUser',cors(), function(req, res) {
 
 
 
-indexRouter.post('/addPlayer', cors(),function(req, res) {
+indexRouter.post('/addPlayer', cors(), function (req, res) {
   let sql = `INSERT INTO data(Timestamp, PlayerID, TMIN30, TMOUT30, TMIND, TMOUTD, ActiveStatus) VALUES (?)`;
   let values = [
     req.body.Timestamp,
@@ -416,9 +414,9 @@ indexRouter.post('/addPlayer', cors(),function(req, res) {
     req.body.TMIND,
     req.body.TMOUTD,
     req.body.ActiveStatus
-    
+
   ];
-  db.query(sql, [values], function(err, data, fields) {
+  db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
@@ -427,188 +425,195 @@ indexRouter.post('/addPlayer', cors(),function(req, res) {
   })
 });
 
-var filesList="";
+var filesList = "";
 
 client.on('message', (topic, message) => {
   switch (topic) {
     case 'bkc-device/filesList':
-      filesList=message.toString();
+      filesList = message.toString();
       console.log(filesList)
-      
-      
+
+
       break;
     case 'edc-monitor/setActive':
-    //handlesetActive(message.toString()).then(function(results1){var m=results1[0]}).catch(function(err){console.log('err',err)});    
-    handleDeactivateAll()
-      .then(function(results){
-       /// var strData=JSON.stringify(results[0])
-        // client.publish('edc-monitor/activePlayer', strData)
-        // handlesetActive(message).then(function(results){var m=""}).catch(function(err){console.log(err)});
-        handlesetActive(message.toString()).then(function(results1){var m=""}).catch(function(err){console.log(err)});  
-      })
-      .catch(function(err){
-        console.log("Promise rejection error: "+err);
-      })
+      //handlesetActive(message.toString()).then(function(results1){var m=results1[0]}).catch(function(err){console.log('err',err)});    
+      handleDeactivateAll()
+        .then(function (results) {
+          /// var strData=JSON.stringify(results[0])
+          // client.publish('edc-monitor/activePlayer', strData)
+          // handlesetActive(message).then(function(results){var m=""}).catch(function(err){console.log(err)});
+          handlesetActive(message.toString()).then(function (results1) { var m = "" }).catch(function (err) { console.log(err) });
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
       break;
-      // client.publish('garage/close', 'Closing;'+message)
-      // return handleGarageState(message)
+    // client.publish('garage/close', 'Closing;'+message)
+    // return handleGarageState(message)
     case 'edc-monitor/playerExists':
       doesPlayerExists(message.toString())
-      .then(function(results){
-        var strData=JSON.stringify(results[0])
-        /// var strData=JSON.stringify(results[0])
-        if(typeof strData == 'undefined'){
-          client.publish('edc-monitor/playerExistance', 'null')  
-        }
-        else{
-        client.publish('edc-monitor/playerExistance', strData)
-        }
-         // client.publish('edc-monitor/activePlayer', strData)
-         // handlesetActive(message).then(function(results){var m=""}).catch(function(err){console.log(err)});
-         //handlesetActive(message.toString()).then(function(results1){var m=""}).catch(function(err){console.log(err)});  
-       })
-       .catch(function(err){
-         console.log("Promise rejection error: "+err);
-       })
-       break;
-      
-    case 'edc-monitor/createNew':
-      var dataD=message.toString()
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          /// var strData=JSON.stringify(results[0])
+          if (typeof strData == 'undefined') {
+            client.publish('edc-monitor/playerExistance', 'null')
+          }
+          else {
+            client.publish('edc-monitor/playerExistance', strData)
+          }
+          // client.publish('edc-monitor/activePlayer', strData)
+          // handlesetActive(message).then(function(results){var m=""}).catch(function(err){console.log(err)});
+          //handlesetActive(message.toString()).then(function(results1){var m=""}).catch(function(err){console.log(err)});  
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device':
+      var dataD = message.toString()
       console.log(dataD)
-      var DataG=dataD.split(';')
-      handleCreateNew(DataG[0],DataG[1],DataG[2],DataG[3],DataG[4],DataG[5],DataG[6])
-      .then(function(results){
-        var strData=JSON.stringify(results[0])
-        //client.publish('edc-monitor/activePlayer', strData)
-        
-      })
-      .catch(function(err){
-        console.log("Promise rejection error: "+err);
-      })
+      var DataG = dataD.split(';')
+      
+      handleCreateNew(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
       break;
 
     case 'edc-monitor/updatePlayer':
-      var dataD=message.toString()
+      var dataD = message.toString()
       console.log(dataD)
-      var DataG=dataD.split(';')
-      handleUpdatePlayer(DataG[0],DataG[1],DataG[2],DataG[3],DataG[4],DataG[5],DataG[6])
-      .then(function(results){
-        var strData=JSON.stringify(results[0])
-        //client.publish('edc-monitor/activePlayer', strData)
-        
-      })
-      .catch(function(err){
-        console.log("Promise rejection error: "+err);
-      })
+      var DataG = dataD.split(';')
+      handleUpdatePlayer(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6])
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
       break;
   }
   //console.log('No handler for topic %s', topic)
 })
 //import async from 'async';
- function handlegetActive(){
-  return new Promise(function(resolve, reject){
+function handlegetActive() {
+  return new Promise(function (resolve, reject) {
     db.query(
-      `SELECT * FROM data WHERE ActiveStatus='1'`, 
-        function(err, rows){                                                
-            if(rows === undefined){
-                reject(new Error("Error rows is undefined"));
-            }else{
-                resolve(rows);
-            }
+      `SELECT * FROM data WHERE ActiveStatus='1'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
         }
-    )}
-)}
+      }
+    )
+  }
+  )
+}
 
 
-function doesPlayerExists(PID){
-  return new Promise(function(resolve, reject){
+function doesPlayerExists(PID) {
+  return new Promise(function (resolve, reject) {
     db.query(
-      `SELECT * FROM data WHERE PlayerID='`+PID+`'`, 
-        function(err, rows){                                                
-            if(rows === undefined){
-                reject(new Error("Error rows is undefined"));
-            }else{
-                resolve(rows);
-            }
+      `SELECT * FROM data WHERE PlayerID='` + PID + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
         }
-    )}
-)}
+      }
+    )
+  }
+  )
+}
 
-function handleDeactivateAll(){
-  return new Promise(function(resolve, reject){
+function handleDeactivateAll() {
+  return new Promise(function (resolve, reject) {
     db.query(
-      `UPDATE data SET ActiveStatus='0'`, 
-        function(err, rows){                                                
-              resolve(rows);
-            // if(rows === undefined){
-            //     reject(new Error("Error rows is undefined"));
-            // }else{
-            //     resolve(rows);
-            // }
-        }
-    )}  
-)}
-function handlesetActive(playerID){
-  return new Promise(function(resolve, reject){
+      `UPDATE data SET ActiveStatus='0'`,
+      function (err, rows) {
+        resolve(rows);
+        // if(rows === undefined){
+        //     reject(new Error("Error rows is undefined"));
+        // }else{
+        //     resolve(rows);
+        // }
+      }
+    )
+  }
+  )
+}
+function handlesetActive(playerID) {
+  return new Promise(function (resolve, reject) {
     db.query(
-      `UPDATE data SET ActiveStatus='0' ; UPDATE data SET ActiveStatus='1' WHERE PlayerID='`+playerID+`'`, 
-        function(err, rows){                                                
-            resolve(rows);
-            // if(rows === undefined){
-            //     reject(new Error("Error rows is undefined"));
-            // }else{
-            //     resolve(rows);
-            // }
-        }
-    )}  
-)}
+      `UPDATE data SET ActiveStatus='0' ; UPDATE data SET ActiveStatus='1' WHERE PlayerID='` + playerID + `'`,
+      function (err, rows) {
+        resolve(rows);
+        // if(rows === undefined){
+        //     reject(new Error("Error rows is undefined"));
+        // }else{
+        //     resolve(rows);
+        // }
+      }
+    )
+  }
+  )
+}
 
-function handleCreateNew(Timestamp,PlayerID,TMIN30,TMOUT30,TMIND,TMOUTD,ActiveStatus){
-  return new Promise(function(resolve, reject){
-  let sql = `INSERT INTO data(Timestamp, PlayerID, TMIN30, TMOUT30, TMIND, TMOUTD, ActiveStatus) VALUES (?)`;
-  let values = [
-            Timestamp,
-            PlayerID,
-            TMIN30,
-            TMOUT30,
-            TMIND,
-            TMOUTD,
-            ActiveStatus
-    
-  ];
-    db.query(sql,[values],
-        function(err, rows){                                                
-            if(rows === undefined){
-                reject(new Error("Error rows is undefined"));
-            }else{
-                resolve(rows);
-            }
-        }
-    )}  
-)}
+function handleCreateNew(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) {
+  return new Promise(function (resolve, reject) {
+    let sql = `INSERT INTO VLedger(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) VALUES (?)`;
+    let values = [
+      DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp
 
-function handleUpdatePlayer(playerID,Timestamp,TMIN30,TMOUT30,TMIND,TMOUTD,ActiveStatus){
-  return new Promise(function(resolve, reject){
-    
+    ];
+    db.query(sql, [values],
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdatePlayer(playerID, Timestamp, TMIN30, TMOUT30, TMIND, TMOUTD, ActiveStatus) {
+  return new Promise(function (resolve, reject) {
+
     db.query(
-      `UPDATE data SET Timestamp='`+Timestamp+`', TMIN30='`+TMIN30+`', TMOUT30='`+TMOUT30+`', TMIND='`+TMIND+`', TMOUTD='`+TMOUTD+`', ActiveStatus='`+ActiveStatus+`' WHERE PlayerID='`+playerID+`'`, 
-        function(err, rows){                                                
-            if(rows === undefined){
-                reject(new Error("Error rows is undefined"));
-            }else{
-                resolve(rows);
-            }
+      `UPDATE data SET Timestamp='` + Timestamp + `', TMIN30='` + TMIN30 + `', TMOUT30='` + TMOUT30 + `', TMIND='` + TMIND + `', TMOUTD='` + TMOUTD + `', ActiveStatus='` + ActiveStatus + `' WHERE PlayerID='` + playerID + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
         }
-    )}  
-)}
+      }
+    )
+  }
+  )
+}
 
 
-indexRouter.post('/filesList',cors(), function(req, res) {
-  
-  
-  
-  let sql = `SELECT * FROM Users WHERE Email='`+req.body.email+`'`;
-  db.query(sql, function(err, data, fields) {
+indexRouter.post('/filesList', cors(), function (req, res) {
+
+
+
+  let sql = `SELECT * FROM Users WHERE Email='` + req.body.email + `'`;
+  db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,

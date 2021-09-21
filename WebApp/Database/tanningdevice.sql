@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: srv-captain--gh-mysqldb-db:3306
--- Generation Time: Sep 21, 2021 at 06:41 AM
+-- Generation Time: Sep 21, 2021 at 09:04 AM
 -- Server version: 5.7.35
 -- PHP Version: 7.4.20
 
@@ -61,7 +61,8 @@ CREATE TABLE `VLedger` (
   `PowerFactorCorrection` text NOT NULL,
   `AnemometerSensor` text NOT NULL,
   `InputVoltage` text NOT NULL,
-  `PresencePhases` text NOT NULL
+  `PresencePhases` text NOT NULL,
+  `Timestamp` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

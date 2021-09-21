@@ -1,5 +1,5 @@
 import express from 'express';
-import { indexPage } from '../controllers';
+import { indexPage, tempHandlePage } from '../controllers';
 import { cashHandlePage } from '../controllers';
 import mysql from 'mysql'
 //import helmet from 'helmet'
@@ -53,7 +53,7 @@ var db = mysql.createConnection({
   port:3306,
   user: 'root',
   password: 'gh-mysqldb',
-  database: 'vendingmachine',
+  database: 'tanningdevice',
   multipleStatements: true
 })
 db.connect(function(err) {
@@ -64,7 +64,7 @@ db.connect(function(err) {
 
 
 indexRouter.get('/', cors(), indexPage);
-indexRouter.get('/csh', cors(), cashHandlePage);
+indexRouter.get('/temp', cors(), tempHandlePage);
 
 indexRouter.post('/getLogs',cors(), function(req, res) {
   let sql = `SELECT * FROM VLedger`;

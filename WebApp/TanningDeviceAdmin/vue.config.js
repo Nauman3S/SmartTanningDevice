@@ -1,7 +1,7 @@
 // vue.config.js
 module.exports = {
     // options...
-    devServer: {
+    dev: {
         proxyTable: {
             '/v1': {
                target: 'http://localhost:3000',

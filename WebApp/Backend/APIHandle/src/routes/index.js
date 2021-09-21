@@ -49,7 +49,7 @@ client.on('connect', () => {
 
 
 var db = mysql.createConnection({
-  host: 'localhost',
+  host: 'gh-mysqldb-db.production.wrapdrive.tech',
   port:3306,
   user: 'root',
   password: 'gh-mysqldb',

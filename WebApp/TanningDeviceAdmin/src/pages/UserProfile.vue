@@ -38,8 +38,8 @@
 </template>
 
 <script>
-const API_URL_RewCredsUpd = "http://localhost:8080/v1/updateAdminRewVal";
-const API_URL_R_Creds = "http://localhost:8080/v1/rewardToCred";
+const API_URL_RewCredsUpd = "http://0.0.0.0:8080/v1/updateAdminRewVal";
+const API_URL_R_Creds = "http://0.0.0.0:8080/v1/rewardToCred";
 
 import { EditProfileForm, UserCard } from "@/pages";
 

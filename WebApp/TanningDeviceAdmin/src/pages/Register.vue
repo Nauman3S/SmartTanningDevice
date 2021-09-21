@@ -50,7 +50,7 @@
 </template>
 
 <script>
-const API_URL = "http://localhost:8080/v1/registerUser";
+const API_URL = "http://0.0.0.0:8080/v1/registerUser";
 
 
 export default {

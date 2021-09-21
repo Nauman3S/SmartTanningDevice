@@ -18,7 +18,7 @@
 </template>
 
 <script>
-const API_URL_CredsReqs = "http://localhost:8080/v1/allCredReqs";
+const API_URL_CredsReqs = "http://0.0.0.0:8080/v1/allCredReqs";
 //import selected from '@/assets/js/helper.js'
 export default {
   name: "FilesList",

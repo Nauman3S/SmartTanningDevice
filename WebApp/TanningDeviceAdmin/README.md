@@ -61,7 +61,7 @@ Let us know what you think and what we can improve below. And good luck with dev
 
 ### install dependencies
 `npm install`
-### serve with hot reload at localhost:8080
+### serve with hot reload at 127.0.0.1:8080
 `npm run dev`
 ### build for production with minification
 `npm run build`

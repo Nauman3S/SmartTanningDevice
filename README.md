@@ -95,6 +95,7 @@ After the installer completes the process, note down the MAC Address on the term
 
 - MQTT Broker Link: 34.214.65.82:1883
 - Backend Link: 34.214.65.82:3000
+- Frontend Link: http://34.214.65.82:8080
 
 ### Backend
 

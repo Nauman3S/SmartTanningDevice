@@ -73,6 +73,7 @@ export default {
       const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" ,"Access-Control-Allow-Origin": "*"},
+    mode:'cors',
     body: JSON.stringify({ email:this.emailAd,password:this.password})
   };
   fetch(API_URL, requestOptions)

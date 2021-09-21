@@ -187,9 +187,9 @@
 </template>
 
 <script>
-const API_URL_RewardsCredsUpdate = "http://bkc-backend.production.wrapdrive.tech/v1/rewardCredsUpdate";
-const API_URL_CRApprove = "http://bkc-backend.production.wrapdrive.tech/v1/approveCredReq";
-const API_URL_CredsReqs = "http://bkc-backend.production.wrapdrive.tech/v1/allCredReqs";
+const API_URL_RewardsCredsUpdate = "http://localhost:3000/v1/rewardCredsUpdate";
+const API_URL_CRApprove = "http://localhost:3000/v1/approveCredReq";
+const API_URL_CredsReqs = "http://localhost:3000/v1/allCredReqs";
 
 import {
   

@@ -49,7 +49,7 @@ client.on('connect', () => {
 
 
 var db = mysql.createConnection({
-  host: 'srv-captain--gh-mysqldb-db',
+  host: 'localhost',
   port:3306,
   user: 'root',
   password: 'gh-mysqldb',

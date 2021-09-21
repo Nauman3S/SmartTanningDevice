@@ -169,8 +169,8 @@
 </template>
 
 <script>
-const API_URL_jobOPS = "http://bkc-backend.production.wrapdrive.tech/v1/jobOperations";
-// const API_URL_USERLedger = "http://bkc-backend.production.wrapdrive.tech/v1/ledgerLog";
+const API_URL_jobOPS = "http://localhost:3000/v1/jobOperations";
+// const API_URL_USERLedger = "http://localhost:3000/v1/ledgerLog";
 import {
   StatsCard,
   ChartCard,

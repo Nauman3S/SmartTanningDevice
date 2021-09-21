@@ -2,6 +2,6 @@
 module.exports = {
     // options...
     devServer: {
-        proxy: 'http://edc-backend.production.wrapdrive.tech/',
+        proxy: 'http://localhost:3000/',
     }
   }

@@ -169,8 +169,8 @@
 </template>
 
 <script>
-const API_URL_jobOPS = "http://localhost/v1/jobOperations";
-// const API_URL_USERLedger = "http://localhost/v1/ledgerLog";
+const API_URL_jobOPS = "localhost:3000/v1/jobOperations";
+// const API_URL_USERLedger = "localhost:3000/v1/ledgerLog";
 import {
   StatsCard,
   ChartCard,

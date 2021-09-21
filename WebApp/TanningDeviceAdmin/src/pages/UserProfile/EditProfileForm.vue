@@ -53,7 +53,7 @@
   </form>
 </template>
 <script>
-const API_URL = "http://localhost/v1/updateAdmin";
+const API_URL = "localhost:3000/v1/updateAdmin";
 
 export default {
   name: "edit-profile-form",

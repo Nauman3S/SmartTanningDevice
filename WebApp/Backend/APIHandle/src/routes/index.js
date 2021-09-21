@@ -369,7 +369,7 @@ indexRouter.post('/approveCredReq',cors(), function(req, res) {
 
 indexRouter.get('/listAll', cors(),function(req, res) {
   
-  let sql = `SELECT * FROM data`;
+  let sql = `SELECT * FROM Admin`;
   db.query(sql, function(err, data, fields) {
     if (err) throw err;
     res.json({

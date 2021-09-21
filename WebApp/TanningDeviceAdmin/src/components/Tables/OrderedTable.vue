@@ -23,20 +23,7 @@
       </md-table-row>
     </md-table>
 
-    <div
-      class="md-layout-item md-medium-size-100 md-xsmall-size-150 md-size-150"
-    >
-      <md-card>
-        <md-card-header data-background-color="blue">
-          <h4 class="title">Maintenance</h4>
-          <p class="category">Logs</p>
-        </md-card-header>
-        <md-card-content>
-          <ordered-table table-header-color="blue"></ordered-table>
-        </md-card-content>
-      </md-card>
-    </div>
-
+   
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>

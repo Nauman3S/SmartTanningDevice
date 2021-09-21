@@ -33,7 +33,7 @@
 </template>
 
 <script>
-const API_URL = "localhost:3000/v1/loginAdmin";
+const API_URL = "http://localhost:3000/v1/loginAdmin";
 
 
 export default {

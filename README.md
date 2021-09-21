@@ -3,7 +3,7 @@
  <img width=200px height=200px src="Artwork/smartTanningDevice.png" alt="Project logo"></a>
 </p>
 
-<h3 align="center">IoTManagement System</h3>
+<h3 align="center">Smart Tanning Device</h3>
 
 <div align="center">
 
@@ -15,7 +15,7 @@
 ---
 
 
-<p align="center"> IoTManagement System
+<p align="center"> Smart Tanning Device
     <br> 
 </p>
 

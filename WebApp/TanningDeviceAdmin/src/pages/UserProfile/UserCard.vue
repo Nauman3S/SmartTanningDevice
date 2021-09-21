@@ -15,7 +15,7 @@
   </md-card>
 </template>
 <script>
-const API_URL = "http://127.0.0.1:3000/v1/getUser";
+const API_URL = "http://edc-backend.production.wrapdrive.tech/v1/getUser";
 export default {
   name: "user-card",
   props: {

@@ -24,7 +24,7 @@
  /**
   * Get port from environment and store in Express.
   */
- const port = normalizePort(process.env.PORT || '3000');
+ const port = normalizePort(process.env.PORT || '8002');
  //app.set('port', port);
  
  app.set('port', 8002);

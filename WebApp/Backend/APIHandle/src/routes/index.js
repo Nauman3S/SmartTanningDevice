@@ -470,7 +470,7 @@ client.on('message', (topic, message) => {
         })
       break;
 
-    case 'tanning-device':
+    case 'tanning-device/createNew':
       var dataD = message.toString()
       console.log(dataD)
       var DataG = dataD.split(';')

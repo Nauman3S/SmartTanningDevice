@@ -18,7 +18,8 @@
     </md-table>
 
      <md-table v-model="users" :table-header-color="tableHeaderColor">
-<md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+      <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
          <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
           <md-table-cell md-label="LampMaintenance">{{ item.LampMaintenance }}</md-table-cell>
@@ -27,6 +28,7 @@
         <md-table-cell md-label="AnemometerSensor">{{ item.AnemometerSensor }}</md-table-cell>
         <md-table-cell md-label="InputVoltage">{{ item.InputVoltage }}</md-table-cell>
         <md-table-cell md-label="PresencePhases">{{ item.PresencePhases }}</md-table-cell>
+        </md-table-row>
       </md-table>
 
   </div>

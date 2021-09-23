@@ -2,7 +2,7 @@
 #include "MQTTFuncs.h" //MQTT related functions
 #include "webApp.h"    //Captive Portal webpages
 #include <FS.h>        //ESP32 File System
-
+#include "commHandler.h"
 IPAddress ipV(192, 168, 4, 1);
 String loadParams(AutoConnectAux &aux, PageArgument &args) //function to load saved settings
 {
@@ -97,8 +97,9 @@ bool whileCP()
 void setup() //main setup functions
 {
     Serial.begin(115200);
+    setupCommsHandler();
     delay(1000);
-    
+
     if (!MDNS.begin("esp32")) //starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
     {
         Serial.println("Error setting up MDNS responder!");
@@ -181,8 +182,8 @@ void setup() //main setup functions
     config.title = "Smart Tanning Device"; //set title of webapp
 
     //add different tabs on homepage
-  
-  //  portal.disableMenu(AC_MENUITEM_DISCONNECT);
+
+    //  portal.disableMenu(AC_MENUITEM_DISCONNECT);
     server.on("/", handleRoot);
     // Starts user web site included the AutoConnect portal.
 
@@ -212,16 +213,18 @@ void setup() //main setup functions
 
     MDNS.addService("http", "tcp", 80);
     mqttConnect(); //start mqtt
+
+    mqttPublish("tanning-device/deviceExists", ss.getMacAddress());
 }
 
 void loop()
 {
     server.handleClient();
     portal.handleRequest();
-   
+    UVCommanderPollHandler();
     if (millis() - lastPub > updateInterval) //publish data to mqtt server
     {
-        mqttPublish("tanning-device/" + String(hostName),String("Data")); //publish data to mqtt broker
+        mqttPublish("tanning-device/" + String(hostName), String("Data")); //publish data to mqtt broker
         ledState(ACTIVE_MODE);
         //uncomment the lines below for debugging
         // Serial.println(ampSensorType);

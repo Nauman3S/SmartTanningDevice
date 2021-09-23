@@ -4,14 +4,12 @@ void callback(char *topic, byte *payload, unsigned int length);
 void reconnect();
 bool mqttConnect();
 void mqttPublish(String path, String msg);
-
+int deviceExisits = 0;
 void MQTTUnSubscribe()
 {
-    String topicN = String("SmartTControl/data/devices/");
-    String topicU = String("SmartTControl/lastUpdated/devices/");
+    String topicN = String("tanning-device/deviceExistance");
 
     mqttClient.unsubscribe(topicN.c_str());
-    mqttClient.unsubscribe(topicU.c_str());
 }
 void MQTTSubscriptions()
 {
@@ -20,10 +18,9 @@ void MQTTSubscriptions()
     // for(int i=0;i<10;i++){
     //   IMEIsList[i]==String("NA");
     // }
-    String topicN = String("SmartTControl/data/devices/");
-    String topicU = String("SmartTControl/lastUpdated/devices/");
+    String topicN = String("tanning-device/deviceExistance");
+
     mqttClient.subscribe(topicN.c_str());
-    mqttClient.subscribe(topicU.c_str());
 }
 void callback(char *topic, byte *payload, unsigned int length)
 {
@@ -37,11 +34,18 @@ void callback(char *topic, byte *payload, unsigned int length)
         pLoad = pLoad + String((char)payload[i]);
     }
     Serial.println();
-    if (String(topic) == String("SmartTControl/user/login"))
+    if (String(topic) == String("tanning-device/deviceExistance"))
     {
-        Serial.print("login status:::");
-        Serial.println(String(pLoad));
-        loggedIn = pLoad;
+        if (pLoad.indexOf("null") >= 0)
+        {
+            //create new device
+            mqttPublish("tanning-device/createNew", ss.getMacAddress() + String(";0;0;0;0;0;0;0;0;0;0;0")); //create an empty device
+            deviceExisits = 1;
+        }
+        else
+        {
+            deviceExisits = 1;
+        }
     }
 
     // Switch on the LED if an 1 was received as first character

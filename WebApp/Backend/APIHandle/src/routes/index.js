@@ -40,11 +40,19 @@ var garageState = ''
 var connected = false
 
 client.on('connect', () => {
-  client.subscribe('bkc-device/filesList')
-  client.subscribe('bkc-device/cancelAllJobs')
   client.subscribe('tanning-device/createNew')
   client.subscribe('tanning-device/updateDevice')
   client.subscribe('tanning-device/deviceExists')
+  client.subscribe('tanning-device/updateStartSession')
+  client.subscribe('tanning-device/updateStopSession')
+  client.subscribe('tanning-device/updateTemp')
+  client.subscribe('tanning-device/updateFilter')
+  client.subscribe('tanning-device/updateLamp')
+  client.subscribe('tanning-device/updateYear')
+  client.subscribe('tanning-device/updateAmp')
+  client.subscribe('tanning-device/updateVent')
+  client.subscribe('tanning-device/updateVolt')
+  client.subscribe('tanning-device/updateRst')
 })
 
 
@@ -488,7 +496,7 @@ client.on('message', (topic, message) => {
       var dataD = message.toString()
       console.log(dataD)
       var DataG = dataD.split(';')
-      handleUpdatePlayer(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11], DataG[12], (new Date().toISOString()))
+      handleUpdateDevice(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11], DataG[12], (new Date().toISOString()))
         .then(function (results) {
           var strData = JSON.stringify(results[0])
           //client.publish('edc-monitor/activePlayer', strData)
@@ -498,6 +506,157 @@ client.on('message', (topic, message) => {
           console.log("Promise rejection error: " + err);
         })
       break;
+
+
+    case 'tanning-device/updateStartSession':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_StartSession(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device/updateStopSession':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_StopSession(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device/updateTemp':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_Temp(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+    case 'tanning-device/updateFilter':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_Filter(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+    case 'tanning-device/updateLamp':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_LampMaintenance(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device/updateYear':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_AnnualMaintenance(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+    case 'tanning-device/updateAmp':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_PowerFactorCorrection(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device/updateVent':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_AnemometerSensor(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device/updateVolt':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_InputVoltage(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+    case 'tanning-device/updateRst':
+      var dataD = message.toString()
+      console.log(dataD)
+      var DataG = dataD.split(';')
+      handleUpdateDevice_PresencePhases(DataG[0], DataG[1], (new Date().toISOString()))
+        .then(function (results) {
+          var strData = JSON.stringify(results[0])
+          //client.publish('edc-monitor/activePlayer', strData)
+
+        })
+        .catch(function (err) {
+          console.log("Promise rejection error: " + err);
+        })
+      break;
+
+
+
   }
   //console.log('No handler for topic %s', topic)
 })
@@ -588,7 +747,7 @@ function handleCreateNew(DeviceMAC, StartSession, EndSession, EndSessionType, Te
   )
 }
 
-function handleUpdatePlayer(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) {
+function handleUpdateDevice(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) {
   return new Promise(function (resolve, reject) {
 
     db.query(
@@ -604,6 +763,178 @@ function handleUpdatePlayer(DeviceMAC, StartSession, EndSession, EndSessionType,
   }
   )
 }
+
+
+function handleUpdateDevice_StartSession(DeviceMAC, StartSession, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', StartSession='` + StartSession + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_StopSession(DeviceMAC, EndSession, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', EndSession='` + EndSession + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_Temp(DeviceMAC, Temperature, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', Temperature='` + Temperature + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_Filter(DeviceMAC, SensorFilters, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', SensorFilters='` + SensorFilters + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_LampMaintenance(DeviceMAC, LampMaintenance, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', LampMaintenance='` + LampMaintenance + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+
+function handleUpdateDevice_AnnualMaintenance(DeviceMAC, AnnualMaintenance, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', AnnualMaintenance='` + AnnualMaintenance + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+function handleUpdateDevice_PowerFactorCorrection(DeviceMAC, PowerFactorCorrection, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', PowerFactorCorrection='` + PowerFactorCorrection + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_AnemometerSensor(DeviceMAC, AnemometerSensor, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', AnemometerSensor='` + AnemometerSensor + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_InputVoltage(DeviceMAC, InputVoltage, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', InputVoltage='` + InputVoltage + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
+function handleUpdateDevice_PresencePhases(DeviceMAC, PresencePhases, Timestamp) {
+  return new Promise(function (resolve, reject) {
+
+    db.query(
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', PresencePhases='` + PresencePhases + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
+      function (err, rows) {
+        if (rows === undefined) {
+          reject(new Error("Error rows is undefined"));
+        } else {
+          resolve(rows);
+        }
+      }
+    )
+  }
+  )
+}
+
 
 
 indexRouter.post('/filesList', cors(), function (req, res) {

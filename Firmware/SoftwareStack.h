@@ -7,19 +7,12 @@ public:
 
     String StringSeparator(String data, char separator, int index);
     char *StrToCharArray(String data);
-    
-    SoftwareStack();
+    String getMacAddress();
 
 private:
     //  String configs="";
     char buf[100];
-    
 };
-SoftwareStack::SoftwareStack()
-{
-
-  
-}
 
 char *SoftwareStack::StrToCharArray(String data)
 {
@@ -45,4 +38,13 @@ String SoftwareStack::StringSeparator(String data, char separator, int index)
     }
 
     return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
+String SoftwareStack::getMacAddress()
+{
+    String NodeID;
+    NodeID = String(WiFi.macAddress());
+    NodeID = StringSeparator(NodeID, ':', 0) + StringSeparator(NodeID, ':', 1) + StringSeparator(NodeID, ':', 2) + StringSeparator(NodeID, ':', 3) +
+             StringSeparator(NodeID, ':', 4) + StringSeparator(NodeID, ':', 4) + StringSeparator(NodeID, ':', 5);
+
+    return NodeID;
 }

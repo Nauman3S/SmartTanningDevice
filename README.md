@@ -283,7 +283,7 @@ https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrat
 
 - [NodeJS](https://nodejs.org/en/) - JS Framework for Backend Programming
 - [Eclipse Paho MQTT](https://www.eclipse.org/paho/index.php?page=clients/python/index.php) - MQTT Client for Backend and RPiClient Software
-- - [Arduino](https://www.arduino.cc/) - Embedded Framework and IDE - For Sensor Node Design
+- [Arduino](https://www.arduino.cc/) - Embedded Framework and IDE - For Sensor Node Design
 - [VueJS](https://vuejs.org/) - For Dashboard Design
 
 

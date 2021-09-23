@@ -43,8 +43,8 @@ client.on('connect', () => {
   client.subscribe('bkc-device/filesList')
   client.subscribe('bkc-device/cancelAllJobs')
   client.subscribe('tanning-device/createNew')
-  client.subscribe('edc-monitor/updatePlayer')
-  client.subscribe('edc-monitor/playerExists')
+  client.subscribe('tanning-device/updateDevice')
+  client.subscribe('tanning-device/deviceExists')
 })
 
 
@@ -450,16 +450,16 @@ client.on('message', (topic, message) => {
       break;
     // client.publish('garage/close', 'Closing;'+message)
     // return handleGarageState(message)
-    case 'edc-monitor/playerExists':
-      doesPlayerExists(message.toString())
+    case 'tanning-device/deviceExists':
+      doesDeviceExists(message.toString())
         .then(function (results) {
           var strData = JSON.stringify(results[0])
           /// var strData=JSON.stringify(results[0])
           if (typeof strData == 'undefined') {
-            client.publish('edc-monitor/playerExistance', 'null')
+            client.publish('tanning-device/deviceExistance', 'null')
           }
           else {
-            client.publish('edc-monitor/playerExistance', strData)
+            client.publish('tanning-device/deviceExistance', strData)
           }
           // client.publish('edc-monitor/activePlayer', strData)
           // handlesetActive(message).then(function(results){var m=""}).catch(function(err){console.log(err)});
@@ -474,8 +474,8 @@ client.on('message', (topic, message) => {
       var dataD = message.toString()
       console.log(dataD)
       var DataG = dataD.split(';')
-      
-      handleCreateNew(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11],DataG[12], (new Date().toISOString()))
+
+      handleCreateNew(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11], DataG[12], (new Date().toISOString()))
         .then(function (results) {
           var strData = JSON.stringify(results[0])
           //client.publish('edc-monitor/activePlayer', strData)
@@ -486,11 +486,11 @@ client.on('message', (topic, message) => {
         })
       break;
 
-    case 'edc-monitor/updatePlayer':
+    case 'tanning-device/updateDevice':
       var dataD = message.toString()
       console.log(dataD)
       var DataG = dataD.split(';')
-      handleUpdatePlayer(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6])
+      handleUpdatePlayer(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11], DataG[12], (new Date().toISOString()))
         .then(function (results) {
           var strData = JSON.stringify(results[0])
           //client.publish('edc-monitor/activePlayer', strData)
@@ -521,10 +521,10 @@ function handlegetActive() {
 }
 
 
-function doesPlayerExists(PID) {
+function doesDeviceExists(DeviceMAC) {
   return new Promise(function (resolve, reject) {
     db.query(
-      `SELECT * FROM data WHERE PlayerID='` + PID + `'`,
+      `SELECT * FROM VLedger WHERE DeviceMAC='` + DeviceMAC + `'`,
       function (err, rows) {
         if (rows === undefined) {
           reject(new Error("Error rows is undefined"));
@@ -590,11 +590,11 @@ function handleCreateNew(DeviceMAC, StartSession, EndSession, EndSessionType, Te
   )
 }
 
-function handleUpdatePlayer(playerID, Timestamp, TMIN30, TMOUT30, TMIND, TMOUTD, ActiveStatus) {
+function handleUpdatePlayer(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) {
   return new Promise(function (resolve, reject) {
 
     db.query(
-      `UPDATE data SET Timestamp='` + Timestamp + `', TMIN30='` + TMIN30 + `', TMOUT30='` + TMOUT30 + `', TMIND='` + TMIND + `', TMOUTD='` + TMOUTD + `', ActiveStatus='` + ActiveStatus + `' WHERE PlayerID='` + playerID + `'`,
+      `UPDATE VLedger SET Timestamp='` + Timestamp + `', StartSession='` + StartSession + `', EndSession='` + EndSession + `', EndSessionType='` + EndSessionType + `', Temperature='` + Temperature + `', SensorFilters='` + SensorFilters + `', LampMaintenance='` + LampMaintenance + `', AnnualMaintenance='` + AnnualMaintenance + `', PowerFactorCorrection='` + PowerFactorCorrection + `', AnemometerSensor='` + AnemometerSensor + `', InputVoltage='` + InputVoltage + `', PresencePhases='` + PresencePhases + `' WHERE DeviceMAC='` + DeviceMAC + `'`,
       function (err, rows) {
         if (rows === undefined) {
           reject(new Error("Error rows is undefined"));

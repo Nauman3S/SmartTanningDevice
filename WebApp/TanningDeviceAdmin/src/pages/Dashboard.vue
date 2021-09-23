@@ -186,9 +186,20 @@ export default {
       headers: [
         {
           ID: "ID",
-          Fingerprint: "Fingerprint",
-          LastVend: "LastVend",
-          TotalVends: "TotalVends",
+          DeviceMAC: "DeviceMAC",
+          StartSession: "StartSession",
+          EndSession: "EndSession",
+          EndSessionType: "EndSessionType",
+          Temperature: "Temperature",
+          SensorFilters: "SensorFilters",
+          LampMaintenance: "LampMaintenance",
+          AnnualMaintenance: "AnnualMaintenance",
+          PowerFactorCorrection: "PowerFactorCorrection",
+          AnemometerSensor: "AnemometerSensor",
+          InputVoltage: "InputVoltage",
+          PresencePhases: "PresencePhases",
+          InputVoltage: "InputVoltage",
+          Timestamp: "Timestamp"
         },
       ],
 

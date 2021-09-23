@@ -391,7 +391,7 @@ indexRouter.get('/getActive', cors(), function (req, res) {
 });
 
 indexRouter.get('/getUser', cors(), function (req, res) {
-  let sql = `SELECT * FROM user`;
+  let sql = `SELECT * FROM Admin`;
   db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({

@@ -404,25 +404,23 @@ indexRouter.get('/getUser', cors(), function (req, res) {
 
 
 
-indexRouter.post('/addPlayer', cors(), function (req, res) {
-  let sql = `INSERT INTO data(Timestamp, PlayerID, TMIN30, TMOUT30, TMIND, TMOUTD, ActiveStatus) VALUES (?)`;
+indexRouter.post('/addNewDevice', cors(), function (req, res) {
+  let sql = `INSERT INTO VLedger(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) VALUES (?)`;
   let values = [
-    req.body.Timestamp,
-    req.body.PlayerID,
-    req.body.TMIN30,
-    req.body.TMOUT30,
-    req.body.TMIND,
-    req.body.TMOUTD,
-    req.body.ActiveStatus
+    DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp
 
   ];
-  db.query(sql, [values], function (err, data, fields) {
-    if (err) throw err;
-    res.json({
-      status: 200,
-      message: "New player added successfully"
-    })
-  })
+  db.query(sql, [values],
+    function (err, rows) {
+      if (rows === undefined) {
+        reject(new Error("Error rows is undefined"));
+      } else {
+        resolve(rows);
+      }
+    }
+  )
+
+
 });
 
 var filesList = "";

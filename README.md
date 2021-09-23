@@ -23,13 +23,13 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
-- [RPiClient Installation](#Installation)
+- [Circuit](#circuit)
 - [Server Details](#server)
 - [MQTT Topic Details](#mqtt)
 - [API Details](#api)
 - [Usage](#usage)
+- [List Of Components](#list)
 - [Built Using](#built_using)
-- [Built Using](#demo)
 - [Authors](#authors)
 
 
@@ -50,25 +50,65 @@ for Smart Tanning Device.
 
 These instructions will get you a copy of the project up and running on your system.
 
-<!-- ### Prerequisites
+### Prerequisites
 
-Turn on your Raspberry Pi and execute the following commands
+Things you need to install the FW.
 
 ```
-- sudo apt update
-- sudo apt upgrade
+- Arduino IDE
 ```
 
-## RPiClient Installation <a name = "Installation"></a> -->
+### Installing <a name = "installing"></a>
+
+A step by step series that tell you how to get the Firmware and Backend running
+
+#### ESP32 Configuration
+
+You should have Arduino IDE Installed
+
+  1.  Add ESP32 Board to your Arduino IDE
+    1. In your Arduino IDE, go to File> Preferences
+        Installing ESP32 Add-on in Arduino IDE Windows, Mac OS X, Linux open preferences
+    2. Enter ```https://dl.espressif.com/dl/package_esp32_index.json``` 
+        into the “Additional Board Manager URLs” field then, click the “OK” button:
+        Note: if you already have the ESP32 boards URL, you can separate the URLs with a comma(each board will go to neaw line) as follows:
+        ```https://dl.espressif.com/dl/package_esp32_index.json,\n http://arduino.esp8266.com/stable/package_esp8266com_index.json```
+    
+    
+  2. Open the Boards Manager. Go to Tools > Board > Boards Manager…
+  3. Search for ESP32 and press install button for the ESP32 by Espressif Systems“:
+  4. That’s it. It should be installed after a few seconds.
+  5.   In your Arduino sketchbook directory, create tools directory if it doesn't exist yet.
+  6.  Unpack the tool into tools directory(present in libs/ESP32FS-1.0.zip) (the path will look like <home_dir>/Arduino/tools/ESP32FS/tool/esp32fs.jar).
+  7.  Close and re-open the Arduino IDE.
+
+  8.  Now copy the contents of the libs folder to the libraries directory of your Arduino
+      1. If you are using windows, the libraries directory will be Documents/Arduino/libraries
+
+##### ESP32 Node FW Uploading
+  1.  Select ESP32 Dev Module from Tools->Board->ESP32
+  2.  Select the correct port from Tools->Port
+  3.  Then open Firmware.ino file,
+  4.  Select Tools > ESP32 Sketch Data Upload menu item. This should start uploading the files into ESP32 flash file system.
+  5.  Now Upload the Code to your ESP32 Dev Module.
+  6.  Your ESP32 is now ready to be used.
 
 
-<!-- ### Auto Installer
-To install and Run RPi Client Automatically just run the following command on your Raspberry Pi terminal
+## Circuit <a name = "circuit"></a>
 
-- ```curl -sSL  https://raw.githubusercontent.com/Nauman3S/IOTManagementSystem/main/installer.sh  | bash```
 
-After the installer completes the process, note down the MAC Address on the terminal with success message.
- -->
+### ESP32 Dev Module Pinout
+
+
+Follow the pinout diagram given below to connect different components to your TTGO LORA32 board.
+
+![Pinout](Circuit/ESP32-Pinout.jpg)
+
+### Complete Circuit Diagram
+
+Here's the complete circuit diagram of the system.
+
+![CircuitDiagram](Circuit/Circuit_bb.png)
 
 
 ## Server Details <a name = "server"></a>
@@ -104,75 +144,86 @@ After the installer completes the process, note down the MAC Address on the term
 ## MQTT Topic Details <a name = "mqtt"></a>
 ### Topics List
 #### Logs
-1.  <span style="color: green">iotm-sys/device/logs</span> `(all log messages are published to this topic) READ-ONLY`
+1.  <span style="color: green">tanning-device/logs</span> `(all log messages are published to this topic) READ-ONLY`
 
 #### Fimrware
 
-2.  iotm-sys/device/update/* `(global firmware update files are sent to this topic) WRITE-ONLY`
-3.  iotm-sys/device/update/[macaddress] `(the fimrware file for specific device is sent to this topic {replace [macaddress] with the Mac address of the device without : in the address}) WRITE-ONLY`
-4.  iotm-sys/device/firmware/all `(global firmware update files are received at this topic) READ-ONLY`
-5.  iotm-sys/device/firmware/[macaddress] `(the fimrware file for specific device are received at this topic {replace [macaddress] with the Mac address of the device without : in the address}) READ-ONLY`
-#### Device Management
+2.  tanning-device/deviceExists `(Publish DeviceMAC on this topic to check if device exisits in DB) WRITE-ONLY`
+    1.  tanning-device/deviceExistance `(Response from the above command {null or device MAC}) READ-ONLY`
+3.  
+4.   tanning-device/createNew `(Publish data to create a new device in DB.) WRITE-ONLY`
+    - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;InputVoltage;PresencePhases;Timestamp
+5.  tanning-device/updateDevice `(Publish data to update a device in DB based on its MAC Address.) WRITE-ONLY`
+    - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;
 
-6.  iotm-sys/device/add `(for adding a new device message format 'deviceName;macAddress;updatedAt') WRTIE-ONLY`
-
-#### Device OS
-7.  iotm-sys/device/upgrade/* `(global device OS upgrade) WRITE-ONLY`
-8.  iotm-sys/device/upgrade/[macaddress] `(specific device OS upgrade, replace [macaddress] with device mac address without : chars ) WRITE-ONLY`
-9.  iotm-sys/device/osug/all `(global OS upgrade instructions are received at this topic) READ-ONLY`
-10. iotm-sys/device/osug/[macaddress] `(OS upgrade instructions for specific device are received at this topic {replace [macaddress] with the Mac address of the device without : in the address}) READ-ONLY`
-11. iotm-sys/device/info/[macaddress] `(device and os info of specific device can be requested from this topic) WRITE-ONLY`
 
 ## API Details <a name = "api"></a>
 
 
-### Add Device
+### Admin Login
 
 ```http
-POST http://44.195.192.158:3000/v1/addDevice
+POST http://34.214.65.82:8080/v1/loginAdmin
 ```
 
 | Parameter | Type | Description | 
 | :--- | :--- | :--- |
-| `operation` | `string` | **Required**. *value of operation should be 'add'*  |
-| `name` | `string` | **Required**.  *value of param could be a name*|
-| `macAddress` | `string` | **Required**.  *value of param should be a MAC Address of your RPi Device being displayed by RPiClient Installer*|
-| `updatedAt` | `string` | **Required**.  *value of param should be the current timestamp*|
+| `Email` | `string` | **Required**.  *Email address of the admin*|
+| `Password` | `string` | **Required**.  *Password of the admin*|
 
-
-### Upgrade OS
+### Update Admin
 
 ```http
-POST http://44.195.192.158:3000/v1/upgrade
+POST http://34.214.65.82:8080/v1/updateAdmin
 ```
 
 | Parameter | Type | Description | 
 | :--- | :--- | :--- |
-| `operation` | `string` | **Required**. *value of operation should be 'upgrade'*  |
-| `devices` | `string` | **Required**.  *value of devices param could be 'all' or 'device MAC Address'*|
+| `Email` | `string` | **Required**.  *Email address of the admin*|
+| `Password` | `string` | **Required**.  *Password of the admin*|
 
-
-### Update Firmware
-
-```http
-POST http://44.195.192.158:3000/v1/update
-```
-
-| Parameter | Type | Description | 
-| :--- | :--- | :--- |
-| `operation` | `string` | **Required**. *value of operation should be 'update'*  |
-| `devices` | `string` | **Required**.  *value of devices param could be 'all' or 'device MAC Address'*|
-| `programFile` | `multipart/form-data` | **Required**.  *a Firmware file to be sent to repective device(s)*|
-
-### List Devices
+### List Admins
 
 ```http
-GET http://44.195.192.158:3000/v1/listAll
+GET http://34.214.65.82:8080/v1/listAll
 ```
 
 | Parameter | Type | Description | 
 | :--- | :--- | :--- |
 ```nothing```
+
+### Ledger Log
+
+```http
+POST http://34.214.65.82:8080/v1/ledgerLog
+```
+
+| Parameter | Type | Description | 
+| :--- | :--- | :--- |
+```nothing```
+
+### Add New Device
+
+```http
+POST http://34.214.65.82:8080/v1/addNewDevice
+```
+
+| Parameter | Type | Description | 
+| :--- | :--- | :--- |
+| `DeviceMAC` | `string` | **Required**.  *Email address of the Device*|
+| `StartSession` | `string` | **Required**.  *StartSession of the Device*|
+| `EndSession` | `string` | **Required**.  *EndSession of the Device*|
+| `EndSessionType` | `string` | **Required**.  *EndSessionType of the Device*|
+| `Temperature` | `string` | **Required**.  *Temperature of the Device*|
+| `SensorFilters` | `string` | **Required**.  *SensorFilters of the Device*|
+| `LampMaintenance` | `string` | **Required**.  *LampMaintenance of the Device*|
+| `AnnualMaintenance` | `string` | **Required**.  *AnnualMaintenance of the Device*|
+| `PowerFactorCorrection` | `string` | **Required**.  *PowerFactorCorrection of the Device*|
+| `AnemometerSensor` | `string` | **Required**.  *AnemometerSensor of the Device*|
+| `InputVoltage` | `string` | **Required**.  *InputVoltage of the Device*|
+| `PresencePhases` | `string` | **Required**.  *PresencePhases of the Device*|
+| `Timestamp` | `string` | **NOT Required**.  *Timestamp of the Device*|
+
 
 ### Responses
 
@@ -203,20 +254,37 @@ IoTManagementSystem Backend returns the following status codes in its API:
 
 ## Usage <a name = "usage"></a>
 
-1.  Run installer script on your Raspberry Pi.
-2.  Note down the MAC Address given by the installer script at the end.
-3.  Add the device with the MAC Address collected in the previous step to the database using addDevice API endpoint mentioned above
-4.  Interact with the device with using MAC Address, or interact with all the devices in the system by using `all` in devices parameter of the API.
+1.  Upload the code to your ESP32.
+2.  Connect the ESP32 with your Tanning Machine.
+3.  Open the dashboard to monitor the parameters.
+
+4.  Power on your ESP32, it will present you with an AP named ```TanningD-abc``` (while ```TanningD``` can be changed in the portal and ```abc``` is a unique id for each esp32)
+5.  Default captive portal password `12345678AP` which can be changed in captive portal.
+6.  Connect to the ESP32 access point and open the web-browser and navigate to the link ```http://esp32.local/_ac```. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL.
+7.  The default access IP Address is ```http://192.168.4.1/_ac```
+8.  You will be presented with a main dashboard as shown below(based on your device)
+   ![SCR1](Circuit/scr1.png)
+
+5.  Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
+6.  The data is published to the MQTT Topic ```TanningD/{hostname}``` while the hostname is the one which you can define in Settings page of the captive portal.
+7.  You can open settings page with following default credentials
+    1.  User: **AP Name (TanningD)**
+    2.  Password: **admin**
+
+## List of Components <a name = "list"></a>
+
+Following components are used to make this project
+
+1.  ESP32 Dev Kit Module
+https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrated/dp/B0718T232Z/ref=sr_1_3?crid=5EOAXOANUSCU&dchild=1&keywords=esp32+nodemcu&qid=1629587138&sprefix=esp32+node%2Caps%2C201&sr=8-3
+
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
 - [NodeJS](https://nodejs.org/en/) - JS Framework for Backend Programming
 - [Eclipse Paho MQTT](https://www.eclipse.org/paho/index.php?page=clients/python/index.php) - MQTT Client for Backend and RPiClient Software
-- [MongoDB](https://www.mongodb.com/) - Database for Managing devices
-- [Python](https://www.python.org/) - For programming RPi Client
-  
-## Demo Videos <a name = "demo"></a>
-
+- - [Arduino](https://www.arduino.cc/) - Embedded Framework and IDE - For Sensor Node Design
+- [VueJS](https://vuejs.org/) - For Dashboard Design
 
 
 ## ✍️ Authors <a name = "authors"></a>

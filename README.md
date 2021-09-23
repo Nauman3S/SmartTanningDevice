@@ -148,12 +148,12 @@ Here's the complete circuit diagram of the system.
 
 #### Fimrware
 
-2.  tanning-device/deviceExists `(Publish DeviceMAC on this topic to check if device exisits in DB) WRITE-ONLY`
-    1.  tanning-device/deviceExistance `(Response from the above command {null or device MAC}) READ-ONLY`
+2.  <span style="color: green">tanning-device/deviceExists</span> `(Publish DeviceMAC on this topic to check if device exisits in DB) WRITE-ONLY`
+    1.  <span style="color: green">tanning-device/deviceExistance</span> `(Response from the above command {null or device MAC}) READ-ONLY`
 3.  
-4.   tanning-device/createNew `(Publish data to create a new device in DB.) WRITE-ONLY`
+4.   <span style="color: green">tanning-device/createNew</span> `(Publish data to create a new device in DB.) WRITE-ONLY`
     - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;InputVoltage;PresencePhases;Timestamp
-5.  tanning-device/updateDevice `(Publish data to update a device in DB based on its MAC Address.) WRITE-ONLY`
+5.  <span style="color: green">tanning-device/updateDevice</span> `(Publish data to update a device in DB based on its MAC Address.) WRITE-ONLY`
     - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;
 
 

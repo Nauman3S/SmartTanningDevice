@@ -312,7 +312,7 @@ indexRouter.post('/allCredReqs', cors(), function (req, res) {
 });
 
 indexRouter.post('/ledgerLog', cors(), function (req, res) {
-  let sql = `SELECT * FROM Ledger `;
+  let sql = `SELECT * FROM VLedger `;
   db.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.json({
@@ -475,7 +475,7 @@ client.on('message', (topic, message) => {
       console.log(dataD)
       var DataG = dataD.split(';')
       
-      handleCreateNew(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11],DataG[12], (new Date().toISOString()))
+      handleCreateNew(DataG[0], DataG[1], DataG[2], DataG[3], DataG[4], DataG[5], DataG[6], DataG[7], DataG[8], DataG[9], DataG[10], DataG[11], (new Date().toISOString()))
         .then(function (results) {
           var strData = JSON.stringify(results[0])
           //client.publish('edc-monitor/activePlayer', strData)

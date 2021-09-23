@@ -6,6 +6,8 @@
         "memory": "cpp",
         "future": "cpp",
         "istream": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "array": "cpp",
+        "string_view": "cpp"
     }
 }

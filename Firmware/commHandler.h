@@ -3,7 +3,10 @@
 #define TXD2 17
 String dataV = "";
 String tempValue = "";
-
+String DataToSend = "";
+void sendData_UVCommander(String d){
+    DataToSend=d;
+}
 int checkCommand(String d, String c)
 {
     int vv = d.indexOf(c);
@@ -14,6 +17,20 @@ void pollAnswer(String a)
 {
     Serial2.println(a);
 }
+
+void sendToUVCommander()
+{
+    if (DataToSend.length() > 0)
+    {
+        pollAnswer(DataToSend);
+        
+    }
+    else
+    {
+        pollAnswer("ALIVE OK");
+    }
+}
+
 void setupCommsHandler()
 {
     Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
@@ -32,7 +49,8 @@ void UVCommanderPollHandler()
         dataV = Serial2.readString();
         if (checkCommand(dataV, "ALIVE") >= 0)
         {
-            pollAnswer("ALIVE OK");
+            //pollAnswer("ALIVE OK");
+            sendToUVCommander();
         }
 
         if (checkCommand(dataV, "HELLO") >= 0)
@@ -40,6 +58,24 @@ void UVCommanderPollHandler()
             pollAnswer("OK - SERIAL");
         }
 
+        if (checkCommand(dataV, "BLOCK") >= 0)
+        {
+            DataToSend="";
+        }
+
+        if (checkCommand(dataV, "Message") >= 0)
+        {
+            DataToSend="";
+        }
+
+        if (checkCommand(dataV, "PAYMENT") >= 0)
+        {
+            DataToSend="";
+        }
+        if (checkCommand(dataV, "NO INTERNET") >= 0)
+        {
+            DataToSend="";
+        }
         if (checkCommand(dataV, "START") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);

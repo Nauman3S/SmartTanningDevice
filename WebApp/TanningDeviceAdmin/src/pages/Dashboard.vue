@@ -10,14 +10,14 @@
           </template>
 
           <template slot="content">
-            <p class="category">Total Vends</p>
-            <h3 class="title">{{ this.$store.state.allTimeSales }}</h3>
+            <p class="category">Total Devices</p>
+            <h3 class="title">{{ this.$store.state.totalDevices }}</h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
               <md-icon>date_range</md-icon>
-              All time vends
+              Total Number of Devices
             </div>
           </template>
         </stats-card>
@@ -32,14 +32,14 @@
           </template>
 
           <template slot="content">
-            <p class="category">Total Clients</p>
-            <h3 class="title">{{ this.$store.state.allTimeJobs }}</h3>
+            <p class="category">Total Logs</p>
+            <h3 class="title">{{ this.$store.state.totalLogs }}</h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
               <md-icon>date_range</md-icon>
-              Clients who scanned QR
+              All time logs
             </div>
           </template>
         </stats-card>
@@ -199,7 +199,7 @@ export default {
           InputVoltage: "InputVoltage",
           PresencePhases: "PresencePhases",
           InputVoltage: "InputVoltage",
-          Timestamp: "Timestamp"
+          Timestamp: "Timestamp",
         },
       ],
 

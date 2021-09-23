@@ -18,7 +18,7 @@
     </md-table>
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
+        <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
         <md-table-cell md-label="Temperature">{{
@@ -120,20 +120,20 @@ export default {
 
           this.users = this.allData;
           this.$store.state.logsData = this.users;
-          // var i=0;
-          // var sum=0;
-          // var rews=0;
-          // for(i=0;i<this.users.length;i++){
-          //   var g=this.users[i]['TotalVends']
+          var i = 0;
+          var macsList = [];
 
-          //   if(g!='NaN'){
-          //     sum=sum+parseInt(g)
+          for (i = 0; i < this.users.length; i++) {
+            var g = this.users[i]["DeviceMAC"];
 
-          //   }
-          // }
+            if (g != "NaN") {
+              macsList.push(g);
+            }
+          }
+          var uniqueDevices=new Set(macsList).size;
 
-          // this.$store.state.allTimeSales=sum;
-          // this.$store.state.allTimeJobs=this.users.length;
+          this.$store.state.totalDevices=uniqueDevices;
+          this.$store.state.totalLogs = this.users.length;
         });
     },
   },

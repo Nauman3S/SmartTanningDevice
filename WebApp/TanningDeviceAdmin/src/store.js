@@ -11,8 +11,8 @@ export default new Vuex.Store({
     loggedInUserDetails:[],
     rewardToCreds:'1',
     allCredsReqs:[],
-    allTimeSales:0,
-    allTimeJobs:0,
+    totalDevices:0,
+    totalLogs:0,
     allTimeRewardsIssued:0,
     systemStatus:'Normal',
     logsData:[]

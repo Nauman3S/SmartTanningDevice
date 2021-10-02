@@ -4,7 +4,7 @@ String userKey;
 String apiKey;
 String apid;
 String hostName = "TanningD";
-String apPass;
+String apPass="123456789AP";
 String settingsPass;
 
 #if defined(ARDUINO_ARCH_ESP8266)

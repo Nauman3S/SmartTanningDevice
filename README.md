@@ -266,7 +266,7 @@ Dashboard Home Page![SCRD2](Circuit/scrd2.png)
 Dashboard Profile Page![SCRD3](Circuit/scrd3.png)
 4.  You can also download the logs in CSV format from the dashboard home page.
 5.  Power on your ESP32, it will present you with an AP named ```TanningD-abc``` (while ```TanningD``` can be changed in the portal and ```abc``` is a unique id for each esp32)
-6.  Default captive portal password `12345678AP` which can be changed in captive portal.
+6.  Default captive portal password `123456789AP` which can be changed in captive portal.
 7.  Connect to the ESP32 access point and open the web-browser and navigate to the link ```http://esp32.local/_ac```. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL.
 8.  The default access IP Address is ```http://192.168.4.1/_ac```
 9.  You will be presented with a main dashboard as shown below(based on your device)

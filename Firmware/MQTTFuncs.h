@@ -44,6 +44,9 @@ void callback(char *topic, byte *payload, unsigned int length)
         }
         else
         {
+            Serial.print("Device ");
+            Serial.print(ss.getMacAddress());
+            Serial.println(" Exists");
             deviceExisits = 1;
         }
     }

@@ -215,18 +215,21 @@ void setup() //main setup functions
     MDNS.addService("http", "tcp", 80);
     mqttConnect(); //start mqtt
 
+    Serial.println("Checking if device exisits.");
     mqttPublish("tanning-device/deviceExists", ss.getMacAddress());
 }
 
 void loop()
 {
     server.handleClient();
+    
     portal.handleRequest();
     UVCommanderPollHandler();
     if (millis() - lastPub > updateInterval) //publish data to mqtt server
     {
         mqttPublish("tanning-device/" + String(hostName), String("Data")); //publish data to mqtt broker
         ledState(ACTIVE_MODE);
+        Serial.println("Sending data");
         //uncomment the lines below for debugging
         // Serial.println(ampSensorType);
         // Serial.println(sensorSelection);

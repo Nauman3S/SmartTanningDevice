@@ -7,7 +7,11 @@
           item.InstallDate
         }}</md-table-cell>
         <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
-        <md-table-cell md-label="Transmit">{{ item.Transmit }}</md-table-cell>
+        <md-table-cell md-label="Transmit"
+          ><md-button @click.native="transmit(1)" class="md-primary">{{
+            item.Transmit
+          }}</md-button></md-table-cell
+        >
 
         <!-- <md-table-cell md-label="Country">{{ item.country }}</md-table-cell>
         <md-table-cell md-label="City">{{ item.city }}</md-table-cell>
@@ -71,6 +75,9 @@ export default {
     };
   },
   methods: {
+    transmit() {
+      console.log("transmitting");
+    },
     getData() {
       const requestOptions = {
         method: "POST",
@@ -86,7 +93,7 @@ export default {
 
           this.macs = this.allData;
           for (i = 0; i < this.macs.length; i++) {
-            this.macs[i]["Transmit"] = "Transmit";
+            this.macs[i]["Transmit"] = "Transmit" + i;
           }
           this.$store.state.uniqueMAC = this.macs;
           var i = 0;

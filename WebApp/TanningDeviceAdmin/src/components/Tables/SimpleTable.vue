@@ -139,7 +139,7 @@ export default {
               "right",
               2,
               "Login",
-              "Data transmitted to" + DeviceMACv + "successfully."
+              "Data transmitted to " + DeviceMACv + " successfully."
             );
           } else {
             this.notifyM(

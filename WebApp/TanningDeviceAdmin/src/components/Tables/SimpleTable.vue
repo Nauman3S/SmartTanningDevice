@@ -3,13 +3,23 @@
     <md-table v-model="macs" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
+        <md-table-cell md-label="MachineType">
+          <md-field>
+            <label>Click to Update MachineType</label>
+            <md-input v-model="item.MachineType"></md-input>
+          </md-field>
+        </md-table-cell>
         <md-table-cell md-label="InstallDate">
           <md-field>
-            <label>Click to Update</label>
+            <label>Click to Update Date</label>
             <md-input v-model="item.InstallDate"></md-input>
           </md-field>
         </md-table-cell>
-        <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
+        <md-table-cell md-label="CorrectPF"
+          ><md-field>
+            <label>Click to Update PF</label>
+            <md-input v-model="item.CorrectPF"></md-input> </md-field
+        ></md-table-cell>
         <md-table-cell md-label="Transmit"
           ><md-button
             @click.native="transmit(item.DeviceMAC)"

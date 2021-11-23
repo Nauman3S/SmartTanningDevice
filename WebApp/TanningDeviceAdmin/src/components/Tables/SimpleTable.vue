@@ -22,7 +22,14 @@
         ></md-table-cell>
         <md-table-cell md-label="Transmit"
           ><md-button
-            @click.native="transmit(item.DeviceMAC)"
+            @click.native="
+              transmit(
+                item.DeviceMAC,
+                item.MachineType,
+                item.InstallDate,
+                item.CorrectPF
+              )
+            "
             class="md-primary"
             >Transmit</md-button
           ></md-table-cell
@@ -38,6 +45,7 @@
 
 <script>
 const API_LIST_MAC = "http://34.214.65.82:8080/v1/listAllUniqueSettings";
+const API_DEV_UPDATE = "http://34.214.65.82:8080/v1/updateDeviceSettings";
 export default {
   name: "simple-table",
   props: {
@@ -90,8 +98,55 @@ export default {
     };
   },
   methods: {
-    transmit(dm) {
+    transmitData(DeviceMACv, MachineTypev, InstallDatav, CorrectPFv) {
+      console.log("Device Update");
+      //this.$sidebar.displaySidebar(false);
+
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify({
+          DeviceMAC: DeviceMACv,
+          MachineType: MachineTypev,
+          InstallData: InstallDatav,
+          CorrectPF: CorrectPFv,
+        }),
+      };
+      fetch(API_DEV_UPDATE, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result.data);
+
+          if (result.data.length == 0) {
+            this.notifyM(
+              "top",
+              "right",
+              4,
+              "Error",
+              "Error while transmitting"
+            );
+          } else {
+            this.notifyM(
+              "top",
+              "right",
+              2,
+              "Login",
+              "Data transmitted successfully."
+            );
+          }
+        }); //data => (this.postId = data.id)
+
+      // this.notifyM("top","right",2,'Registraion','Registraion successful.')
+      // this.$router.push({ path: 'main'})
+
+      //   this.$store.state.loggedInUser=this.emailAd;
+      //   console.log(this.$store.state.loggedInUser)
+      //   this.$router.push({ path: 'dashboard'})
+    },
+    transmit(dm, mt, id, cp) {
       console.log("transmitting", dm);
+      transmitData(dm, mt, id, cp);
     },
     getData() {
       const requestOptions = {

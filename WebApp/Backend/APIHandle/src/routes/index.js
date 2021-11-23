@@ -426,6 +426,28 @@ indexRouter.post('/updateMachineType', cors(), function (req, res) {
   })
 });
 
+indexRouter.post('/updateDeviceSettings', cors(), function (req, res) {
+  //console.log(req);
+  let values = [
+
+    req.body.MachineType,
+    req.body.InstallData,
+    req.body.CorrectPF,
+    req.body.DeviceMAC
+
+
+  ];
+  let sql = `UPDATE VLedger SET MachineType='` + values[0] + `', InstallData='` + values[1] + `', CorrectPF='` + values[2] +  `' WHERE DeviceMAC='` + values[3] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: "Machine type Updated"
+    })
+  })
+});
+
 indexRouter.post('/updateInstallDate', cors(), function (req, res) {
   //console.log(req);
   let values = [

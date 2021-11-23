@@ -56,6 +56,10 @@ export default {
   },
   data() {
     return {
+      type: ["", "info", "success", "warning", "danger"],
+      notifications: {
+        topCenter: false,
+      },
       selected: [],
       macs: [
         {

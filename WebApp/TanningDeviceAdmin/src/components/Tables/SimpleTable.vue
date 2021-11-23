@@ -3,14 +3,14 @@
     <md-table v-model="macs" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
-        <md-table-cell md-label="InstallDate">{{
-          item.InstallDate
-        }}</md-table-cell>
+        <md-table-cell md-label="InstallDate"> <md-input v-model="item.InstallDate"></md-input></md-table-cell>
         <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
         <md-table-cell md-label="Transmit"
-          ><md-button @click.native="transmit(item.DeviceMAC)" class="md-primary">{{
-            item.Transmit
-          }}</md-button></md-table-cell
+          ><md-button
+            @click.native="transmit(item.DeviceMAC)"
+            class="md-primary"
+            >{{ item.Transmit }}</md-button
+          ></md-table-cell
         >
 
         <!-- <md-table-cell md-label="Country">{{ item.country }}</md-table-cell>
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     transmit(dm) {
-      console.log("transmitting",dm);
+      console.log("transmitting", dm);
     },
     getData() {
       const requestOptions = {

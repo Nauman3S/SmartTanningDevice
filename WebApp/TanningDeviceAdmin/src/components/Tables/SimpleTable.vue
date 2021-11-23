@@ -4,24 +4,24 @@
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
         <md-table-cell md-label="MachineType">
-          <md-field>
+          <md-field @mouseover="hover = true" @mouseout="hover = false">
             <label>Click to Update MachineType</label>
             <md-input v-model="item.MachineType"></md-input>
           </md-field>
         </md-table-cell>
         <md-table-cell md-label="InstallDate">
-          <md-field>
+          <md-field @mouseover="hover = true" @mouseout="hover = false">
             <label>Click to Update Date</label>
             <md-input v-model="item.InstallDate"></md-input>
           </md-field>
         </md-table-cell>
         <md-table-cell md-label="CorrectPF"
-          ><md-field>
+          ><md-field @mouseover="hover = true" @mouseout="hover = false">
             <label>Click to Update PF</label>
             <md-input v-model="item.CorrectPF"></md-input> </md-field
         ></md-table-cell>
         <md-table-cell md-label="Transmit"
-          ><md-button
+          ><md-button @mouseover="hover = true" @mouseout="hover = true"
             @click.native="
               transmitData(
                 item.DeviceMAC,
@@ -60,6 +60,7 @@ export default {
       notifications: {
         topCenter: false,
       },
+      hover: false,
       selected: [],
       macs: [
         {
@@ -164,40 +165,42 @@ export default {
       transmitData(dm, mt, id, cp);
     },
     getData() {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: "",
-      };
-      fetch(API_LIST_MAC, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          console.log(result.data);
-          this.allData = result["data"];
+      if (this.hover == false) {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "",
+        };
+        fetch(API_LIST_MAC, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            console.log(result.data);
+            this.allData = result["data"];
 
-          this.macs = this.allData;
-          for (i = 0; i < this.macs.length; i++) {
-            this.macs[i]["Transmit"] = "Transmit" + i;
-          }
-          this.$store.state.uniqueMAC = this.macs;
-          var i = 0;
-          var macsList = [];
-
-          for (i = 0; i < this.macs.length; i++) {
-            var g = this.macs[i]["DeviceMAC"];
-
-            if (g != "NaN") {
-              macsList.push(g);
+            this.macs = this.allData;
+            for (i = 0; i < this.macs.length; i++) {
+              this.macs[i]["Transmit"] = "Transmit" + i;
             }
-          }
-          console.log(macsList);
-          console.log(this.macs);
-          var uniqueDevices = new Set(macsList).size;
+            this.$store.state.uniqueMAC = this.macs;
+            var i = 0;
+            var macsList = [];
 
-          // this.$store.state.totalDevices = uniqueDevices;
-          // this.$store.state.totalLogs = this.macs.length;
-        });
+            for (i = 0; i < this.macs.length; i++) {
+              var g = this.macs[i]["DeviceMAC"];
+
+              if (g != "NaN") {
+                macsList.push(g);
+              }
+            }
+            console.log(macsList);
+            console.log(this.macs);
+            var uniqueDevices = new Set(macsList).size;
+
+            // this.$store.state.totalDevices = uniqueDevices;
+            // this.$store.state.totalLogs = this.macs.length;
+          });
+      }
     },
   },
 

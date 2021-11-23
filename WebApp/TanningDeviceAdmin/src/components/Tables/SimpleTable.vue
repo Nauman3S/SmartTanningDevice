@@ -8,7 +8,7 @@
         }}</md-table-cell>
         <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
         <md-table-cell md-label="Transmit"
-          ><md-button @click.native="transmit(1)" class="md-primary">{{
+          ><md-button @click.native="transmit(item.DeviceMAC)" class="md-primary">{{
             item.Transmit
           }}</md-button></md-table-cell
         >

@@ -129,7 +129,7 @@ export default {
         .then((result) => {
           console.log(result.data);
 
-          if (result.status.length == 200) {
+          if (result.status == 200) {
             this.notifyM(
               "top",
               "right",

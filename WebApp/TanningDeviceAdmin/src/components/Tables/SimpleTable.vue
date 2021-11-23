@@ -5,7 +5,7 @@
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
         <md-table-cell md-label="InstallDate">
           <md-field>
-            <label>Initial Value</label>
+            <label>Click to Update</label>
             <md-input v-model="item.InstallDate"></md-input>
           </md-field>
         </md-table-cell>

@@ -91,7 +91,7 @@ export default {
             }
           }
           console.log(macsList);
-          console.log(macs);
+          console.log(this.macs);
           var uniqueDevices = new Set(macsList).size;
 
           // this.$store.state.totalDevices = uniqueDevices;

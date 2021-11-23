@@ -98,8 +98,8 @@ export default {
     };
   },
   methods: {
-    transmitData(DeviceMACv, MachineTypev, InstallDatav, CorrectPFv) {
-      console.log(DeviceMACv,MachineTypev,InstallDatav,CorrectPFv)
+    transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv) {
+      console.log(DeviceMACv,MachineTypev,InstallDatev,CorrectPFv)
       console.log("Device Update");
       //this.$sidebar.displaySidebar(false);
 
@@ -110,7 +110,7 @@ export default {
         body: JSON.stringify({
           DeviceMAC: DeviceMACv,
           MachineType: MachineTypev,
-          InstallData: InstallDatav,
+          InstallDate: InstallDatev,
           CorrectPF: CorrectPFv,
         }),
       };

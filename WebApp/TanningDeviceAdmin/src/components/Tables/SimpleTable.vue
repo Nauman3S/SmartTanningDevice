@@ -98,6 +98,16 @@ export default {
     };
   },
   methods: {
+    notifyM(verticalAlign, horizontalAlign, clr, title, msg) {
+      var color = clr; //Math.floor(Math.random() * 4 + 1);
+      this.$notify({
+        message: "<b>" + title + "</b><br>" + msg,
+        icon: "add_alert",
+        horizontalAlign: horizontalAlign,
+        verticalAlign: verticalAlign,
+        type: this.type[color],
+      });
+    },
     transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv) {
       console.log(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv);
       console.log("Device Update");

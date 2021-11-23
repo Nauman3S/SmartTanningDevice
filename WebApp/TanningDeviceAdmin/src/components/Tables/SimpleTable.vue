@@ -99,6 +99,7 @@ export default {
   },
   methods: {
     transmitData(DeviceMACv, MachineTypev, InstallDatav, CorrectPFv) {
+      console.log(DeviceMACv,MachineTypev,InstallDatav,CorrectPFv)
       console.log("Device Update");
       //this.$sidebar.displaySidebar(false);
 

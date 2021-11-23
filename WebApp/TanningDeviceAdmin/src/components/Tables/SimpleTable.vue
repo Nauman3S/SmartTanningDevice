@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv) {
-      console.log(DeviceMACv,MachineTypev,InstallDatev,CorrectPFv)
+      console.log(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv);
       console.log("Device Update");
       //this.$sidebar.displaySidebar(false);
 
@@ -119,21 +119,21 @@ export default {
         .then((result) => {
           console.log(result.data);
 
-          if (result.data.length == 0) {
-            this.notifyM(
-              "top",
-              "right",
-              4,
-              "Error",
-              "Error while transmitting"
-            );
-          } else {
+          if (result.status.length == 200) {
             this.notifyM(
               "top",
               "right",
               2,
               "Login",
               "Data transmitted successfully."
+            );
+          } else {
+            this.notifyM(
+              "top",
+              "right",
+              4,
+              "Error",
+              "Error while transmitting"
             );
           }
         }); //data => (this.postId = data.id)

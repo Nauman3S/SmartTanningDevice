@@ -39,6 +39,15 @@ const client = mqtt.connect('mqtt://34.214.65.82')
 var garageState = ''
 var connected = false
 
+
+////////////////////////////////////////////*** */
+
+//new cols in vledger InstallDate,CorrectPF,MachineType
+
+/////////////////////////////////////////*** **/////
+
+
+
 client.on('connect', () => {
   client.subscribe('tanning-device/createNew')
   client.subscribe('tanning-device/updateDevice')
@@ -352,24 +361,7 @@ indexRouter.post('/jobOperations', cors(), function (req, res) {
 
 });
 //UPDATE Users SET Credits=(CreditsRequest+Credits), CreditsRequest='0' WHERE Email='n@n.com'
-indexRouter.post('/approveCredReq', cors(), function (req, res) {
-  //console.log(req);
-  let values = [
 
-
-    req.body.Email
-
-  ];
-  let sql = `UPDATE Users SET Credits=(CreditsRequest+Credits), CreditsRequest='0' WHERE Email='` + values[0] + `'`
-
-  db.query(sql, [values], function (err, data, fields) {
-    if (err) throw err;
-    res.json({
-      status: 200,
-      message: "User Updated"
-    })
-  })
-});
 
 
 
@@ -385,6 +377,82 @@ indexRouter.get('/listAll', cors(), function (req, res) {
     })
   })
 });
+
+
+indexRouter.get('/listAllUniqueMAC', cors(), function (req, res) {
+
+  let sql = `SELECT DISTINCT DeviceMAC from VLedger;`;
+  db.query(sql, function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      data,
+      message: "User lists retrieved successfully"
+    })
+  })
+});
+
+indexRouter.post('/updateMachineType', cors(), function (req, res) {
+  //console.log(req);
+  let values = [
+
+    req.body.MachineType,
+    req.body.DeviceMAC
+
+
+  ];
+  let sql = `UPDATE VLedger SET MachineType='` + values[0] +  `' WHERE DeviceMAC='` + values[1] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: "Machine type Updated"
+    })
+  })
+});
+
+indexRouter.post('/updateInstallDate', cors(), function (req, res) {
+  //console.log(req);
+  let values = [
+
+    req.body.InstallData,
+    req.body.DeviceMAC
+
+
+  ];
+  let sql = `UPDATE VLedger SET InstallDate='` + values[0] +  `' WHERE DeviceMAC='` + values[1] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: "Machine install date Updated"
+    })
+  })
+});
+
+
+indexRouter.post('/updateCorrectPF', cors(), function (req, res) {
+  //console.log(req);
+  let values = [
+
+    req.body.CorrectPF,
+    req.body.DeviceMAC
+
+
+  ];
+  let sql = `UPDATE VLedger SET CorrectPF='` + values[0] +  `' WHERE DeviceMAC='` + values[1] + `'`;
+
+  db.query(sql, [values], function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: "Machine CorrectPF Updated"
+    })
+  })
+});
+
 
 indexRouter.get('/getActive', cors(), function (req, res) {
   let sql = `SELECT * FROM data WHERE ActiveStatus='1'`;

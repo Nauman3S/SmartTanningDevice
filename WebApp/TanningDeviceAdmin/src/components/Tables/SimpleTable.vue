@@ -74,7 +74,7 @@ export default {
       fetch(API_LIST_MAC, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          // console.log(result.data)
+          console.log(result.data)
           this.allData = result["data"];
 
           this.macs = this.allData;
@@ -93,8 +93,8 @@ export default {
           console.log(macs)
           var uniqueDevices = new Set(macsList).size;
 
-          this.$store.state.totalDevices = uniqueDevices;
-          this.$store.state.totalLogs = this.users.length;
+          // this.$store.state.totalDevices = uniqueDevices;
+          // this.$store.state.totalLogs = this.macs.length;
         });
     },
   },

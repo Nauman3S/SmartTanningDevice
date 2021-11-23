@@ -15,7 +15,8 @@ export default new Vuex.Store({
     totalLogs:0,
     allTimeRewardsIssued:0,
     systemStatus:'Normal',
-    logsData:[]
+    logsData:[],
+    uniqueMAC:[]
   },
   
   getters: {

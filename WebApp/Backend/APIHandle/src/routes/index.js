@@ -379,7 +379,7 @@ indexRouter.get('/listAll', cors(), function (req, res) {
 });
 
 
-indexRouter.get('/listAllUniqueMAC', cors(), function (req, res) {
+indexRouter.post('/listAllUniqueMAC', cors(), function (req, res) {
 
   let sql = `SELECT DISTINCT DeviceMAC from VLedger;`;
   db.query(sql, function (err, data, fields) {

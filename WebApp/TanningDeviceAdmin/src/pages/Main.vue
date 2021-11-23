@@ -34,6 +34,7 @@
 
 <script>
 const API_URL = "http://34.214.65.82:8080/v1/loginAdmin";
+const API_LIST_MAC = "http://34.214.65.82:8080/v1/listAllUniqueMAC";
 
 
 export default {

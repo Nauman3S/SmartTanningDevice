@@ -3,7 +3,12 @@
     <md-table v-model="macs" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
-        <md-table-cell md-label="InstallDate"> <md-input v-model="item.InstallDate"></md-input></md-table-cell>
+        <md-table-cell md-label="InstallDate">
+          <md-field>
+            <label>Initial Value</label>
+            <md-input v-model="item.InstallDate"></md-input>
+          </md-field>
+        </md-table-cell>
         <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
         <md-table-cell md-label="Transmit"
           ><md-button

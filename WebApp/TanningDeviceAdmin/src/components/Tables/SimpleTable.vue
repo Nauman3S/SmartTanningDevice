@@ -3,9 +3,11 @@
     <md-table v-model="macs" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
-        <md-table-cell md-label="InstallDate">{{ item.InstallDate }}</md-table-cell>
+        <md-table-cell md-label="InstallDate">{{
+          item.InstallDate
+        }}</md-table-cell>
         <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
-        
+        <md-table-cell md-label="Transmit">{{ item.Transmit }}</md-table-cell>
 
         <!-- <md-table-cell md-label="Country">{{ item.country }}</md-table-cell>
         <md-table-cell md-label="City">{{ item.city }}</md-table-cell>
@@ -83,6 +85,9 @@ export default {
           this.allData = result["data"];
 
           this.macs = this.allData;
+          for (i = 0; i < this.macs.length; i++) {
+            this.macs[i]["Transmit"] = "Transmit";
+          }
           this.$store.state.uniqueMAC = this.macs;
           var i = 0;
           var macsList = [];

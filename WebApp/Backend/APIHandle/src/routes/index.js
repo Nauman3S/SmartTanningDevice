@@ -392,6 +392,20 @@ indexRouter.post('/listAllUniqueMAC', cors(), function (req, res) {
   })
 });
 
+indexRouter.post('/listAllUniqueSettings', cors(), function (req, res) {
+
+  let sql = `SELECT DISTINCT DeviceMAC,MachineType,InstallDate,CorrectPF from VLedger;`;
+  db.query(sql, function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      data,
+      message: "User lists retrieved successfully"
+    })
+  })
+});
+
+
 indexRouter.post('/updateMachineType', cors(), function (req, res) {
   //console.log(req);
   let values = [

@@ -3,7 +3,9 @@
     <md-table v-model="macs" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
-        <md-table-cell md-input="DMM">{{ item.DeviceMAC }}</md-table-cell>
+        <md-table-cell md-label="InstallDate">{{ item.InstallDate }}</md-table-cell>
+        <md-table-cell md-label="CorrectPF">{{ item.CorrectPF }}</md-table-cell>
+        
 
         <!-- <md-table-cell md-label="Country">{{ item.country }}</md-table-cell>
         <md-table-cell md-label="City">{{ item.city }}</md-table-cell>
@@ -14,7 +16,7 @@
 </template>
 
 <script>
-const API_LIST_MAC = "http://34.214.65.82:8080/v1/listAllUniqueMAC";
+const API_LIST_MAC = "http://34.214.65.82:8080/v1/listAllUniqueSettings";
 export default {
   name: "simple-table",
   props: {

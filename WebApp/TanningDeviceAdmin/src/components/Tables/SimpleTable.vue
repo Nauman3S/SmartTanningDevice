@@ -24,7 +24,7 @@
           ><md-button
             @click.native="transmit(item.DeviceMAC)"
             class="md-primary"
-            >{{ item.Transmit }}</md-button
+            >Transmit</md-button
           ></md-table-cell
         >
 

@@ -23,7 +23,7 @@
         <md-table-cell md-label="Transmit"
           ><md-button
             @click.native="
-              transmit(
+              transmitData(
                 item.DeviceMAC,
                 item.MachineType,
                 item.InstallDate,

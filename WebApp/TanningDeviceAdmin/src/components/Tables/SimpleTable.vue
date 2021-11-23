@@ -3,6 +3,8 @@
     <md-table v-model="macs" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
+        <md-table-cell md-input="DMM">{{ item.DeviceMAC }}</md-table-cell>
+
         <!-- <md-table-cell md-label="Country">{{ item.country }}</md-table-cell>
         <md-table-cell md-label="City">{{ item.city }}</md-table-cell>
         <md-table-cell md-label="Salary">{{ item.salary }}</md-table-cell> -->
@@ -104,7 +106,7 @@ export default {
     this.$nextTick(function () {
       window.setInterval(() => {
         this.getData();
-      }, 2000);
+      }, 6000);
     });
     // this.getData()
   },

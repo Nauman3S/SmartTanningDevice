@@ -75,8 +75,8 @@ export default {
     };
   },
   methods: {
-    transmit() {
-      console.log("transmitting");
+    transmit(dm) {
+      console.log("transmitting",dm);
     },
     getData() {
       const requestOptions = {

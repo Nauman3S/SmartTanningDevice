@@ -112,13 +112,12 @@ export default {
 
         .then((result) => {
           console.log(result.data);
-          (this.$store.state.loggedInUserDetails["FName"] = this.firstname)(
-            (this.$store.state.loggedInUserDetails["LName"] = this.lastname)
-          )(
-            (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress)
-          )(
-            (this.$store.state.loggedInUserDetails["Password"] = this.password)
-          );
+          this.$store.state.loggedInUserDetails["FName"] = this.firstname;
+          this.$store.state.loggedInUserDetails["LName"] = this.lastname;
+
+          this.$store.state.loggedInUserDetails["Email"] = this.emailaddress;
+
+          this.$store.state.loggedInUserDetails["Password"] = this.password;
 
           if (result.status == 200) {
             this.notifyM(

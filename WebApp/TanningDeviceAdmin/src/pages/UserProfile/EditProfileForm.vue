@@ -8,7 +8,6 @@
 
       <md-card-content>
         <div class="md-layout">
-          
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>User Name</label>
@@ -39,13 +38,13 @@
               <md-input v-model="password" type="password"></md-input>
             </md-field>
           </div>
-          
+
           <div class="md-layout-item md-size-100 text-right">
             <!-- <md-button class="md-raised md-success" @click="UpdateUser">Update Profile</md-button> -->
             <!-- <button  @click="UpdateUser">Update Profile</button> -->
             <md-button class="md-raised md-primary" @click="UpdateUser()">
-                   Update
-        </md-button>
+              Update
+            </md-button>
           </div>
         </div>
       </md-card-content>
@@ -60,70 +59,84 @@ export default {
   props: {
     dataBackgroundColor: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
-       type: ["", "info", "success", "warning", "danger"],
+      type: ["", "info", "success", "warning", "danger"],
       notifications: {
-        topCenter: false
+        topCenter: false,
       },
       username: null,
       company: null,
-      emailaddress: '0',
+      emailaddress: "0",
       lastname: null,
       firstname: null,
       password: null,
-      
-      aboutme:
-        "Nothing special"
+
+      aboutme: "Nothing special",
     };
   },
-  methods:{
-    notifyM(verticalAlign, horizontalAlign,clr,title,msg) {
-      var color = clr;//Math.floor(Math.random() * 4 + 1);
+  methods: {
+    notifyM(verticalAlign, horizontalAlign, clr, title, msg) {
+      var color = clr; //Math.floor(Math.random() * 4 + 1);
       this.$notify({
-        message:
-          "<b>"+title+"</b><br>"+msg,
+        message: "<b>" + title + "</b><br>" + msg,
         icon: "add_alert",
         horizontalAlign: horizontalAlign,
         verticalAlign: verticalAlign,
-        type: this.type[color]
+        type: this.type[color],
       });
     },
-  UpdateUser(){
-    console.log('updating')
-    const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ FName: this.firstname, LName:this.lastname,Email:this.emailaddress,Password:this.password   
-    })
-  };
-  fetch(API_URL, requestOptions)
-    .then(response => response.json())
-    .then(
-      this.$store.state.loggedInUserDetails['FName']=this.firstname,
-      this.$store.state.loggedInUserDetails['LName']=this.lastname,
-      this.$store.state.loggedInUserDetails['Email']=this.emailaddress,
-      this.$store.state.loggedInUserDetails['Password']=this.password,
-      this.notifyM("top","right",2,'Updated','Updated the user profile succesfully.')
-    );//data => (this.postId = data.id)
-
+    UpdateUser() {
+      console.log("updating");
+      console.log(this.username);
+      console.log(this.emailaddress);
+      console.log(this.password);
+      console.log(this.firstname);
+      console.log(this.lastname);
+      
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          FName: this.firstname,
+          LName: this.lastname,
+          Email: this.emailaddress,
+          Password: this.password,
+        }),
+      };
+      fetch(API_URL, requestOptions)
+        .then((response) => response.json())
+        .then(
+          (this.$store.state.loggedInUserDetails["FName"] = this.firstname),
+          (this.$store.state.loggedInUserDetails["LName"] = this.lastname),
+          (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress),
+          (this.$store.state.loggedInUserDetails["Password"] = this.password),
+          this.notifyM(
+            "top",
+            "right",
+            2,
+            "Updated",
+            "Updated the user profile succesfully."
+          )
+        ); //data => (this.postId = data.id)
+    },
   },
-  },
-mounted(){
-
-  this.username=this.$store.state.loggedInUserDetails['FName']+this.$store.state.loggedInUserDetails['LName']
-  this.emailaddress=this.$store.state.loggedInUserDetails['Email']
-  this.firstname=this.$store.state.loggedInUserDetails['FName']
-  this.lastname=this.$store.state.loggedInUserDetails['LName']
-  this.password=this.$store.state.loggedInUserDetails['Password']
+  mounted() {
+    this.username =
+      this.$store.state.loggedInUserDetails["FName"] +
+      this.$store.state.loggedInUserDetails["LName"];
+    this.emailaddress = this.$store.state.loggedInUserDetails["Email"];
+    this.firstname = this.$store.state.loggedInUserDetails["FName"];
+    this.lastname = this.$store.state.loggedInUserDetails["LName"];
+    this.password = this.$store.state.loggedInUserDetails["Password"];
     // fetch(API_URL)
     //    fetch(API_URL)
     //   .then(response => response.json())
     //   .then(result => {
-        
+
     //     this.username =''+ result['data'][0].username,
     //     this.emailadress = result['data'][0].email
     //     this.company = result['data'][0].company
@@ -139,7 +152,6 @@ mounted(){
 
     //   });
   },
-  
 };
 </script>
 <style></style>

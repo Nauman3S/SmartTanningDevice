@@ -100,6 +100,7 @@ export default {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        mode: "cors",
         body: JSON.stringify({
           FName: this.firstname,
           LName: this.lastname,
@@ -112,6 +113,7 @@ export default {
 
         .then((result) => {
           console.log(result.data);
+          console.log(result);
           this.$store.state.loggedInUserDetails["FName"] = this.firstname;
           this.$store.state.loggedInUserDetails["LName"] = this.lastname;
 

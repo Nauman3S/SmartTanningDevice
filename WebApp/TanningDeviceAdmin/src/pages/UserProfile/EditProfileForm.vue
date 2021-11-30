@@ -18,7 +18,7 @@
           <div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Email Address</label>
-              <md-input v-model="emailadress" type="email"></md-input>
+              <md-input v-model="emailaddress" type="email"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
@@ -71,7 +71,7 @@ export default {
       },
       username: null,
       company: null,
-      emailadress: '0',
+      emailaddress: '0',
       lastname: null,
       firstname: null,
       password: null,
@@ -97,15 +97,15 @@ export default {
     const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ FName: this.firstname, LName:this.lastname,Email:this.emailadress,Password:this.password   
+    body: JSON.stringify({ FName: this.firstname, LName:this.lastname,Email:this.emailaddress,Password:this.password   
     })
   };
   fetch(API_URL, requestOptions)
-    .then(response => response.json())
+    .then(response => response.json(), console.log(response.json()))
     .then(
       this.$store.state.loggedInUserDetails['FName']=this.firstname,
       this.$store.state.loggedInUserDetails['LName']=this.lastname,
-      this.$store.state.loggedInUserDetails['Email']=this.emailadress,
+      this.$store.state.loggedInUserDetails['Email']=this.emailaddress,
       this.$store.state.loggedInUserDetails['Password']=this.password,
       this.notifyM("top","right",2,'Updated','Updated the user profile succesfully.')
     );//data => (this.postId = data.id)
@@ -115,7 +115,7 @@ export default {
 mounted(){
 
   this.username=this.$store.state.loggedInUserDetails['FName']+this.$store.state.loggedInUserDetails['LName']
-  this.emailadress=this.$store.state.loggedInUserDetails['Email']
+  this.emailaddress=this.$store.state.loggedInUserDetails['Email']
   this.firstname=this.$store.state.loggedInUserDetails['FName']
   this.lastname=this.$store.state.loggedInUserDetails['LName']
   this.password=this.$store.state.loggedInUserDetails['Password']

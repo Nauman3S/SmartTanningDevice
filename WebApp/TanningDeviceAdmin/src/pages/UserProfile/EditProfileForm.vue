@@ -104,24 +104,41 @@ export default {
           FName: this.firstname,
           LName: this.lastname,
           Email: this.emailaddress,
-          Password: this.password,
+          Password:   this.password,
+
+
         }),
       };
       fetch(API_URL, requestOptions)
         .then((response) => response.json())
-        .then(
-          (this.$store.state.loggedInUserDetails["FName"] = this.firstname),
-          (this.$store.state.loggedInUserDetails["LName"] = this.lastname),
-          (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress),
-          (this.$store.state.loggedInUserDetails["Password"] = this.password),
-          this.notifyM(
+        .then((result) => {
+          console.log(result.data);
+          (this.$store.state.loggedInUserDetails["FName"] = this.firstname)
+          (this.$store.state.loggedInUserDetails["LName"] = this.lastname)
+          (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress)
+          (this.$store.state.loggedInUserDetails["Password"] = this.password)
+           if (result.status == 200) {
+             this.notifyM(
             "top",
             "right",
             2,
             "Updated",
             "Updated the user profile succesfully."
-          )
-        ); //data => (this.postId = data.id)
+          )};
+
+        // .then(
+        //   (this.$store.state.loggedInUserDetails["FName"] = this.firstname),
+        //   (this.$store.state.loggedInUserDetails["LName"] = this.lastname),
+        //   (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress),
+        //   (this.$store.state.loggedInUserDetails["Password"] = this.password),
+        //   this.notifyM(
+        //     "top",
+        //     "right",
+        //     2,
+        //     "Updated",
+        //     "Updated the user profile succesfully."
+        //   )
+        // ); //data => (this.postId = data.id)
     },
   },
   mounted() {

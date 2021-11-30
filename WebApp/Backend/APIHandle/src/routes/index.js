@@ -285,7 +285,7 @@ indexRouter.post('/updateAdmin', cors(), function (req, res) {
 
 
   ];
-  let sql = `UPDATE Admin SET FName='` + values[0] + `', LName='` + values[1] + `', Email='` + values[2] + `', Password='` + values[3] + `' WHERE Email='` + values[2] + `'`;
+  let sql = `UPDATE Admin SET FName='` + values[0] + `', LName='` + values[1] + `', Email='` + values[2] + `', Password='` + values[3] + `'`;
 
   db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;

@@ -96,7 +96,7 @@ export default {
       console.log(this.password);
       console.log(this.firstname);
       console.log(this.lastname);
-      
+
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -104,41 +104,53 @@ export default {
           FName: this.firstname,
           LName: this.lastname,
           Email: this.emailaddress,
-          Password:   this.password,
-
-
+          Password: this.password,
         }),
       };
       fetch(API_URL, requestOptions)
         .then((response) => response.json())
+
         .then((result) => {
           console.log(result.data);
-          (this.$store.state.loggedInUserDetails["FName"] = this.firstname)
-          (this.$store.state.loggedInUserDetails["LName"] = this.lastname)
-          (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress)
-          (this.$store.state.loggedInUserDetails["Password"] = this.password)
-           if (result.status == 200) {
-             this.notifyM(
-            "top",
-            "right",
-            2,
-            "Updated",
-            "Updated the user profile succesfully."
-          )};
+          (this.$store.state.loggedInUserDetails["FName"] = this.firstname)(
+            (this.$store.state.loggedInUserDetails["LName"] = this.lastname)
+          )(
+            (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress)
+          )(
+            (this.$store.state.loggedInUserDetails["Password"] = this.password)
+          );
 
-        // .then(
-        //   (this.$store.state.loggedInUserDetails["FName"] = this.firstname),
-        //   (this.$store.state.loggedInUserDetails["LName"] = this.lastname),
-        //   (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress),
-        //   (this.$store.state.loggedInUserDetails["Password"] = this.password),
-        //   this.notifyM(
-        //     "top",
-        //     "right",
-        //     2,
-        //     "Updated",
-        //     "Updated the user profile succesfully."
-        //   )
-        // ); //data => (this.postId = data.id)
+          if (result.status == 200) {
+            this.notifyM(
+              "top",
+              "right",
+              2,
+              "Updated",
+              "Updated the user profile succesfully "
+            );
+          } else {
+            this.notifyM(
+              "top",
+              "right",
+              4,
+              "Error",
+              "Error while updating profile"
+            );
+          }
+        });
+      // .then(
+      //   (this.$store.state.loggedInUserDetails["FName"] = this.firstname),
+      //   (this.$store.state.loggedInUserDetails["LName"] = this.lastname),
+      //   (this.$store.state.loggedInUserDetails["Email"] = this.emailaddress),
+      //   (this.$store.state.loggedInUserDetails["Password"] = this.password),
+      //   this.notifyM(
+      //     "top",
+      //     "right",
+      //     2,
+      //     "Updated",
+      //     "Updated the user profile succesfully."
+      //   )
+      // ); //data => (this.postId = data.id)
     },
   },
   mounted() {

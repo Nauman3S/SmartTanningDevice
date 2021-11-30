@@ -101,7 +101,7 @@ export default {
     })
   };
   fetch(API_URL, requestOptions)
-    .then(response => response.json(), console.log(response.json()))
+    .then(response => response.json())
     .then(
       this.$store.state.loggedInUserDetails['FName']=this.firstname,
       this.$store.state.loggedInUserDetails['LName']=this.lastname,

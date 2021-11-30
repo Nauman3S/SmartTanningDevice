@@ -131,6 +131,10 @@ Here's the complete circuit diagram of the system.
 - Node v12.16.1
 - NPM v6.13.4
 
+### Reference Links
+
+-   Layout: https://docs.google.com/spreadsheets/d/1pLSYBU_jmj0MHLfFhjrONCmabcauOlFwBAStOadKreI/edit
+
 ### Server Links <a name = "srv"></a>
 
 - MQTT Broker Link: 34.214.65.82:1883

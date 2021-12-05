@@ -113,7 +113,7 @@
             @mouseover="hover = true"
             @mouseout="hover = true"
             @click.native="
-              poolMachine(
+              pollMachine(
                 item.DeviceMAC,
                 item.MachineType,
                 item.MachineSerialNumber

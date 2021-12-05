@@ -128,7 +128,10 @@
         }}</md-table-cell>
         <md-table-cell md-label="Message">{{ item.Message }}</md-table-cell>
         <md-table-cell md-label="PaymentSystem">
-          <md-autocomplete v-model="item.PaymentSystem" :md-options="PaymentSystemOptions">
+          <md-autocomplete
+            v-model="item.PaymentSystem"
+            :md-options="PaymentSystemOptions"
+          >
             <label>PaymentSystem</label>
           </md-autocomplete>
         </md-table-cell>
@@ -232,14 +235,10 @@ export default {
     return {
       selected: [],
       SelectedPaymentSystemV: null,
-      PaymentSystemOptions:[
-        'STD',
-        'CARD',
-        'TOKEN',
-        'EXT'
-      ],
+      PaymentSystemOptions: ["STD", "CARD", "TOKEN", "EXT"],
 
       allData: [],
+      hover: false,
 
       macsAddresses: [],
       myStyleGreen: {
@@ -379,37 +378,39 @@ export default {
       transmitData(dm, mt, id, cp, ms, msg, ps);
     },
     getData() {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: "",
-      };
+      if (this.hover == false) {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "",
+        };
 
-      fetch(API_URL_LedgerLog, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          // console.log(result.data)
-          this.allData = result["data"];
+        fetch(API_URL_LedgerLog, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            // console.log(result.data)
+            this.allData = result["data"];
 
-          this.users = this.allData;
-          this.$store.state.logsData = this.users;
-          var i = 0;
-          var macsList = [];
+            this.users = this.allData;
+            this.$store.state.logsData = this.users;
+            var i = 0;
+            var macsList = [];
 
-          for (i = 0; i < this.users.length; i++) {
-            var g = this.users[i]["DeviceMAC"];
+            for (i = 0; i < this.users.length; i++) {
+              var g = this.users[i]["DeviceMAC"];
 
-            if (g != "NaN") {
-              macsList.push(g);
+              if (g != "NaN") {
+                macsList.push(g);
+              }
             }
-          }
-          this.macsAddresses = macsList;
+            this.macsAddresses = macsList;
 
-          var uniqueDevices = new Set(macsList).size;
+            var uniqueDevices = new Set(macsList).size;
 
-          this.$store.state.totalDevices = uniqueDevices;
-          this.$store.state.totalLogs = this.users.length;
-        });
+            this.$store.state.totalDevices = uniqueDevices;
+            this.$store.state.totalLogs = this.users.length;
+          });
+      }
     },
   },
 

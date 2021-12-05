@@ -195,6 +195,7 @@ export default {
           }
           this.macsAddresses = macsList;
           console.log(this.macsAddresses)
+          console.log('test')
           var uniqueDevices = new Set(macsList).size;
 
           this.$store.state.totalDevices = uniqueDevices;
@@ -202,7 +203,7 @@ export default {
         });
     },
     searchOnTable() {
-      this.searched = searchByName(this.macsAddresses, this.search);
+      this.searched = searchByName(this.users, this.search);
     },
     newUser() {
       window.alert("Noop");

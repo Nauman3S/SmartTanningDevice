@@ -59,6 +59,40 @@
         <md-table-cell md-label="PowerFactorCorrection">{{
           item.PowerFactorCorrection
         }}</md-table-cell>
+
+        <md-table-cell md-label="MachineType">
+          <md-field @mouseover="hover = true" @mouseout="hover = false">
+            <label>Click to Update MachineType</label>
+            <md-input v-model="item.MachineType"></md-input>
+          </md-field>
+        </md-table-cell>
+        <md-table-cell md-label="InstallDate">
+          <md-field @mouseover="hover = true" @mouseout="hover = false">
+            <label>Click to Update Date</label>
+            <md-input v-model="item.InstallDate"></md-input>
+          </md-field>
+        </md-table-cell>
+        <md-table-cell md-label="CorrectPF"
+          ><md-field @mouseover="hover = true" @mouseout="hover = false">
+            <label>Click to Update PF</label>
+            <md-input v-model="item.CorrectPF"></md-input> </md-field
+        ></md-table-cell>
+        <md-table-cell md-label="Transmit"
+          ><md-button
+            @mouseover="hover = true"
+            @mouseout="hover = true"
+            @click.native="
+              transmitData(
+                item.DeviceMAC,
+                item.MachineType,
+                item.InstallDate,
+                item.CorrectPF
+              )
+            "
+            class="md-primary"
+            >Transmit</md-button
+          ></md-table-cell
+        >
       </md-table-row>
     </md-table>
 
@@ -106,6 +140,8 @@
 
 <script>
 const API_URL_LedgerLog = "http://34.214.65.82:8080/v1/getLogs";
+const API_LIST_MAC = "http://34.214.65.82:8080/v1/listAllUniqueSettings";
+const API_DEV_UPDATE = "http://34.214.65.82:8080/v1/updateDeviceSettings";
 const toLower = (text) => {
   return text.toString().toLowerCase();
 };
@@ -138,14 +174,21 @@ export default {
         backgroundColor: "#16a085",
         padding: 0,
         margin: 0,
-        width: 100       
+        width: 100,
       },
       myStyleRed: {
         backgroundColor: "#9e1a1a",
         padding: 0,
         margin: 0,
-        width: 100
+        width: 100,
       },
+      type: ["", "info", "success", "warning", "danger"],
+      notifications: {
+        topCenter: false,
+      },
+      hover: false,
+      selected: [],
+      macs: [],
       users: [
         {
           id: 1,
@@ -180,6 +223,67 @@ export default {
   },
 
   methods: {
+    notifyM(verticalAlign, horizontalAlign, clr, title, msg) {
+      var color = clr; //Math.floor(Math.random() * 4 + 1);
+      this.$notify({
+        message: "<b>" + title + "</b><br>" + msg,
+        icon: "add_alert",
+        horizontalAlign: horizontalAlign,
+        verticalAlign: verticalAlign,
+        type: this.type[color],
+      });
+    },
+    transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv) {
+      console.log(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv);
+      console.log("Device Update");
+      //this.$sidebar.displaySidebar(false);
+
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify({
+          DeviceMAC: DeviceMACv,
+          MachineType: MachineTypev,
+          InstallDate: InstallDatev,
+          CorrectPF: CorrectPFv,
+        }),
+      };
+      fetch(API_DEV_UPDATE, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result.data);
+
+          if (result.status == 200) {
+            this.notifyM(
+              "top",
+              "right",
+              2,
+              "Login",
+              "Data transmitted to " + DeviceMACv + " successfully."
+            );
+          } else {
+            this.notifyM(
+              "top",
+              "right",
+              4,
+              "Error",
+              "Error while transmitting"
+            );
+          }
+        }); //data => (this.postId = data.id)
+
+      // this.notifyM("top","right",2,'Registraion','Registraion successful.')
+      // this.$router.push({ path: 'main'})
+
+      //   this.$store.state.loggedInUser=this.emailAd;
+      //   console.log(this.$store.state.loggedInUser)
+      //   this.$router.push({ path: 'dashboard'})
+    },
+    transmit(dm, mt, id, cp) {
+      console.log("transmitting", dm);
+      transmitData(dm, mt, id, cp);
+    },
     getData() {
       const requestOptions = {
         method: "POST",

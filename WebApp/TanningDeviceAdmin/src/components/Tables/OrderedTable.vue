@@ -8,9 +8,10 @@
         <md-table-cell md-label="StartSession">{{
           item.StartSession
         }}</md-table-cell>
-        <md-table-cell md-label="EndSession">{{
-          item.EndSession
-        }}</md-table-cell>
+        <md-table-cell md-label="EndSession">
+          <div :style="myStyle" id="wrapper">{{ item.EndSession</div>
+          }}</md-table-cell
+        >
         <md-table-cell md-label="EndSessionType">{{
           item.EndSessionType
         }}</md-table-cell>
@@ -113,6 +114,9 @@ export default {
       allData: [],
 
       macsAddresses: [],
+      myStyle: {
+        backgroundColor: "#16a085",
+      },
       users: [
         {
           id: 1,

@@ -3,10 +3,10 @@
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
-        <md-table-cell md-label="MacbineSerialNumber"
+        <md-table-cell md-label="MachineSerialNumber"
           ><md-field @mouseover="hover = true" @mouseout="hover = false">
-            <label>Click to Update MacbineSerialNumber</label>
-            <md-input v-model="item.MacbineSerialNumber"></md-input> </md-field
+            <label>Click to Update SerialNumber</label>
+            <md-input v-model="item.MachineSerialNumber"></md-input> </md-field
         ></md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
@@ -91,7 +91,8 @@
                 item.DeviceMAC,
                 item.MachineType,
                 item.InstallDate,
-                item.CorrectPF
+                item.CorrectPF,
+                item.MachineSerialNumber
               )
             "
             class="md-primary"

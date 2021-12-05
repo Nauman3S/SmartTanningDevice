@@ -8,6 +8,13 @@
             <label>Click to Update SerialNumber</label>
             <md-input v-model="item.MachineSerialNumber"></md-input> </md-field
         ></md-table-cell>
+        <md-table-cell md-label="MachineType">
+          <md-field @mouseover="hover = true" @mouseout="hover = false">
+            <label>Click to Update MachineType</label>
+            <md-input v-model="item.MachineType"></md-input>
+          </md-field>
+        </md-table-cell>
+        <md-table-cell md-label="Alive(Online)">{{ item.Alive }}</md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
         <md-table-cell md-label="StartSession">{{
@@ -65,12 +72,7 @@
           item.PowerFactorCorrection
         }}</md-table-cell>
 
-        <md-table-cell md-label="MachineType">
-          <md-field @mouseover="hover = true" @mouseout="hover = false">
-            <label>Click to Update MachineType</label>
-            <md-input v-model="item.MachineType"></md-input>
-          </md-field>
-        </md-table-cell>
+        
         <md-table-cell md-label="InstallDate">
           <md-field @mouseover="hover = true" @mouseout="hover = false">
             <label>Click to Update Date</label>

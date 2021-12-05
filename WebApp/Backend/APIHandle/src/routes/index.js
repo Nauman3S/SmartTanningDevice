@@ -433,11 +433,12 @@ indexRouter.post('/updateDeviceSettings', cors(), function (req, res) {
     req.body.MachineType,
     req.body.InstallDate,
     req.body.CorrectPF,
-    req.body.DeviceMAC
+    req.body.DeviceMAC,
+    req.body.MachineSerialNumber
 
 
   ];
-  let sql = `UPDATE VLedger SET MachineType='` + values[0] + `', InstallDate='` + values[1] + `', CorrectPF='` + values[2] +  `' WHERE DeviceMAC='` + values[3] + `'`;
+  let sql = `UPDATE VLedger SET MachineType='` + values[0] + `', InstallDate='` + values[1] + `', CorrectPF='` + values[2] +`', MachineSerialNumber='` + values[4] +  `' WHERE DeviceMAC='` + values[3] + `'`;
 
   db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;

@@ -26,6 +26,18 @@
         <md-table-cell md-label="PresencePhases">{{
           item.PresencePhases
         }}</md-table-cell>
+        <md-table-cell md-label="SensorFilters">{{
+          item.SensorFilters
+        }}</md-table-cell>
+        <md-table-cell md-label="LampMaintenance">{{
+          item.LampMaintenance
+        }}</md-table-cell>
+        <md-table-cell md-label="AnnualMaintenance">{{
+          item.AnnualMaintenance
+        }}</md-table-cell>
+        <md-table-cell md-label="PowerFactorCorrection">{{
+          item.PowerFactorCorrection
+        }}</md-table-cell>
       </md-table-row>
     </md-table>
 
@@ -48,7 +60,7 @@
         }}</md-table-cell>
       </md-table-row>
     </md-table> -->
-
+    <!-- 
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
@@ -67,7 +79,7 @@
           item.PowerFactorCorrection
         }}</md-table-cell>
       </md-table-row>
-    </md-table>
+    </md-table> -->
   </div>
 </template>
 

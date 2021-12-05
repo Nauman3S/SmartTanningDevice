@@ -9,8 +9,8 @@
           item.StartSession
         }}</md-table-cell>
         <md-table-cell md-label="EndSession">
-          <div :style="myStyle" id="wrapper">{{ item.EndSession</div>
-          }}</md-table-cell
+          <div :style="myStyle" id="wrapper">{{ item.EndSession}}</div>
+          </md-table-cell
         >
         <md-table-cell md-label="EndSessionType">{{
           item.EndSessionType

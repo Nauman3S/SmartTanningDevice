@@ -128,7 +128,7 @@
         }}</md-table-cell>
         <md-table-cell md-label="Message">{{ item.Message }}</md-table-cell>
         <md-table-cell md-label="PaymentSystem">
-          <md-autocomplete v-model="SelectedPaymentSystemV" :md-options="PaymentSystemOptions">
+          <md-autocomplete v-model="item.PaymentSystem" :md-options="PaymentSystemOptions">
             <label>PaymentSystem</label>
           </md-autocomplete>
         </md-table-cell>

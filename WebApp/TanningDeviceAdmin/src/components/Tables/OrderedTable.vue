@@ -99,7 +99,7 @@
             <md-input v-model="item.CorrectPF"></md-input> </md-field
         ></md-table-cell>
         <md-table-cell md-label="PFDeviationFromOptimalLevel">{{
-          item.PFDeviationFromOptimalLevel
+          item.PowerFactorCorrection-item.CorrectPF
         }}</md-table-cell>
         <md-table-cell md-label="LastFanSpeed">{{
           item.LastFanSpeed

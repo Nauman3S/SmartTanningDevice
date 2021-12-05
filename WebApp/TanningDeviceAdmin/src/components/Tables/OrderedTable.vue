@@ -30,7 +30,7 @@
           item.SensorFilters
         }}</md-table-cell>
         <md-table-cell md-label="LampMaintenance">
-          <div v-bind:style="{myStyleGreen}" id="wrapper">
+          <div v-bind:style="myStyleGreen" id="wrapper">
             {{ item.LampMaintenance }}
           </div></md-table-cell
         >

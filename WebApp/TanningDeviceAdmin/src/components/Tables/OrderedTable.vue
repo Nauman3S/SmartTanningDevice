@@ -1,28 +1,6 @@
 <template>
   <div>
     <md-table v-model="users" :table-header-color="tableHeaderColor">
-      <md-table-toolbar>
-        <div class="md-toolbar-section-start">
-          <h1 class="md-title">Devices</h1>
-        </div>
-
-        <md-field md-clearable class="md-toolbar-section-end">
-          <md-input
-            placeholder="Search by name..."
-            v-model="search"
-            @input="searchOnTable"
-          />
-        </md-field>
-      </md-table-toolbar>
-
-      <md-table-empty-state
-        md-label="No users found"
-        :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`"
-      >
-        <md-button class="md-primary md-raised" @click="newUser"
-          >Create New User</md-button
-        >
-      </md-table-empty-state>
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
@@ -113,7 +91,9 @@ const toLower = (text) => {
 
 const searchByName = (items, term) => {
   if (term) {
-    return items.filter((item) => toLower(item.DeviceMAC).includes(toLower(term)));
+    return items.filter((item) =>
+      toLower(item.DeviceMAC).includes(toLower(term))
+    );
   }
 
   return items;
@@ -131,8 +111,7 @@ export default {
       selected: [],
 
       allData: [],
-      search: null,
-      searched: [],
+
       macsAddresses: [],
       users: [
         {
@@ -194,25 +173,15 @@ export default {
             }
           }
           this.macsAddresses = macsList;
-          console.log(this.macsAddresses)
-          console.log('test')
+
           var uniqueDevices = new Set(macsList).size;
 
           this.$store.state.totalDevices = uniqueDevices;
           this.$store.state.totalLogs = this.users.length;
         });
     },
-    searchOnTable() {
-      this.searched = searchByName(this.users, this.search);
-    },
-    newUser() {
-      window.alert("Noop");
-    },
   },
 
-  created() {
-    this.searched = this.users;
-  },
   mounted() {
     this.$nextTick(function () {
       window.setInterval(() => {

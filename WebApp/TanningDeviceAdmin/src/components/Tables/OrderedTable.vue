@@ -323,7 +323,7 @@ export default {
     this.$nextTick(function () {
       window.setInterval(() => {
         this.getData();
-      }, 2000);
+      }, 4000);
     });
     // this.getData()
   },

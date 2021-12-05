@@ -26,17 +26,36 @@
         <md-table-cell md-label="PresencePhases">{{
           item.PresencePhases
         }}</md-table-cell>
-        <md-table-cell md-label="SensorFilters"><div v-bind:style="item.SensorFilters=='OK' ? myStyleGreen: myStyleRed" id="wrapper">{{
-          item.SensorFilters
-        }}</div></md-table-cell>
+        <md-table-cell md-label="SensorFilters"
+          ><div
+            v-bind:style="
+              item.SensorFilters == 'OK' ? myStyleGreen : myStyleRed
+            "
+            id="wrapper"
+          >
+            {{ item.SensorFilters }}
+          </div></md-table-cell
+        >
         <md-table-cell md-label="LampMaintenance">
-          <div v-bind:style="item.LampMaintenance=='OK' ? myStyleGreen: myStyleRed" id="wrapper">
+          <div
+            v-bind:style="
+              item.LampMaintenance == 'OK' ? myStyleGreen : myStyleRed
+            "
+            id="wrapper"
+          >
             {{ item.LampMaintenance }}
           </div></md-table-cell
         >
-        <md-table-cell md-label="AnnualMaintenance"><div v-bind:style="item.AnnualMaintenance=='OK' ? myStyleGreen: myStyleRed" id="wrapper">{{
-          item.AnnualMaintenance
-        }}</div></md-table-cell>
+        <md-table-cell md-label="AnnualMaintenance"
+          ><div
+            v-bind:style="
+              item.AnnualMaintenance == 'OK' ? myStyleGreen : myStyleRed
+            "
+            id="wrapper"
+          >
+            {{ item.AnnualMaintenance }}
+          </div></md-table-cell
+        >
         <md-table-cell md-label="PowerFactorCorrection">{{
           item.PowerFactorCorrection
         }}</md-table-cell>
@@ -117,9 +136,13 @@ export default {
       macsAddresses: [],
       myStyleGreen: {
         backgroundColor: "#16a085",
+        padding: 0,
+        margin: 0        
       },
       myStyleRed: {
         backgroundColor: "#9e1a1a",
+        padding: 0,
+        margin: 0
       },
       users: [
         {

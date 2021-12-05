@@ -1,5 +1,8 @@
 import express from 'express';
-import { indexPage, tempHandlePage } from '../controllers';
+import {
+  indexPage,
+  tempHandlePage
+} from '../controllers';
 
 import mysql from 'mysql'
 //import helmet from 'helmet'
@@ -348,8 +351,7 @@ indexRouter.post('/jobOperations', cors(), function (req, res) {
 
       message: "Jobs canceled successfully"
     })
-  }
-  else if (req.body.operation == 'restore') {
+  } else if (req.body.operation == 'restore') {
     client.publish("bkc-device/allJobsOperation", "restore")
     res.json({
       status: 200,
@@ -415,7 +417,7 @@ indexRouter.post('/updateMachineType', cors(), function (req, res) {
 
 
   ];
-  let sql = `UPDATE VLedger SET MachineType='` + values[0] +  `' WHERE DeviceMAC='` + values[1] + `'`;
+  let sql = `UPDATE VLedger SET MachineType='` + values[0] + `' WHERE DeviceMAC='` + values[1] + `'`;
 
   db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
@@ -434,11 +436,13 @@ indexRouter.post('/updateDeviceSettings', cors(), function (req, res) {
     req.body.InstallDate,
     req.body.CorrectPF,
     req.body.DeviceMAC,
-    req.body.MachineSerialNumber
+    req.body.MachineSerialNumber,
+    req.body.Message,
+    req.body.PaymentSystem
 
 
   ];
-  let sql = `UPDATE VLedger SET MachineType='` + values[0] + `', InstallDate='` + values[1] + `', CorrectPF='` + values[2] + `', MachineSerialNumber='` + values[4] +  `' WHERE DeviceMAC='` + values[3] + `'`;
+  let sql = `UPDATE VLedger SET MachineType='` + values[0] + `', InstallDate='` + values[1] + `', CorrectPF='` + values[2] + `', MachineSerialNumber='` + values[4] + `', Message='` + values[5] + `', PaymentSystem='` + values[6] + `' WHERE DeviceMAC='` + values[3] + `'`;
 
   db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
@@ -458,7 +462,7 @@ indexRouter.post('/updateInstallDate', cors(), function (req, res) {
 
 
   ];
-  let sql = `UPDATE VLedger SET InstallDate='` + values[0] +  `' WHERE DeviceMAC='` + values[1] + `'`;
+  let sql = `UPDATE VLedger SET InstallDate='` + values[0] + `' WHERE DeviceMAC='` + values[1] + `'`;
 
   db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
@@ -479,7 +483,7 @@ indexRouter.post('/updateCorrectPF', cors(), function (req, res) {
 
 
   ];
-  let sql = `UPDATE VLedger SET CorrectPF='` + values[0] +  `' WHERE DeviceMAC='` + values[1] + `'`;
+  let sql = `UPDATE VLedger SET CorrectPF='` + values[0] + `' WHERE DeviceMAC='` + values[1] + `'`;
 
   db.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
@@ -553,14 +557,18 @@ client.on('message', (topic, message) => {
           /// var strData=JSON.stringify(results[0])
           // client.publish('edc-monitor/activePlayer', strData)
           // handlesetActive(message).then(function(results){var m=""}).catch(function(err){console.log(err)});
-          handlesetActive(message.toString()).then(function (results1) { var m = "" }).catch(function (err) { console.log(err) });
+          handlesetActive(message.toString()).then(function (results1) {
+            var m = ""
+          }).catch(function (err) {
+            console.log(err)
+          });
         })
         .catch(function (err) {
           console.log("Promise rejection error: " + err);
         })
       break;
-    // client.publish('garage/close', 'Closing;'+message)
-    // return handleGarageState(message)
+      // client.publish('garage/close', 'Closing;'+message)
+      // return handleGarageState(message)
     case 'tanning-device/deviceExists':
       doesDeviceExists(message.toString())
         .then(function (results) {
@@ -568,8 +576,7 @@ client.on('message', (topic, message) => {
           /// var strData=JSON.stringify(results[0])
           if (typeof strData == 'undefined') {
             client.publish('tanning-device/deviceExistance', 'null')
-          }
-          else {
+          } else {
             client.publish('tanning-device/deviceExistance', strData)
           }
           // client.publish('edc-monitor/activePlayer', strData)
@@ -778,8 +785,7 @@ function handlegetActive() {
         }
       }
     )
-  }
-  )
+  })
 }
 
 
@@ -795,8 +801,7 @@ function doesDeviceExists(DeviceMAC) {
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleDeactivateAll() {
@@ -812,9 +817,9 @@ function handleDeactivateAll() {
         // }
       }
     )
-  }
-  )
+  })
 }
+
 function handlesetActive(playerID) {
   return new Promise(function (resolve, reject) {
     db.query(
@@ -828,8 +833,7 @@ function handlesetActive(playerID) {
         // }
       }
     )
-  }
-  )
+  })
 }
 
 function handleCreateNew(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) {
@@ -848,8 +852,7 @@ function handleCreateNew(DeviceMAC, StartSession, EndSession, EndSessionType, Te
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice(DeviceMAC, StartSession, EndSession, EndSessionType, Temperature, SensorFilters, LampMaintenance, AnnualMaintenance, PowerFactorCorrection, AnemometerSensor, InputVoltage, PresencePhases, Timestamp) {
@@ -865,8 +868,7 @@ function handleUpdateDevice(DeviceMAC, StartSession, EndSession, EndSessionType,
         }
       }
     )
-  }
-  )
+  })
 }
 
 
@@ -883,8 +885,7 @@ function handleUpdateDevice_StartSession(DeviceMAC, StartSession, Timestamp) {
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_StopSession(DeviceMAC, EndSession, Timestamp) {
@@ -900,8 +901,7 @@ function handleUpdateDevice_StopSession(DeviceMAC, EndSession, Timestamp) {
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_Temp(DeviceMAC, Temperature, Timestamp) {
@@ -917,8 +917,7 @@ function handleUpdateDevice_Temp(DeviceMAC, Temperature, Timestamp) {
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_Filter(DeviceMAC, SensorFilters, Timestamp) {
@@ -934,8 +933,7 @@ function handleUpdateDevice_Filter(DeviceMAC, SensorFilters, Timestamp) {
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_LampMaintenance(DeviceMAC, LampMaintenance, Timestamp) {
@@ -951,8 +949,7 @@ function handleUpdateDevice_LampMaintenance(DeviceMAC, LampMaintenance, Timestam
         }
       }
     )
-  }
-  )
+  })
 }
 
 
@@ -969,9 +966,9 @@ function handleUpdateDevice_AnnualMaintenance(DeviceMAC, AnnualMaintenance, Time
         }
       }
     )
-  }
-  )
+  })
 }
+
 function handleUpdateDevice_PowerFactorCorrection(DeviceMAC, PowerFactorCorrection, Timestamp) {
   return new Promise(function (resolve, reject) {
 
@@ -985,8 +982,7 @@ function handleUpdateDevice_PowerFactorCorrection(DeviceMAC, PowerFactorCorrecti
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_AnemometerSensor(DeviceMAC, AnemometerSensor, Timestamp) {
@@ -1002,8 +998,7 @@ function handleUpdateDevice_AnemometerSensor(DeviceMAC, AnemometerSensor, Timest
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_InputVoltage(DeviceMAC, InputVoltage, Timestamp) {
@@ -1019,8 +1014,7 @@ function handleUpdateDevice_InputVoltage(DeviceMAC, InputVoltage, Timestamp) {
         }
       }
     )
-  }
-  )
+  })
 }
 
 function handleUpdateDevice_PresencePhases(DeviceMAC, PresencePhases, Timestamp) {
@@ -1036,8 +1030,7 @@ function handleUpdateDevice_PresencePhases(DeviceMAC, PresencePhases, Timestamp)
         }
       }
     )
-  }
-  )
+  })
 }
 
 

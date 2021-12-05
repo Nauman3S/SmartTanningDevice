@@ -3,6 +3,9 @@
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
+        <md-table-cell md-label="Timestamp(LastUpdated)">{{
+          item.Timestamp
+        }}</md-table-cell>
         <md-table-cell md-label="MachineSerialNumber"
           ><md-field @mouseover="hover = true" @mouseout="hover = false">
             <label>Click to Update SerialNumber</label>
@@ -14,9 +17,24 @@
             <md-input v-model="item.MachineType"></md-input>
           </md-field>
         </md-table-cell>
-        <md-table-cell md-label="Alive(Online)">{{ item.Alive }}</md-table-cell>
-        <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
         <md-table-cell md-label="DeviceMAC">{{ item.DeviceMAC }}</md-table-cell>
+        <md-table-cell md-label="Alive(Online)">{{ item.Alive }}</md-table-cell>
+        <md-table-cell md-label="TotalRunningTime">{{
+          item.TotalRunningTime
+        }}</md-table-cell>
+        <md-table-cell md-label="TotalSessionCount">{{
+          item.TotalSessionCount
+        }}</md-table-cell>
+        <md-table-cell md-label="TotalSessionCorrectlyEnded">{{
+          item.TotalSessionCorrectlyEnded
+        }}</md-table-cell>
+        <md-table-cell md-label="TotalSessionEndedBeforeTime">{{
+          item.TotalSessionEndedBeforeTime
+        }}</md-table-cell>
+        <md-table-cell md-label="TotalSessionNotEndedCorrectly">{{
+          item.TotalSessionNotEndedCorrectly
+        }}</md-table-cell>
+
         <md-table-cell md-label="StartSession">{{
           item.StartSession
         }}</md-table-cell>
@@ -32,9 +50,7 @@
         <md-table-cell md-label="AnemometerSensor">{{
           item.AnemometerSensor
         }}</md-table-cell>
-        <md-table-cell md-label="InputVoltage">{{
-          item.InputVoltage
-        }}</md-table-cell>
+
         <md-table-cell md-label="PresencePhases">{{
           item.PresencePhases
         }}</md-table-cell>
@@ -68,22 +84,62 @@
             {{ item.AnnualMaintenance }}
           </div></md-table-cell
         >
+        <md-table-cell md-label="ActualLastTemp">{{
+          item.ActualLastTemp
+        }}</md-table-cell>
+        <md-table-cell md-label="HighestTemp">{{
+          item.HighestTemp
+        }}</md-table-cell>
         <md-table-cell md-label="PowerFactorCorrection">{{
           item.PowerFactorCorrection
         }}</md-table-cell>
+        <md-table-cell md-label="CorrectPF"
+          ><md-field @mouseover="hover = true" @mouseout="hover = false">
+            <label>Click to Update PF</label>
+            <md-input v-model="item.CorrectPF"></md-input> </md-field
+        ></md-table-cell>
+        <md-table-cell md-label="PFDeviationFromOptimalLevel">{{
+          item.PFDeviationFromOptimalLevel
+        }}</md-table-cell>
+        <md-table-cell md-label="LastFanSpeed">{{
+          item.LastFanSpeed
+        }}</md-table-cell>
+        <md-table-cell md-label="InputVoltage">{{
+          item.InputVoltage
+        }}</md-table-cell>
 
-        
+        <md-table-cell md-label="Poll"
+          ><md-button
+            @mouseover="hover = true"
+            @mouseout="hover = true"
+            @click.native="
+              poolMachine(
+                item.DeviceMAC,
+                item.MachineType,
+                item.MachineSerialNumber
+              )
+            "
+            class="md-primary"
+            >Poll</md-button
+          ></md-table-cell
+        >
+        <md-table-cell md-label="Transmission">{{
+          item.Transmission
+        }}</md-table-cell>
+        <md-table-cell md-label="Message">{{ item.Message }}</md-table-cell>
+        <md-table-cell md-label="PaymentSystem">
+          <md-field @mouseover="hover = true" @mouseout="hover = false">
+            <label>Click to Update PaymentSystem</label>
+            <md-input v-model="item.PaymentSystem"></md-input>
+          </md-field>
+        </md-table-cell>
         <md-table-cell md-label="InstallDate">
           <md-field @mouseover="hover = true" @mouseout="hover = false">
             <label>Click to Update Date</label>
             <md-input v-model="item.InstallDate"></md-input>
           </md-field>
         </md-table-cell>
-        <md-table-cell md-label="CorrectPF"
-          ><md-field @mouseover="hover = true" @mouseout="hover = false">
-            <label>Click to Update PF</label>
-            <md-input v-model="item.CorrectPF"></md-input> </md-field
-        ></md-table-cell>
+
         <md-table-cell md-label="Transmit"
           ><md-button
             @mouseover="hover = true"
@@ -94,7 +150,9 @@
                 item.MachineType,
                 item.InstallDate,
                 item.CorrectPF,
-                item.MachineSerialNumber
+                item.MachineSerialNumber,
+                item.Message,
+                item.PaymentSystem
               )
             "
             class="md-primary"
@@ -241,8 +299,27 @@ export default {
         type: this.type[color],
       });
     },
-    transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv, machineSerial) {
-      console.log(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv,machineSerial);
+    pollMachine(mac, type, serialN) {
+      console.log("Polling", mac, " ", type, " ", serialN);
+    },
+    transmitData(
+      DeviceMACv,
+      MachineTypev,
+      InstallDatev,
+      CorrectPFv,
+      machineSerial,
+      message,
+      paymentSys
+    ) {
+      console.log(
+        DeviceMACv,
+        MachineTypev,
+        InstallDatev,
+        CorrectPFv,
+        machineSerial,
+        message,
+        paymentSys
+      );
       console.log("Device Update");
       //this.$sidebar.displaySidebar(false);
 
@@ -255,7 +332,9 @@ export default {
           MachineType: MachineTypev,
           InstallDate: InstallDatev,
           CorrectPF: CorrectPFv,
-          MachineSerialNumber:machineSerial
+          MachineSerialNumber: machineSerial,
+          Message: message,
+          PaymentSystem: paymentSys,
         }),
       };
       fetch(API_DEV_UPDATE, requestOptions)
@@ -289,9 +368,9 @@ export default {
       //   console.log(this.$store.state.loggedInUser)
       //   this.$router.push({ path: 'dashboard'})
     },
-    transmit(dm, mt, id, cp, ms) {
+    transmit(dm, mt, id, cp, ms, msg, ps) {
       console.log("transmitting", dm);
-      transmitData(dm, mt, id, cp, ms);
+      transmitData(dm, mt, id, cp, ms, msg, ps);
     },
     getData() {
       const requestOptions = {

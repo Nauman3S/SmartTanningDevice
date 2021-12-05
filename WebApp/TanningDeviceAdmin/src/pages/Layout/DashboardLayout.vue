@@ -16,10 +16,10 @@
         <md-icon>settings_input_composite</md-icon>
         <p>Admin Center</p>
       </sidebar-link> -->
-      <sidebar-link to="/table">
+      <!-- <sidebar-link to="/table">
         <md-icon>content_paste</md-icon>
         <p>Settings</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link to="/user">
         <md-icon>person</md-icon>
         <p>User Profile</p>

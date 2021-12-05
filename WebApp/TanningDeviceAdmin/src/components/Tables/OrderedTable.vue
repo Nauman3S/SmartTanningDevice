@@ -418,7 +418,7 @@ export default {
     this.$nextTick(function () {
       window.setInterval(() => {
         this.getData();
-      }, 4000);
+      }, 6000);
     });
     // this.getData()
   },

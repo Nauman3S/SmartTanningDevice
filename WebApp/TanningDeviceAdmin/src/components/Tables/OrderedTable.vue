@@ -26,9 +26,9 @@
         <md-table-cell md-label="PresencePhases">{{
           item.PresencePhases
         }}</md-table-cell>
-        <md-table-cell md-label="SensorFilters">{{
+        <md-table-cell md-label="SensorFilters"><div v-bind:style="item.SensorFilters=='OK' ? myStyleGreen: myStyleRed" id="wrapper">{{
           item.SensorFilters
-        }}</md-table-cell>
+        }}</div></md-table-cell>
         <md-table-cell md-label="LampMaintenance">
           <div v-bind:style="item.LampMaintenance=='OK' ? myStyleGreen: myStyleRed" id="wrapper">
             {{ item.LampMaintenance }}

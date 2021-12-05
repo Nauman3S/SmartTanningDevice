@@ -239,8 +239,8 @@ export default {
         type: this.type[color],
       });
     },
-    transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv) {
-      console.log(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv);
+    transmitData(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv, machineSerial) {
+      console.log(DeviceMACv, MachineTypev, InstallDatev, CorrectPFv,machineSerial);
       console.log("Device Update");
       //this.$sidebar.displaySidebar(false);
 
@@ -253,6 +253,7 @@ export default {
           MachineType: MachineTypev,
           InstallDate: InstallDatev,
           CorrectPF: CorrectPFv,
+          MachineSerialNumber:machineSerial
         }),
       };
       fetch(API_DEV_UPDATE, requestOptions)
@@ -286,9 +287,9 @@ export default {
       //   console.log(this.$store.state.loggedInUser)
       //   this.$router.push({ path: 'dashboard'})
     },
-    transmit(dm, mt, id, cp) {
+    transmit(dm, mt, id, cp, ms) {
       console.log("transmitting", dm);
-      transmitData(dm, mt, id, cp);
+      transmitData(dm, mt, id, cp, ms);
     },
     getData() {
       const requestOptions = {

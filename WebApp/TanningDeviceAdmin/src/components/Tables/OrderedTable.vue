@@ -137,12 +137,14 @@ export default {
       myStyleGreen: {
         backgroundColor: "#16a085",
         padding: 0,
-        margin: 0        
+        margin: 0,
+        width: 100       
       },
       myStyleRed: {
         backgroundColor: "#9e1a1a",
         padding: 0,
-        margin: 0
+        margin: 0,
+        width: 100
       },
       users: [
         {

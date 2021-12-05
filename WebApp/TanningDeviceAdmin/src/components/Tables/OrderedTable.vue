@@ -1,6 +1,28 @@
 <template>
   <div>
     <md-table v-model="users" :table-header-color="tableHeaderColor">
+      <md-table-toolbar>
+        <div class="md-toolbar-section-start">
+          <h1 class="md-title">Users</h1>
+        </div>
+
+        <md-field md-clearable class="md-toolbar-section-end">
+          <md-input
+            placeholder="Search by name..."
+            v-model="search"
+            @input="searchOnTable"
+          />
+        </md-field>
+      </md-table-toolbar>
+
+      <md-table-empty-state
+        md-label="No users found"
+        :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`"
+      >
+        <md-button class="md-primary md-raised" @click="newUser"
+          >Create New User</md-button
+        >
+      </md-table-empty-state>
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID">{{ item.ID }}</md-table-cell>
         <md-table-cell md-label="Timestamp">{{ item.Timestamp }}</md-table-cell>
@@ -85,6 +107,17 @@
 
 <script>
 const API_URL_LedgerLog = "http://34.214.65.82:8080/v1/getLogs";
+const toLower = (text) => {
+  return text.toString().toLowerCase();
+};
+
+const searchByName = (items, term) => {
+  if (term) {
+    return items.filter((item) => toLower(item.name).includes(toLower(term)));
+  }
+
+  return items;
+};
 export default {
   name: "ordered-table",
   props: {
@@ -97,6 +130,8 @@ export default {
     return {
       selected: [],
       allData: [],
+      search: null,
+      searched: [],
       users: [
         {
           id: 1,
@@ -137,6 +172,7 @@ export default {
         headers: { "Content-Type": "application/json" },
         body: "",
       };
+
       fetch(API_URL_LedgerLog, requestOptions)
         .then((response) => response.json())
         .then((result) => {
@@ -161,6 +197,16 @@ export default {
           this.$store.state.totalLogs = this.users.length;
         });
     },
+    searchOnTable() {
+      this.searched = searchByName(this.users, this.search);
+    },
+    newUser() {
+      window.alert("Noop");
+    },
+  },
+
+  created() {
+    this.searched = this.users;
   },
   mounted() {
     this.$nextTick(function () {

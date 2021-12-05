@@ -30,13 +30,13 @@
           item.SensorFilters
         }}</md-table-cell>
         <md-table-cell md-label="LampMaintenance">
-          <div v-bind:style="item.LampMaintenance==1 ? myStyleGreen: myStyleRed" id="wrapper">
+          <div v-bind:style="item.LampMaintenance=='OK' ? myStyleGreen: myStyleRed" id="wrapper">
             {{ item.LampMaintenance }}
           </div></md-table-cell
         >
-        <md-table-cell md-label="AnnualMaintenance">{{
+        <md-table-cell md-label="AnnualMaintenance"><div v-bind:style="item.AnnualMaintenance=='OK' ? myStyleGreen: myStyleRed" id="wrapper">{{
           item.AnnualMaintenance
-        }}</md-table-cell>
+        }}</div></md-table-cell>
         <md-table-cell md-label="PowerFactorCorrection">{{
           item.PowerFactorCorrection
         }}</md-table-cell>

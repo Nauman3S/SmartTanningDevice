@@ -193,7 +193,7 @@ export default {
               macsList.push(g);
             }
           }
-          this.macsAddresses = macsListl;
+          this.macsAddresses = macsList;
           var uniqueDevices = new Set(macsList).size;
 
           this.$store.state.totalDevices = uniqueDevices;

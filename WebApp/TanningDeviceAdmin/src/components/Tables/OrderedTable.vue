@@ -99,7 +99,7 @@
             <md-input v-model="item.CorrectPF"></md-input> </md-field
         ></md-table-cell>
         <md-table-cell md-label="PFDeviationFromOptimalLevel">{{
-          item.PowerFactorCorrection-item.CorrectPF
+          item.PowerFactorCorrection - item.CorrectPF
         }}</md-table-cell>
         <md-table-cell md-label="LastFanSpeed">{{
           item.LastFanSpeed
@@ -128,10 +128,9 @@
         }}</md-table-cell>
         <md-table-cell md-label="Message">{{ item.Message }}</md-table-cell>
         <md-table-cell md-label="PaymentSystem">
-          <md-field @mouseover="hover = true" @mouseout="hover = false">
-            <label>Click to Update PaymentSystem</label>
-            <md-input v-model="item.PaymentSystem"></md-input>
-          </md-field>
+          <md-autocomplete v-model="SelectedPaymentSystemV" :md-options="PaymentSystemOptions">
+            <label>PaymentSystem</label>
+          </md-autocomplete>
         </md-table-cell>
         <md-table-cell md-label="InstallDate">
           <md-field @mouseover="hover = true" @mouseout="hover = false">
@@ -232,6 +231,13 @@ export default {
   data() {
     return {
       selected: [],
+      SelectedPaymentSystemV: null,
+      PaymentSystemOptions:[
+        'STD',
+        'CARD',
+        'TOKEN',
+        'EXT'
+      ],
 
       allData: [],
 

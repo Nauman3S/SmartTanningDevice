@@ -113,7 +113,7 @@ const toLower = (text) => {
 
 const searchByName = (items, term) => {
   if (term) {
-    return items.filter((item) => toLower(item.name).includes(toLower(term)));
+    return items.filter((item) => toLower(item).includes(toLower(term)));
   }
 
   return items;
@@ -129,9 +129,11 @@ export default {
   data() {
     return {
       selected: [],
+
       allData: [],
       search: null,
       searched: [],
+      macsAddresses: [],
       users: [
         {
           id: 1,
@@ -191,6 +193,7 @@ export default {
               macsList.push(g);
             }
           }
+          this.macsAddresses = macsListl;
           var uniqueDevices = new Set(macsList).size;
 
           this.$store.state.totalDevices = uniqueDevices;
@@ -198,7 +201,7 @@ export default {
         });
     },
     searchOnTable() {
-      this.searched = searchByName(this.users, this.search);
+      this.searched = searchByName(this.macsAddresses, this.search);
     },
     newUser() {
       window.alert("Noop");

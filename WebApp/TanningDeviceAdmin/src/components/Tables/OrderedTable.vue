@@ -9,9 +9,8 @@
           item.StartSession
         }}</md-table-cell>
         <md-table-cell md-label="EndSession">
-          <div :style="myStyle" id="wrapper">{{ item.EndSession}}</div>
-          </md-table-cell
-        >
+          {{ item.EndSession }}
+        </md-table-cell>
         <md-table-cell md-label="EndSessionType">{{
           item.EndSessionType
         }}</md-table-cell>
@@ -30,9 +29,11 @@
         <md-table-cell md-label="SensorFilters">{{
           item.SensorFilters
         }}</md-table-cell>
-        <md-table-cell md-label="LampMaintenance">{{
-          item.LampMaintenance
-        }}</md-table-cell>
+        <md-table-cell md-label="LampMaintenance">
+          <div :style="item.LampMaintenance=='1'? {myStyleGreen}:{myStyleRed}" id="wrapper">
+            {{ item.LampMaintenance }}
+          </div></md-table-cell
+        >
         <md-table-cell md-label="AnnualMaintenance">{{
           item.AnnualMaintenance
         }}</md-table-cell>
@@ -114,8 +115,11 @@ export default {
       allData: [],
 
       macsAddresses: [],
-      myStyle: {
+      myStyleGreen: {
         backgroundColor: "#16a085",
+      },
+      myStyleRed: {
+        backgroundColor: "#9e1a1a",
       },
       users: [
         {

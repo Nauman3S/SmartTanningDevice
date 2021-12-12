@@ -130,36 +130,120 @@ Here's the complete circuit diagram of the system.
 
 - MQTT Broker Link: 34.214.65.82:1883
 - CapRover: https://captain.app.cloudsolarium.com/
-- Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
-- Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/
+<!-- - Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
+- Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/ -->
 
 ### Backend
 
 - Backend is based on NodeJS and it is being run as a Docker Container and managed by CapRover. It starts automatically on server start.
 
+#### Database
+
+MongoDB is used as a database and the data format is shown belo
+
+```JSON
+macAddress: {
+      type: String,
+      required: true,
+    },
+    Alive: {
+      type: String,
+      unique: true,
+    },
+    TotalRunningTime: {
+      type: String,
+      unique: true,
+    },
+    TotalSessionCount: {
+      type: String,
+      unique: true,
+    },
+    TotalSessionCorrectlyEnded: {
+      type: String,
+      unique: true,
+    },
+    TotalSessionEndedBeforeTime: {
+      type: String,
+      unique: true,
+    },
+    TotalSessionNotEndedCorrectly: {
+      type: String,
+      unique: true,
+    },
+    StartSession: {
+      type: String,
+      unique: true,
+    },
+    EndSession: {
+      type: String,
+      unique: true,
+    },
+    EndSessionType: {
+      type: String,
+      unique: true,
+    },
+    Temperature: {
+      type: String,
+      unique: true,
+    },
+    AnemometerSensor: {
+      type: String,
+      unique: true,
+    },
+    PresencePhases: {
+      type: String,
+      unique: true,
+    },
+    SensorFilters: {
+      type: String,
+      unique: true,
+    },
+    LampMaintenance: {
+      type: String,
+      unique: true,
+    },
+    AnnualMaintenance: {
+      type: String,
+      unique: true,
+    },
+    ActualLastTemp: {
+      type: String,
+      unique: true,
+    },
+    HighestTemp: {
+      type: String,
+      unique: true,
+    },
+    PowerFactorCorrection: {
+      type: String,
+      unique: true,
+    },
+    PFDeviationFromOptimalLevel: {
+      type: String,
+      unique: true,
+    },
+    LastFanSpeed: {
+      type: String,
+      unique: true,
+    },
+    InputVoltage: {
+      type: String,
+      unique: true,
+    }
+```
 ## MQTT Topic Details <a name = "mqtt"></a>
 
 ### Topics List
 
-- smartdata/#
-- #/poll
-- #/fieldData
+From ESP32 Perspective
 
-#### Logs
+-  <span style="color: green">smartdata/#</span> (WRITE-ONLY) The data should be send as a JSON with keys mentioned above in the `Database` Section
+-  <span style="color: green">{macAddress}/poll</span> (READ-ONLY) ESP32 with the macAddress will receive the `poll` string on this topic when `Poll` button is pressed on the dashboard.
+-  <span style="color: green">{macAddres}/fieldData</span> (READ-ONLY) ESP32 with the selected macAddress witll receive the editable fields data when `Transmit` button is pressed on the Dashboard.
 
-1.  <span style="color: green">tanning-device/logs</span> `(all log messages are published to this topic) READ-ONLY`
 
 #### Fimrware
 
-2.  <span style="color: green">tanning-device/deviceExists</span> `(Publish DeviceMAC on this topic to check if device exisits in DB) WRITE-ONLY`
-    1.  <span style="color: green">tanning-device/deviceExistance</span> `(Response from the above command {null or device MAC}) READ-ONLY`
-3.
-4.  <span style="color: green">tanning-device/createNew</span> `(Publish data to create a new device in DB.) WRITE-ONLY`
-
-    - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;InputVoltage;PresencePhases;Timestamp
-
-5.  <span style="color: green">tanning-device/updateDevice</span> `(Publish data to update a device in DB based on its MAC Address.) WRITE-ONLY`
-    - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;
 
 ## API Details <a name = "api"></a>
 

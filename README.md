@@ -9,11 +9,9 @@
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
-
 </div>
 
 ---
-
 
 <p align="center"> Smart Tanning Device
     <br> 
@@ -32,7 +30,6 @@
 - [Built Using](#built_using)
 - [Authors](#authors)
 
-
 ## 🧐 About <a name = "about"></a>
 
 This repo contains
@@ -43,8 +40,6 @@ This repo contains
 - Detailed instructions
 
 for Smart Tanning Device.
-
-
 
 ## Getting Started <a name = "getting_started"></a>
 
@@ -66,39 +61,36 @@ A step by step series that tell you how to get the Firmware and Backend running
 
 You should have Arduino IDE Installed
 
-  1.  Add ESP32 Board to your Arduino IDE
-    1. In your Arduino IDE, go to File> Preferences
-        Installing ESP32 Add-on in Arduino IDE Windows, Mac OS X, Linux open preferences
-    2. Enter ```https://dl.espressif.com/dl/package_esp32_index.json``` 
-        into the “Additional Board Manager URLs” field then, click the “OK” button:
-        Note: if you already have the ESP32 boards URL, you can separate the URLs with a comma(each board will go to neaw line) as follows:
-        ```https://dl.espressif.com/dl/package_esp32_index.json,\n http://arduino.esp8266.com/stable/package_esp8266com_index.json```
-    
-    
-  2. Open the Boards Manager. Go to Tools > Board > Boards Manager…
-  3. Search for ESP32 and press install button for the ESP32 by Espressif Systems“:
-  4. That’s it. It should be installed after a few seconds.
-  5.   In your Arduino sketchbook directory, create tools directory if it doesn't exist yet.
-  6.  Unpack the tool into tools directory(present in libs/ESP32FS-1.0.zip) (the path will look like <home_dir>/Arduino/tools/ESP32FS/tool/esp32fs.jar).
-  7.  Close and re-open the Arduino IDE.
+1.  Add ESP32 Board to your Arduino IDE
+1.  In your Arduino IDE, go to File> Preferences
+    Installing ESP32 Add-on in Arduino IDE Windows, Mac OS X, Linux open preferences
+1.  Enter `https://dl.espressif.com/dl/package_esp32_index.json`
+    into the “Additional Board Manager URLs” field then, click the “OK” button:
+    Note: if you already have the ESP32 boards URL, you can separate the URLs with a comma(each board will go to neaw line) as follows:
+    `https://dl.espressif.com/dl/package_esp32_index.json,\n http://arduino.esp8266.com/stable/package_esp8266com_index.json`
 
-  8.  Now copy the contents of the libs folder to the libraries directory of your Arduino
-      1. If you are using windows, the libraries directory will be Documents/Arduino/libraries
+1.  Open the Boards Manager. Go to Tools > Board > Boards Manager…
+1.  Search for ESP32 and press install button for the ESP32 by Espressif Systems“:
+1.  That’s it. It should be installed after a few seconds.
+1.  In your Arduino sketchbook directory, create tools directory if it doesn't exist yet.
+1.  Unpack the tool into tools directory(present in libs/ESP32FS-1.0.zip) (the path will look like <home_dir>/Arduino/tools/ESP32FS/tool/esp32fs.jar).
+1.  Close and re-open the Arduino IDE.
+
+1.  Now copy the contents of the libs folder to the libraries directory of your Arduino
+    1. If you are using windows, the libraries directory will be Documents/Arduino/libraries
 
 ##### ESP32 Node FW Uploading
-  1.  Select ESP32 Dev Module from Tools->Board->ESP32
-  2.  Select the correct port from Tools->Port
-  3.  Then open Firmware.ino file,
-  4.  Select Tools > ESP32 Sketch Data Upload menu item. This should start uploading the files into ESP32 flash file system.
-  5.  Now Upload the Code to your ESP32 Dev Module.
-  6.  Your ESP32 is now ready to be used.
 
+1.  Select ESP32 Dev Module from Tools->Board->ESP32
+2.  Select the correct port from Tools->Port
+3.  Then open Firmware.ino file,
+4.  Select Tools > ESP32 Sketch Data Upload menu item. This should start uploading the files into ESP32 flash file system.
+5.  Now Upload the Code to your ESP32 Dev Module.
+6.  Your ESP32 is now ready to be used.
 
 ## Circuit <a name = "circuit"></a>
 
-
 ### ESP32 Dev Module Pinout
-
 
 Follow the pinout diagram given below to connect different components to your TTGO LORA32 board.
 
@@ -109,7 +101,6 @@ Follow the pinout diagram given below to connect different components to your TT
 Here's the complete circuit diagram of the system.
 
 ![CircuitDiagram](Circuit/Circuit_bb.png)
-
 
 ## Server Details <a name = "server"></a>
 
@@ -125,6 +116,7 @@ Here's the complete circuit diagram of the system.
 - Docker
 - ufw
 - CapRover
+
 ### Version Details
 
 - Node v10.19.0
@@ -132,102 +124,55 @@ Here's the complete circuit diagram of the system.
 
 ### Reference Links
 
--   Layout: https://docs.google.com/spreadsheets/d/1pLSYBU_jmj0MHLfFhjrONCmabcauOlFwBAStOadKreI/edit
+- Layout: https://docs.google.com/spreadsheets/d/1pLSYBU_jmj0MHLfFhjrONCmabcauOlFwBAStOadKreI/edit
 
 ### Server Links <a name = "srv"></a>
 
 - MQTT Broker Link: 34.214.65.82:1883
 - CapRover: https://captain.app.cloudsolarium.com/
-- Backend Link: 
-- Frontend Link: 
+- Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
+- Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/
 
 ### Backend
 
 - Backend is based on NodeJS and it is being run as a Docker Container and managed by CapRover. It starts automatically on server start.
 
 ## MQTT Topic Details <a name = "mqtt"></a>
+
 ### Topics List
+
+- smartdata/#
+- #/poll
+- #/fieldData
+
 #### Logs
+
 1.  <span style="color: green">tanning-device/logs</span> `(all log messages are published to this topic) READ-ONLY`
 
 #### Fimrware
 
 2.  <span style="color: green">tanning-device/deviceExists</span> `(Publish DeviceMAC on this topic to check if device exisits in DB) WRITE-ONLY`
     1.  <span style="color: green">tanning-device/deviceExistance</span> `(Response from the above command {null or device MAC}) READ-ONLY`
-3.  
-4.   <span style="color: green">tanning-device/createNew</span> `(Publish data to create a new device in DB.) WRITE-ONLY`
+3.
+4.  <span style="color: green">tanning-device/createNew</span> `(Publish data to create a new device in DB.) WRITE-ONLY`
+
     - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;InputVoltage;PresencePhases;Timestamp
+
 5.  <span style="color: green">tanning-device/updateDevice</span> `(Publish data to update a device in DB based on its MAC Address.) WRITE-ONLY`
     - Data Format: DeviceMAC;StartSession;EndSession;EndSessionType;Temperature;SensorFilters;LampMaintenance;AnnualMaintenance;PowerFactorCorrection;AnemometerSensor;
 
-
 ## API Details <a name = "api"></a>
-
 
 ### Admin Login
 
 ```http
-POST http://34.214.65.82:8080/v1/loginAdmin
+POST https://smart-tanning-device-backend.app.cloudsolarium.com/api/users/login
 ```
 
-| Parameter | Type | Description | 
-| :--- | :--- | :--- |
-| `Email` | `string` | **Required**.  *Email address of the admin*|
-| `Password` | `string` | **Required**.  *Password of the admin*|
-
-### Update Admin
-
-```http
-POST http://34.214.65.82:8080/v1/updateAdmin
-```
-
-| Parameter | Type | Description | 
-| :--- | :--- | :--- |
-| `Email` | `string` | **Required**.  *Email address of the admin*|
-| `Password` | `string` | **Required**.  *Password of the admin*|
-
-### List Admins
-
-```http
-GET http://34.214.65.82:8080/v1/listAll
-```
-
-| Parameter | Type | Description | 
-| :--- | :--- | :--- |
-```nothing```
-
-### Ledger Log
-
-```http
-POST http://34.214.65.82:8080/v1/ledgerLog
-```
-
-| Parameter | Type | Description | 
-| :--- | :--- | :--- |
-```nothing```
-
-### Add New Device
-
-```http
-POST http://34.214.65.82:8080/v1/addNewDevice
-```
-
-| Parameter | Type | Description | 
-| :--- | :--- | :--- |
-| `DeviceMAC` | `string` | **Required**.  *Email address of the Device*|
-| `StartSession` | `string` | **Required**.  *StartSession of the Device*|
-| `EndSession` | `string` | **Required**.  *EndSession of the Device*|
-| `EndSessionType` | `string` | **Required**.  *EndSessionType of the Device*|
-| `Temperature` | `string` | **Required**.  *Temperature of the Device*|
-| `SensorFilters` | `string` | **Required**.  *SensorFilters of the Device*|
-| `LampMaintenance` | `string` | **Required**.  *LampMaintenance of the Device*|
-| `AnnualMaintenance` | `string` | **Required**.  *AnnualMaintenance of the Device*|
-| `PowerFactorCorrection` | `string` | **Required**.  *PowerFactorCorrection of the Device*|
-| `AnemometerSensor` | `string` | **Required**.  *AnemometerSensor of the Device*|
-| `InputVoltage` | `string` | **Required**.  *InputVoltage of the Device*|
-| `PresencePhases` | `string` | **Required**.  *PresencePhases of the Device*|
-| `Timestamp` | `string` | **NOT Required**.  *Timestamp of the Device*|
-
+| Parameter  | Type     | Description                                |
+| :--------- | :------- | :----------------------------------------- |
+| `Email`    | `string` | **Required**. _Email address of the admin_ |
+| `Password` | `string` | **Required**. _Password of the admin_      |
 
 ### Responses
 
@@ -239,22 +184,22 @@ Many API endpoints return the JSON representation of the resources created or ed
   "message" : string
 }
 ```
+
 The `message` attribute contains a message commonly used to indicate errors or to return the logged status/
 
 The `status` attribute describes if the transaction was successful or not.
-
 
 ### Status Codes
 
 IoTManagementSystem Backend returns the following status codes in its API:
 
-| Status Code | Description |
-| :--- | :--- |
-| 200 | `OK` |
-| 201 | `CREATED` |
-| 400 | `BAD REQUEST` |
-| 404 | `NOT FOUND` |
-| 500 | `INTERNAL SERVER ERROR` |
+| Status Code | Description             |
+| :---------- | :---------------------- |
+| 200         | `OK`                    |
+| 201         | `CREATED`               |
+| 400         | `BAD REQUEST`           |
+| 404         | `NOT FOUND`             |
+| 500         | `INTERNAL SERVER ERROR` |
 
 ## Usage <a name = "usage"></a>
 
@@ -262,22 +207,16 @@ IoTManagementSystem Backend returns the following status codes in its API:
 2.  Connect the ESP32 with your Tanning Machine.
 3.  Open the dashboard to monitor the parameters.
     1.  Dashboard Default credentials
-        1.  Email Address: **admin@admin.com**
+        1.  Email Address: **admin@tanningdevice.com**
         2.  Password: **admin**
 
 Dashboard Login Page![SCRD1](Circuit/scrd1.png)
 Dashboard Home Page![SCRD2](Circuit/scrd2.png)
-Dashboard Profile Page![SCRD3](Circuit/scrd3.png)
-4.  You can also download the logs in CSV format from the dashboard home page.
-5.  Power on your ESP32, it will present you with an AP named ```TanningD-abc``` (while ```TanningD``` can be changed in the portal and ```abc``` is a unique id for each esp32)
-6.  Default captive portal password `123456789AP` which can be changed in captive portal.
-7.  Connect to the ESP32 access point and open the web-browser and navigate to the link ```http://esp32.local/_ac```. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL.
-8.  The default access IP Address is ```http://192.168.4.1/_ac```
-9.  You will be presented with a main dashboard as shown below(based on your device)
-   ![SCR1](Circuit/scr1.png)
+Dashboard Profile Page![SCRD3](Circuit/scrd3.png) 4. You can also download the logs in CSV format from the dashboard home page. 5. Power on your ESP32, it will present you with an AP named `TanningD-abc` (while `TanningD` can be changed in the portal and `abc` is a unique id for each esp32) 6. Default captive portal password `123456789AP` which can be changed in captive portal. 7. Connect to the ESP32 access point and open the web-browser and navigate to the link `http://esp32.local/_ac`. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL. 8. The default access IP Address is `http://192.168.4.1/_ac` 9. You will be presented with a main dashboard as shown below(based on your device)
+![SCR1](Circuit/scr1.png)
 
 5.  Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
-6.  The data is published to the MQTT Topic ```TanningD/{hostname}``` while the hostname is the one which you can define in Settings page of the captive portal.
+6.  The data is published to the MQTT Topic `TanningD/{hostname}` while the hostname is the one which you can define in Settings page of the captive portal.
 7.  You can open settings page with following default credentials
     1.  User: **AP Name (TanningD)**
     2.  Password: **admin**
@@ -287,8 +226,7 @@ Dashboard Profile Page![SCRD3](Circuit/scrd3.png)
 Following components are used to make this project
 
 1.  ESP32 Dev Kit Module
-https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrated/dp/B0718T232Z/ref=sr_1_3?crid=5EOAXOANUSCU&dchild=1&keywords=esp32+nodemcu&qid=1629587138&sprefix=esp32+node%2Caps%2C201&sr=8-3
-
+    https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrated/dp/B0718T232Z/ref=sr_1_3?crid=5EOAXOANUSCU&dchild=1&keywords=esp32+nodemcu&qid=1629587138&sprefix=esp32+node%2Caps%2C201&sr=8-3
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
@@ -296,7 +234,6 @@ https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrat
 - [Eclipse Paho MQTT](https://www.eclipse.org/paho/index.php?page=clients/python/index.php) - MQTT Client for Backend and RPiClient Software
 - [Arduino](https://www.arduino.cc/) - Embedded Framework and IDE - For Sensor Node Design
 - [VueJS](https://vuejs.org/) - For Dashboard Design
-
 
 ## ✍️ Authors <a name = "authors"></a>
 

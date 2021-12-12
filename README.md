@@ -115,21 +115,20 @@ Here's the complete circuit diagram of the system.
 
 ### Monitoring
 
-- pm2 list
-- pm2 monit
+- NetData Monitro
+- https://captain.app.cloudsolarium.com/net-data-monitor
 
 ### List of Packages installed on server
 
 - Mosquitto Broker
-- NodeJS, NPM, Node, NVM
-- PM2
+- NodeJS, NPM, Node
+- Docker
 - ufw
-- mongod
-- mongo-express
+- CapRover
 ### Version Details
 
-- Node v12.16.1
-- NPM v6.13.4
+- Node v10.19.0
+- NPM v6.14.4
 
 ### Reference Links
 
@@ -138,12 +137,13 @@ Here's the complete circuit diagram of the system.
 ### Server Links <a name = "srv"></a>
 
 - MQTT Broker Link: 34.214.65.82:1883
-- Backend Link: 34.214.65.82:3000
-- Frontend Link: http://34.214.65.82:8080
+- CapRover: https://captain.app.cloudsolarium.com/
+- Backend Link: 
+- Frontend Link: 
 
 ### Backend
 
-- Backend is based on NodeJS and it is being managed by PM2. It starts automatically on server start.
+- Backend is based on NodeJS and it is being run as a Docker Container and managed by CapRover. It starts automatically on server start.
 
 ## MQTT Topic Details <a name = "mqtt"></a>
 ### Topics List

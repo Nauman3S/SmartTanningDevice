@@ -90,7 +90,7 @@ bool whileCP()
         inAP = 1;
     }
     // Serial.println("AP MODE");
-
+    UVCommanderPollHandler();
     loopLEDHandler();
 }
 

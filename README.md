@@ -130,8 +130,8 @@ Here's the complete circuit diagram of the system.
 
 - MQTT Broker Link: 34.214.65.82:1883
 - CapRover: https://captain.app.cloudsolarium.com/
-<!-- - Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
-- Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/ -->
+- Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
+- Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/
 
 ### Backend
 

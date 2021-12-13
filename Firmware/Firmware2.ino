@@ -100,7 +100,7 @@ void setup() //main setup functions
     setupCommsHandler();
     delay(1000);
     Serial.println(ss.getMacAddress());
-    sendData_UVCommander("Message \"Welcome!\"");
+    sendData_UVCommander("ALIVE OK");
 
     if (!MDNS.begin("esp32")) //starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
     {

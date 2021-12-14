@@ -2,8 +2,11 @@
 #include "MQTTFuncs.h" //MQTT related functions
 #include "webApp.h"    //Captive Portal webpages
 #include <FS.h>        //ESP32 File System
+#include "jsonHandler.h"
 #include "commHandler.h"
 IPAddress ipV(192, 168, 4, 1);
+
+
 String loadParams(AutoConnectAux &aux, PageArgument &args) //function to load saved settings
 {
     (void)(args);
@@ -100,6 +103,7 @@ void setup() //main setup functions
     setupCommsHandler();
     delay(1000);
     Serial.println(ss.getMacAddress());
+    macAddress=ss.getMacAddress();
     sendData_UVCommander("ALIVE OK");
 
     if (!MDNS.begin("esp32")) //starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
@@ -215,22 +219,25 @@ void setup() //main setup functions
 
     MDNS.addService("http", "tcp", 80);
     mqttConnect(); //start mqtt
+    
 
     Serial.println("Checking if device exisits.");
     mqttPublish("tanning-device/deviceExists", ss.getMacAddress());
+    
 }
 
 void loop()
 {
     server.handleClient();
-    
+
     portal.handleRequest();
     UVCommanderPollHandler();
     if (millis() - lastPub > updateInterval) //publish data to mqtt server
     {
-        mqttPublish("tanning-device/" + String(hostName), String("Data")); //publish data to mqtt broker
+        // mqttPublish("smartdata/" + String(hostName), String("Data")); //publish data to mqtt broker
         ledState(ACTIVE_MODE);
         Serial.println("Sending data");
+        
         //uncomment the lines below for debugging
         // Serial.println(ampSensorType);
         // Serial.println(sensorSelection);

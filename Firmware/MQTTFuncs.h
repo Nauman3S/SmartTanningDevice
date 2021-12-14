@@ -7,9 +7,11 @@ void mqttPublish(String path, String msg);
 int deviceExisits = 0;
 void MQTTUnSubscribe()
 {
-    String topicN = String("tanning-device/deviceExistance");
+    String topicN = ss.getMacAddress()+String("/poll");
+    String topicO = ss.getMacAddress()+String("/fieldData");
 
     mqttClient.unsubscribe(topicN.c_str());
+    mqttClient.unsubscribe(topicO.c_str());
 }
 void MQTTSubscriptions()
 {
@@ -18,9 +20,11 @@ void MQTTSubscriptions()
     // for(int i=0;i<10;i++){
     //   IMEIsList[i]==String("NA");
     // }
-    String topicN = String("tanning-device/deviceExistance");
+    String topicN = ss.getMacAddress()+String("/poll");
+    String topicO = ss.getMacAddress()+String("/fieldData");
 
     mqttClient.subscribe(topicN.c_str());
+    mqttClient.subscribe(topicO.c_str());
 }
 void callback(char *topic, byte *payload, unsigned int length)
 {
@@ -34,21 +38,17 @@ void callback(char *topic, byte *payload, unsigned int length)
         pLoad = pLoad + String((char)payload[i]);
     }
     Serial.println();
-    if (String(topic) == String("tanning-device/deviceExistance"))
+    if (String(topic) == ss.getMacAddress()+("/poll"))
     {
-        if (pLoad.indexOf("null") >= 0)
-        {
-            //create new device
-            mqttPublish("tanning-device/createNew", ss.getMacAddress() + String(";0;0;0;0;0;0;0;0;0;0;0")); //create an empty device
-            deviceExisits = 1;
-        }
-        else
-        {
-            Serial.print("Device ");
-            Serial.print(ss.getMacAddress());
-            Serial.println(" Exists");
-            deviceExisits = 1;
-        }
+       Serial.println("Got Poll Request.");
+       Serial2.println("Got Poll Request.");
+    }
+    else if (String(topic) == ss.getMacAddress()+("/fieldData"))
+    {
+       Serial.println("Got Fields Data: ");
+       Serial2.println("Got Fields Data: ");
+       Serial.println(pLoad);
+       Serial2.println(pLoad);
     }
 
     // Switch on the LED if an 1 was received as first character
@@ -106,6 +106,7 @@ bool mqttConnect()
 
         mqttClient.setServer(mqttBroker, 1883);
         mqttClient.setCallback(callback);
+        mqttClient.setBufferSize(2024);
         Serial.println(String("Attempting MQTT broker:") + String("Tanning Broker"));
         internetStatus = "Connecting...";
 
@@ -118,6 +119,7 @@ bool mqttConnect()
         if (mqttClient.connect(clientId, mqtt_user, mqtt_pass))
         {
             Serial.println("Established:" + String(clientId));
+            Serial2.println("Established:" + String(clientId));
             internetStatus = "Connected";
             //mqttClient.subscribe("SmartTControl/data/v");
             MQTTSubscriptions();

@@ -30,7 +30,10 @@ void sendToUVCommander()
         pollAnswer("ALIVE OK");
     }
 }
-
+void sendMACAddress(){
+    Serial2.print("MAC Address: ");
+    Serial2.println(ss.getMacAddress());
+}
 void setupCommsHandler()
 {
     Serial2.begin(115000, SERIAL_8N1, RXD2, TXD2);
@@ -47,11 +50,8 @@ uint8_t UVCommanderPollHandler()
 {
     if (Serial2.available())
     {
-        dataV = Serial2.readString();
-        if (dataV.length() < 1)
-        {
-            return 0;
-        }
+        dataV = Serial2.readStringUntil('\n');
+        
         if (checkCommand(dataV, "ALIVE") >= 0)
         {
             //pollAnswer("ALIVE OK");
@@ -59,35 +59,40 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "HELLO") >= 0)
+        else if (checkCommand(dataV, "HELLO") >= 0)
         {
             pollAnswer("OK - SERIAL");
             return 1;
         }
 
-        if (checkCommand(dataV, "BLOCK") >= 0)
+        else if (checkCommand(dataV, "BLOCK") >= 0)
         {
             DataToSend = "";
             return 1;
         }
 
-        if (checkCommand(dataV, "Message") >= 0)
+        else if (checkCommand(dataV, "MESSAGE") >= 0)
         {
             DataToSend = "";
+            tempValue = ss.StringSeparator(dataV, ' ', 1);
+            Message=dataV;
+            genJSON();
+            sendJSON();
+
             return 1;
         }
 
-        if (checkCommand(dataV, "PAYMENT") >= 0)
+        else if (checkCommand(dataV, "PAYMENT") >= 0)
         {
             DataToSend = "";
             return 1;
         }
-        if (checkCommand(dataV, "NO INTERNET") >= 0)
+        else if (checkCommand(dataV, "NO INTERNET") >= 0)
         {
             DataToSend = "";
             return 1;
         }
-        if (checkCommand(dataV, "START") >= 0)
+        else if (checkCommand(dataV, "START") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
 
@@ -99,7 +104,7 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "STOP") >= 0)
+        else if (checkCommand(dataV, "STOP") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             EndSession = tempValue;
@@ -108,7 +113,7 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "TEMP") >= 0)
+        else if (checkCommand(dataV, "TEMP") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             Temperature = tempValue;
@@ -118,7 +123,7 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "FILTER") >= 0)
+        else if (checkCommand(dataV, "FILTER") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             SensorFilters = tempValue;
@@ -127,7 +132,7 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "LAMP") >= 0)
+        else if (checkCommand(dataV, "LAMP") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             LampMaintenance = tempValue;
@@ -136,7 +141,7 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "YEAR") >= 0)
+        else if (checkCommand(dataV, "YEAR") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             AnnualMaintenance = tempValue;
@@ -146,21 +151,21 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "AMP") >= 0)
+        else if (checkCommand(dataV, "AMP") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             checkAndPublishData("tanning-device/updateAmp", ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
 
-        if (checkCommand(dataV, "VENT") >= 0)
+        else if (checkCommand(dataV, "VENT") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             checkAndPublishData("tanning-device/updateVent", ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
 
-        if (checkCommand(dataV, "VOLT") >= 0)
+        else if (checkCommand(dataV, "VOLT") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             InputVoltage = tempValue;
@@ -169,11 +174,14 @@ uint8_t UVCommanderPollHandler()
             return 1;
         }
 
-        if (checkCommand(dataV, "RST") >= 0)
+        else if (checkCommand(dataV, "RST") >= 0)
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             checkAndPublishData("tanning-device/updateRst", ss.getMacAddress() + String(";") + tempValue);
             return 1;
+        }
+        else{
+            return 0;
         }
     }
 }

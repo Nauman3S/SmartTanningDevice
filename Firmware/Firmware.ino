@@ -5,7 +5,7 @@
 #include "jsonHandler.h"
 #include "commHandler.h"
 IPAddress ipV(192, 168, 4, 1);
-
+TaskHandle_t CommHandler;
 
 String loadParams(AutoConnectAux &aux, PageArgument &args) //function to load saved settings
 {
@@ -93,18 +93,46 @@ bool whileCP()
         inAP = 1;
     }
     // Serial.println("AP MODE");
-    UVCommanderPollHandler();
+    // UVCommanderPollHandler();
     loopLEDHandler();
 }
-
+void loopFunction(void *pvParameters)
+{
+    // mqttClient.setKeepAlive(90);
+    setupCommsHandler();
+    sendData_UVCommander("ALIVE OK");
+    sendMACAddress();
+    for (;;)
+    {
+        UVCommanderPollHandler();
+        vTaskDelay(1 / portTICK_PERIOD_MS);
+    }
+}
 void setup() //main setup functions
 {
     Serial.begin(115200);
-    setupCommsHandler();
+
     delay(1000);
     Serial.println(ss.getMacAddress());
-    macAddress=ss.getMacAddress();
-    sendData_UVCommander("ALIVE OK");
+    macAddress = ss.getMacAddress();
+
+    // queue = xQueueCreate(1, sizeof(tweetData));
+    // if (queue == NULL)
+    // {
+    //     Serial.println("Error creating the queue");
+    // }
+
+    // xQueueSend(queue, &tweetData, portMAX_DELAY);
+
+    xTaskCreatePinnedToCore(
+        loopFunction, /* Task function. */
+        "Twitter",    /* name of task. */
+        10000,        /* Stack size of task */
+        NULL,         /* parameter of the task */
+        1,            /* priority of the task */
+        &CommHandler,     /* Task handle to keep track of created task */
+        1);
+    delay(500);
 
     if (!MDNS.begin("esp32")) //starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
     {
@@ -219,11 +247,9 @@ void setup() //main setup functions
 
     MDNS.addService("http", "tcp", 80);
     mqttConnect(); //start mqtt
-    
 
     Serial.println("Checking if device exisits.");
     mqttPublish("tanning-device/deviceExists", ss.getMacAddress());
-    
 }
 
 void loop()
@@ -231,24 +257,12 @@ void loop()
     server.handleClient();
 
     portal.handleRequest();
-    UVCommanderPollHandler();
+
     if (millis() - lastPub > updateInterval) //publish data to mqtt server
     {
-        // mqttPublish("smartdata/" + String(hostName), String("Data")); //publish data to mqtt broker
+
         ledState(ACTIVE_MODE);
         Serial.println("Sending data");
-        
-        //uncomment the lines below for debugging
-        // Serial.println(ampSensorType);
-        // Serial.println(sensorSelection);
-        // Serial.println(minActiveValue);
-        // Serial.println(channelId);
-        // Serial.println(userKey);
-        // Serial.println(apiKey);
-        // Serial.println(apid);
-        // Serial.println(hostName);
-        // Serial.println(apPass);
-        // Serial.println(tempUnits)
 
         lastPub = millis();
     }

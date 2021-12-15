@@ -47,6 +47,9 @@ void handleRoot()
 
     page += String(F("<h1>Smart Tanning Device Data</h1>"));
 
+    page += String(F("<h2>MAC Address: "));
+    page += ss.getMacAddress();
+    page += String(F("</h2>"));
     page += String(F("<p><br><a class=\"button\" href=\"/\">Refresh</a></p>"));
     page += String(F("</body></html>"));
 

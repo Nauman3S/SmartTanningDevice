@@ -40,8 +40,9 @@ void callback(char *topic, byte *payload, unsigned int length)
     Serial.println();
     if (String(topic) == ss.getMacAddress()+("/poll"))
     {
-       Serial.println("Got Poll Request.");
-       Serial2.println("Got Poll Request.");
+    //    Serial.println("Got Poll Request.");
+    //    Serial2.println("Got Poll Request.");
+       sendData_UVCommander("POLL");
     }
     else if (String(topic) == ss.getMacAddress()+("/fieldData"))
     {

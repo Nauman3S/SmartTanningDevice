@@ -1,9 +1,10 @@
 #include "headers.h"   //all misc. headers and functions
+#include "commHandler.h"
 #include "MQTTFuncs.h" //MQTT related functions
 #include "webApp.h"    //Captive Portal webpages
 #include <FS.h>        //ESP32 File System
 #include "jsonHandler.h"
-#include "commHandler.h"
+
 IPAddress ipV(192, 168, 4, 1);
 TaskHandle_t CommHandler;
 

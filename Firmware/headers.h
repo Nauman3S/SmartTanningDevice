@@ -6,6 +6,7 @@ String apid;
 String hostName = "TanningD";
 String apPass="123456789AP";
 String settingsPass;
+int deviceExisits = 0;
 
 #if defined(ARDUINO_ARCH_ESP8266)
 #include <ESP8266WiFi.h>
@@ -14,7 +15,7 @@ String settingsPass;
 #include <WiFi.h>
 #include <WebServer.h>
 #endif
-
+#include "functionProts.h"
 #include <AutoConnect.h>
 
 #if defined(ARDUINO_ARCH_ESP8266)

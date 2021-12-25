@@ -132,7 +132,14 @@ Here's the complete circuit diagram of the system.
 - CapRover: https://captain.app.cloudsolarium.com/
 - Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
 - Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/
+#### Test Accounts
 
+Here are default admin account credentials with a user account.
+
+Admin Account: admin@tanningdevice.com
+Admin Password: admin
+User Account: testuser@tanningdevice.com
+User Password: user
 ### Backend
 
 - Backend is based on NodeJS and it is being run as a Docker Container and managed by CapRover. It starts automatically on server start.
@@ -290,7 +297,7 @@ IoTManagementSystem Backend returns the following status codes in its API:
 1.  Upload the code to your ESP32.
 2.  Connect the ESP32 with your Tanning Machine.
 3.  Open the dashboard to monitor the parameters.
-    1.  Dashboard Default credentials
+    1.  Dashboard Default credentials(admin only)
         1.  Email Address: **admin@tanningdevice.com**
         2.  Password: **admin**
 

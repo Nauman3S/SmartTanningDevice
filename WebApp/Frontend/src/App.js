@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Data from "./pages/Data";
+import Settings from "./pages/Settings";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Main from "./components/layout/Main";
@@ -16,7 +17,13 @@ function App() {
         <Route path="/sign-up" exact component={SignUp} />
         <Route path="/sign-in" exact component={SignIn} />
         <Main>
-          <ProtectedRoutes Cmp={Data} />
+          <Redirect strict from="/" to="/data" />
+          <Route path="/data">
+            <ProtectedRoutes Cmp={Data} />
+          </Route>
+          <Route path="/settings">
+            <ProtectedRoutes Cmp={Settings} />
+          </Route>
         </Main>
       </Switch>
     </div>

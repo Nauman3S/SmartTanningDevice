@@ -7,8 +7,6 @@ let userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    minlength: 5,
-    maxlength: 255,
   },
   password: {
     type: String,
@@ -18,6 +16,10 @@ let userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    default: "user",
+  },
   macAddress: [
     {
       type: String,
@@ -26,11 +28,6 @@ let userSchema = mongoose.Schema({
   ],
 });
 
-// function validateUser(user) {
-//   const schema = {
-//     email: Joi.string().min(5).max(255).required().email(),
-//   };
-//
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ id: this._id }, process.env.JWTSECRETKEY);
   return token;

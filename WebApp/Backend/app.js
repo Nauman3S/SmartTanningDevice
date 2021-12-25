@@ -10,6 +10,7 @@ const app = express();
 
 const userRoute = require("./routes/api/users");
 const mqttRoute = require("./routes/api/mqtt");
+const checkRoute = require("./routes/api/check");
 // const fileUploadRoute = require("./routes/api/fileUpload");
 
 //Database Connection
@@ -25,6 +26,7 @@ app.use(fileUpload());
 
 app.use("/api/users", userRoute);
 app.use("/api/mqtt", mqttRoute);
+app.use("/api/check", checkRoute);
 // app.use("/api/fileUpload", fileUploadRoute);
 
 // catch 404 and forward to error handler

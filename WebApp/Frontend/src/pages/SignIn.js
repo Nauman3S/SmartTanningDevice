@@ -3,7 +3,17 @@ import { Link } from "react-router-dom";
 import tanningDevice from "../api/tanningDevice";
 import history from "../utils/CreateBrowserHistory";
 
-import { Layout, Button, Row, Col, Typography, Form, Input } from "antd";
+import {
+  Layout,
+  Button,
+  Row,
+  Col,
+  Typography,
+  Form,
+  Input,
+  Description,
+  message,
+} from "antd";
 import smartFarmingIot from "../assets/images/smartFarmingIot.jpg";
 
 const { Title } = Typography;
@@ -11,20 +21,30 @@ const { Header, Footer, Content } = Layout;
 
 const SignIn = () => {
   const onFinish = async (values) => {
+    const hide = message.loading("Processing", 0);
     await tanningDevice
       .post("/api/users/login", {
         email: values.email,
         password: values.password,
       })
       .then((res) => {
-        console.log("Logged in successfully");
-        localStorage.setItem("user-info", JSON.stringify(res.data));
+        setTimeout(hide, 0);
+        // console.log(res.data);
+
+        localStorage.setItem("user-info", JSON.stringify(res.data.token));
+        localStorage.setItem("userType", res.data.type);
+        localStorage.setItem("userEmail", res.data.name);
+        localStorage.setItem("userId", res.data.id);
 
         history.push("/");
 
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
+        setTimeout(hide, 0);
+
+        message.error("Password Not Correct");
+
         console.log(err);
       });
   };

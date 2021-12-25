@@ -132,6 +132,8 @@ Here's the complete circuit diagram of the system.
 - CapRover: https://captain.app.cloudsolarium.com/
 - Backend Link: https://smart-tanning-device-backend.app.cloudsolarium.com
 - Frontend Link: https://smart-tanning-device-frontend.app.cloudsolarium.com/
+- MongoDB Database: http://smart-tanning-device-data-preview.app.cloudsolarium.com/
+  - User/Pass: smartTanningDevice
 #### Test Accounts
 
 Here are default admin account credentials with a user account.

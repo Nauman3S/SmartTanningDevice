@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import tanningDevice from "../api/tanningDevice";
-import { Layout, Button, Typography, Card, Form, Input } from "antd";
+import { Layout, Button, Typography, Card, Form, Input, message } from "antd";
 
 import { Link } from "react-router-dom";
 import history from "../utils/CreateBrowserHistory";
@@ -14,6 +14,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const onFinish = async () => {
+    const hide = message.loading("Processing", 0);
     await tanningDevice
       .post("/api/users/register", {
         email: email,
@@ -21,6 +22,8 @@ const SignUp = () => {
         confirmPassword: confirmPassword,
       })
       .then((res) => {
+        setTimeout(hide, 0);
+        message.success("Signed Up Successfully!");
         console.log("Signed Up Successfully!");
         localStorage.setItem("user-info", JSON.stringify(res));
         history.push("/sign-in");
@@ -28,6 +31,11 @@ const SignUp = () => {
         console.log(res);
       })
       .catch((err) => {
+        setTimeout(hide, 0);
+        message.error(
+          "Something went wrong!, please check your internet connection and try again"
+        );
+
         console.log(err);
       });
   };

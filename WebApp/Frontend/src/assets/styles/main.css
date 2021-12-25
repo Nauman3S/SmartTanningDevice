@@ -3055,8 +3055,10 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   padding-left: 11;
   border-radius: "50px";
 }
-.tableInput {
-  /* height: 0px !important;
-  width: 100% !important;
-  padding-left: 100px !important; */
+
+.show {
+  display: "block";
+}
+.hide {
+  display: "none";
 }

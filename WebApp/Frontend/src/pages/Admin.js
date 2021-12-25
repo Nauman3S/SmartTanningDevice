@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import history from "../utils/CreateBrowserHistory";
 
 import tanningDevice from "../api/tanningDevice";
-import Admin from "./Admin";
+
 import {
   Row,
   Col,
@@ -16,18 +16,82 @@ import {
   Form,
   message,
   Select,
+  Checkbox,
+  Divider,
 } from "antd";
+import Title from "antd/lib/typography/Title";
 
 const { Option } = Select;
+const CheckboxGroup = Checkbox.Group;
+const plainOptions = [
+  "Timestamp(Last Updated)",
+  "MachineSerialNumber",
+  "MachineType",
+  "Device MAC",
+  "Alive(Online)",
+  "TotalRunningTime",
+  "TotalSessionCount",
+  "TotalSessionCorrectlyEnded",
+  "TotalSessionEndedBeforeTime",
+  "StartSession",
+  "EndSession",
+  "EndSessionType",
+  "Temperature",
+  "AnemometerSensor",
+  "PresencePhases",
+  "SensorFilters",
+  "LampMaintenance",
+  "AnnualMaintenance",
+  "ActualLastTemp",
+  "HighestTemp",
+  "PowerFactorCorrection",
+  "CorrectPF",
+  "PFDeviationFromOptimalLevel",
+  "LastFanSpeed",
+  "InputVoltage",
+  "Poll",
+  "Message",
+  "PaymentSystem",
+  "InstallDate",
+  "Transmit",
+];
+let defaultCheckedList = [];
 
-const Data = () => {
-  // if (localStorage.getItem("user-info")) {
-  //   history.push("/tables");
-  // } else {
-  //   history.push("/sign-in");
-  // }
-  const myRef = useRef(null);
-  const myRef1 = useRef(null);
+let evnObj = {
+  Alive: false,
+  TotalRunningTime: false,
+  TotalSessionCount: false,
+  TotalSessionCorrectlyEnded: false,
+  TotalSessionEndedBeforeTime: false,
+  TotalSessionNotEndedCorrectly: false,
+  StartSession: false,
+  EndSession: false,
+  EndSessionType: false,
+  Temperature: false,
+  AnemometerSensor: false,
+  PresencePhases: false,
+  SensorFilters: false,
+  LampMaintenance: false,
+  AnnualMaintenance: false,
+  ActualLastTemp: false,
+  HighestTemp: false,
+  PowerFactorCorrection: false,
+  PFDeviationFromOptimalLevel: false,
+  LastFanSpeed: false,
+  InputVoltage: false,
+  Message: false,
+  MachineSerialNumber: false,
+  MachineType: false,
+  CorrectPF: false,
+  PaymentSystem: false,
+  InstallDate: false,
+  macAddress: false,
+  Timestamp: false,
+  Poll: false,
+  Transmit: false,
+};
+
+const Admin = () => {
   let publishMsgObj = {
     MachineSerialNumber: "",
     MachineType: "",
@@ -39,13 +103,13 @@ const Data = () => {
   const [data, setData] = useState([]);
   const [macAddress, setMacAddress] = useState("");
   const [userMacAddress, setUserMacAddress] = useState([]);
-  const [userType, setUserType] = useState("");
-  const [checkedList, setCheckedList] = useState({});
+  //   const [defaultCheckedList, setDefaultCheckedList] = useState([]);
 
-  // let intervalId = null;
+  // setDefaultCheckedList()
 
-  // const executeScroll = () => myRef.current.scrollIntoView();
-  // const executeScroll1 = () => myRef1.current.scrollIntoView();
+  const [defCheckData, setDefCheckData] = useState([]);
+
+  //checkbox useEffect
 
   const useInterval = (callback, delay) => {
     const savedCallback = useRef();
@@ -67,11 +131,6 @@ const Data = () => {
     }, [delay]);
   };
   const tanningDeviceData = () => {
-    if (localStorage.getItem("user-info")) {
-      history.push("/data");
-    } else {
-      history.push("/sign-in");
-    }
     // console.log("Calling");
     tanningDevice
       .post("/api/mqtt/getOne", {
@@ -79,46 +138,110 @@ const Data = () => {
       })
       .then((res) => {
         // console.log("Sucess");
-        console.log(res.data[0]);
+        // console.log(res.data);
         localStorage.setItem("LampMaintenance", res.data[0].LampMaintenance);
         localStorage.setItem(
           "AnnualMaintenance",
           res.data[0].AnnualMaintenance
         );
-
         if (res.data[0].LampMaintenance === "") {
           setData(null);
         } else {
-          setData(res.data);
+          setData(res.data.reverse());
         }
       })
       .catch((err) => {
         console.log(err);
       });
+
     tanningDevice
       .get("/api/check")
-      .then((res) => {
-        // console.log(res.data[0]);
-        setCheckedList(res.data[0]);
+      .then((response) => {
+        // console.log(response.data[0].Timestamp);
+        setCheckedList([
+          response.data[0].Timestamp === true ? "Timestamp(Last Updated)" : "",
+          response.data[0].MachineSerialNumber === true
+            ? "MachineSerialNumber"
+            : "",
+          response.data[0].MachineType === true ? "MachineType" : "",
+          response.data[0].macAddress === true ? "Device MAC" : "",
+          response.data[0].Alive === true ? "Alive(Online)" : "",
+          response.data[0].TotalRunningTime === true ? "TotalRunningTime" : "",
+          response.data[0].TotalSessionCount === true
+            ? "TotalSessionCount"
+            : "",
+          response.data[0].TotalSessionCorrectlyEnded === true
+            ? "TotalSessionCorrectlyEnded"
+            : "",
+          response.data[0].TotalSessionEndedBeforeTime === true
+            ? "TotalSessionEndedBeforeTime"
+            : "",
+          response.data[0].StartSession === true ? "StartSession" : "",
+          response.data[0].EndSession === true ? "EndSession" : "",
+          response.data[0].EndSessionType === true ? "EndSessionType" : "",
+          response.data[0].Temperature === true ? "Temperature" : "",
+          response.data[0].AnemometerSensor === true ? "AnemometerSensor" : "",
+          response.data[0].PresencePhases === true ? "PresencePhases" : "",
+          response.data[0].SensorFilters === true ? "SensorFilters" : "",
+          response.data[0].LampMaintenance === true ? "LampMaintenance" : "",
+          response.data[0].AnnualMaintenance === true
+            ? "AnnualMaintenance"
+            : "",
+          response.data[0].ActualLastTemp === true ? "ActualLastTemp" : "",
+          response.data[0].HighestTemp === true ? "HighestTemp" : "",
+          response.data[0].PowerFactorCorrection === true
+            ? "PowerFactorCorrection"
+            : "",
+          response.data[0].CorrectPF === true ? "CorrectPF" : "",
+          response.data[0].PFDeviationFromOptimalLevel === true
+            ? "PFDeviationFromOptimalLevel"
+            : "",
+          response.data[0].LastFanSpeed === true ? "LastFanSpeed" : "",
+          response.data[0].InputVoltage === true ? "InputVoltage" : "",
+          response.data[0].Poll === true ? "Poll" : "",
+          response.data[0].Message === true ? "Message" : "",
+          response.data[0].PaymentSystem === true ? "PaymentSystem" : "",
+          response.data[0].InstallDate === true ? "InstallDate" : "",
+          response.data[0].Transmit === true ? "Transmit" : "",
+        ]);
+        setDefCheckData(response.data[0]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   useEffect(() => {
+    if (localStorage.getItem("user-info")) {
+      history.push("/data");
+    }
     // console.log("In USE");
 
+    // console.log(checkedList);
     tanningDeviceData();
-    return () => {};
   }, [macAddress]);
-  // console.log(checkedList);
   useEffect(() => {}, [data]);
   useInterval(() => {
     // Make the request here
-    // if(localStorage.getItem("macAddress"))
-
     tanningDeviceData();
   }, 1000 * 60);
+
+  const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+
+  // console.log(checkedList);
+
+  //checkbox functions
+
+  const setVisible = (col) => {
+    if (checkedList.includes(col)) {
+      // console.log(checkedList))
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   //Input Function
 
@@ -142,7 +265,7 @@ const Data = () => {
     // console.log(e.target.value);
     publishMsgObj.InstallDate = e.target.value;
   };
-  // console.log("OBJ");
+  //   console.log("OBJ");
 
   const hanldleTransmitClick = () => {
     // console.log(JSON.stringify(publishMsgObj));
@@ -170,35 +293,23 @@ const Data = () => {
     publishToMqtt("poll", "poll");
   };
 
-  const setVisible = (visible) => {
-    // console.log(checkedList[`${visible}`]);
-    if (checkedList[`${visible}`] === true) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   const environmentCol = [
     {
       title: "Timestamp(Last Updated)",
       dataIndex: "updatedAt",
-      key: "updatedAt",
-      visible: setVisible("Timestamp"),
+      key: "Timestamp",
+      visible: setVisible("Timestamp(Last Updated)"),
     },
     {
       title: "MachineSerialNumber",
       dataIndex: "MachineSerialNumber",
       key: "MachineSerialNumber",
       visible: setVisible("MachineSerialNumber"),
-
       render: () => (
         <Input
-          // className="tableInput"
           placeholder="Serial"
           allowClear
           onChange={onChangeMachineSerialNumber}
-          // style={{ height: "30px" }}
           size="small"
         />
       ),
@@ -210,14 +321,11 @@ const Data = () => {
       width: 200,
 
       visible: setVisible("MachineType"),
-
       render: () => (
         <Input
-          // classname="tableInput"
           placeholder="Type"
           allowClear
           onChange={onChangeMachineType}
-          // style={{ height: "30px" }}
           size="small"
         />
       ),
@@ -228,14 +336,14 @@ const Data = () => {
       key: "macAddress",
       dataIndex: "macAddress",
       align: "center",
-      visible: setVisible("macAddress"),
+      visible: setVisible("Device MAC"),
     },
     {
       title: "Alive(Online)",
       key: "Alive",
       align: "center",
       dataIndex: "Alive",
-      visible: setVisible("Alive"),
+      visible: setVisible("Alive(Online)"),
     },
     {
       title: "TotalRunningTime",
@@ -320,7 +428,6 @@ const Data = () => {
       align: "center",
       // dataIndex: "LampMaintenance",
       visible: setVisible("LampMaintenance"),
-
       render: (record) => {
         return {
           props: {
@@ -474,8 +581,8 @@ const Data = () => {
       key: "Transmit",
       align: "center",
       dataIndex: "Transmit",
-
       visible: setVisible("Transmit"),
+
       render: (record) => (
         <Space size="middle">
           <Button type="primary" onClick={hanldleTransmitClick}>
@@ -485,8 +592,35 @@ const Data = () => {
       ),
     },
   ].filter((item) => item.visible === true);
+  //   console.log(environmentCol);
+  const onChange = (list) => {
+    setCheckedList(list);
+    setIndeterminate(!!list.length && list.length < plainOptions.length);
+    setCheckAll(list.length === plainOptions.length);
+  };
+  const onCheckAllChange = (e) => {
+    setCheckedList(e.target.checked ? plainOptions : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+  };
 
-  //Modal Functions
+  const handleSaveCheck = () => {
+    // console.log(environmentCol);
+    if (environmentCol.length === 0) {
+      tanningDevice.put("/api/check", evnObj).then((res) => {
+        message.success("Saved");
+      });
+    } else {
+      environmentCol.map((item) => {
+        evnObj[item.key] = item.visible;
+      });
+      tanningDevice.put("/api/check", evnObj).then((res) => {
+        message.success("Saved");
+      });
+    }
+    // console.log(evnObj);
+  };
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -554,16 +688,14 @@ const Data = () => {
     localStorage.setItem("macAddress", value);
 
     setMacAddress(localStorage.getItem("macAddress", value));
-
     // console.log(`selected ${localStorage.getItem("macAddress", value)}`);
   }
 
   const getMacAddresses = async () => {
-    console.log("in get");
-    const id = getIdofLoggedInUser();
+    // const id = getIdofLoggedInUser();
 
     await tanningDevice
-      .get(`/api/users/getMacAddress/${id}`)
+      .get(`/api/users/getAllUsersMac`)
       .then((res) => {
         setUserMacAddress(res.data);
       })
@@ -583,102 +715,133 @@ const Data = () => {
       return;
     }
   });
-  if (localStorage.getItem("userType") === "user") {
-    return (
-      <>
-        <div className="flex-container" style={{ marginBottom: "10px" }}>
-          <Button
-            type="primary"
-            className="addDevicebtn"
-            onClick={showModal}
-            style={{
-              marginLeft: "5px",
-              borderRadius: "50px",
-            }}
-          >
-            Add New Device
-          </Button>
-          <Modal
-            title="Add a New Device"
-            visible={isModalVisible}
-            // onOk={handleOk}
-            onCancel={handleCancel}
-            destroyOnClose={true}
-            footer={null}
-          >
-            <Form
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              layout="vertical"
-              className="row-col"
-            >
-              <Form.Item
-                className="username"
-                label="Mac Address"
-                name="macAddress"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Enter Device MacAddress",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="Enter MacAddress"
-                  style={{ paddingTop: 23.5, paddingBottom: 23.5 }}
-                />
-              </Form.Item>
-
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  style={{ width: "100%" }}
-                >
-                  Add
-                </Button>
-              </Form.Item>
-            </Form>
-          </Modal>
-        </div>
-
-        <Select
-          className="mac-search"
-          defaultValue={localStorage.getItem("macAddress")}
-          style={{ width: 120, borderRadius: "150px", marginBottom: "15px" }}
-          onChange={handleChange}
-          onClick={getMacAddresses}
+  return (
+    <>
+      <div className="flex-container" style={{ marginBottom: "10px" }}>
+        <Button
+          type="primary"
+          className="addDevicebtn"
+          onClick={showModal}
+          style={{
+            marginLeft: "5px",
+            borderRadius: "50px",
+          }}
         >
-          {renderedOptions}
-        </Select>
-        <div className="tabled">
-          <Row gutter={[24, 0]}>
-            <Col xs="24" xl={24}>
-              <Card
-                bordered={false}
-                className="criclebox tablespace mb-24"
-                title="Smart Tanning Device"
+          Add New Device
+        </Button>
+        <Modal
+          title="Add a New Device"
+          visible={isModalVisible}
+          // onOk={handleOk}
+          onCancel={handleCancel}
+          destroyOnClose={true}
+          footer={null}
+        >
+          <Form
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            layout="vertical"
+            className="row-col"
+          >
+            <Form.Item
+              className="username"
+              label="Mac Address"
+              name="macAddress"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Enter Device MacAddress",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter MacAddress"
+                style={{ paddingTop: 23.5, paddingBottom: 23.5 }}
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: "100%" }}
               >
-                <div className="table-responsive">
-                  <Table
-                    key="enCol"
-                    columns={environmentCol}
-                    pagination={false}
-                    dataSource={data}
-                    className="ant-border-space"
-                  />
-                </div>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </>
-    );
-  } else if (localStorage.getItem("userType") === "admin") {
-    return <Admin />;
-  } else {
-    return <h1>Data</h1>;
-  }
+                Add
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
+
+      <Select
+        className="mac-search"
+        defaultValue={localStorage.getItem("macAddress")}
+        style={{ width: 120, borderRadius: "150px", marginBottom: "15px" }}
+        onChange={handleChange}
+        onClick={getMacAddresses}
+      >
+        {renderedOptions}
+      </Select>
+      <div className="tabled">
+        <Row gutter={[24, 0]}>
+          <Col xs="24" xl={24}>
+            <Card
+              bordered={false}
+              className="criclebox tablespace mb-24"
+              title="Smart Tanning Device"
+            >
+              <div className="table-responsive">
+                <Table
+                  key="enCol"
+                  columns={environmentCol}
+                  pagination={false}
+                  dataSource={data}
+                  className="ant-border-space"
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+        <Row style={{ marginTop: 20 }}>
+          <Col xs="24">
+            <Card
+              bordered={false}
+              className="criclebox tablespace mb-24"
+              //   title="Smart Tanning Device"
+              style={{ padding: 20 }}
+            >
+              <Checkbox
+                indeterminate={indeterminate}
+                onChange={onCheckAllChange}
+                checked={checkAll}
+                span={8}
+              >
+                Check all
+              </Checkbox>
+              <Divider />
+              <CheckboxGroup
+                options={plainOptions}
+                value={checkedList}
+                onChange={onChange}
+                style={{ width: "100%" }}
+              />
+              <Button
+                type="primary"
+                className="addDevicebtn"
+                onClick={handleSaveCheck}
+                style={{
+                  marginLeft: "5px",
+                  borderRadius: "50px",
+                }}
+              >
+                Save
+              </Button>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
 };
 
-export default Data;
+export default Admin;

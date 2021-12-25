@@ -116,8 +116,8 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        <Menu.Item key="2">
-          <NavLink to="/tables">
+        <Menu.Item key="1">
+          <NavLink to="/data">
             <span
               className="icon"
               style={{
@@ -127,6 +127,19 @@ function Sidenav({ color }) {
               {tables}
             </span>
             <span className="label">Data</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <NavLink to="/settings">
+            <span
+              className="icon"
+              style={{
+                background: page === "tables" ? color : "",
+              }}
+            >
+              {tables}
+            </span>
+            <span className="label">Settings</span>
           </NavLink>
         </Menu.Item>
       </Menu>

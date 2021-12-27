@@ -24,6 +24,7 @@ void sendToUVCommander()
     if (DataToSend.length() > 0)
     {
         pollAnswer(DataToSend);
+        DataToSend="";
     }
     else
     {

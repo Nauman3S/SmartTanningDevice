@@ -41,6 +41,11 @@ const Data = () => {
   const [userMacAddress, setUserMacAddress] = useState([]);
   const [userType, setUserType] = useState("");
   const [checkedList, setCheckedList] = useState({});
+  const [machineType, setMachineType] = useState();
+  const [machineSerialNumber, setMachineSerialNumber] = useState();
+  const [correctPF, setCorrectPF] = useState();
+  const [paymentSystem, setPaymentSystem] = useState();
+  const [installDate, setInstallDate] = useState();
 
   // let intervalId = null;
 
@@ -104,6 +109,17 @@ const Data = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    tanningDevice
+      .get(`/api/mqttPublishFields/${localStorage.getItem("macAddress")}`)
+      .then((res) => {
+        console.log(res.data);
+        setMachineSerialNumber(res.data.MachineSerialNumber);
+        setMachineType(res.data.MachineType);
+        setCorrectPF(res.data.CorrectPF);
+        setPaymentSystem(res.data.PaymentSystem);
+        setInstallDate(res.data.InstallDate);
+      });
   };
   useEffect(() => {
     // console.log("In USE");
@@ -125,22 +141,27 @@ const Data = () => {
   const onChangeMachineType = (e) => {
     // console.log(e.target.value);
     publishMsgObj.MachineType = e.target.value;
+    setMachineType(e.target.value);
   };
   const onChangeMachineSerialNumber = (e) => {
     // console.log(e.target.value);
     publishMsgObj.MachineSerialNumber = e.target.value;
+    setMachineSerialNumber(e.target.value);
   };
   const onChangeCorrectPF = (e) => {
     // console.log(e.target.value);
     publishMsgObj.CorrectPF = e.target.value;
+    setCorrectPF(e.target.value);
   };
   const handleChangePaymentSystem = (value) => {
     // console.log(value);
     publishMsgObj.PaymentSystem = value;
+    setPaymentSystem(value);
   };
   const onChangeInstallDate = (e) => {
     // console.log(e.target.value);
     publishMsgObj.InstallDate = e.target.value;
+    setInstallDate(e.target.value);
   };
   // console.log("OBJ");
 
@@ -199,6 +220,7 @@ const Data = () => {
           allowClear
           onChange={onChangeMachineSerialNumber}
           // style={{ height: "30px" }}
+          value={machineSerialNumber}
           size="small"
         />
       ),
@@ -217,6 +239,7 @@ const Data = () => {
           placeholder="Type"
           allowClear
           onChange={onChangeMachineType}
+          value={machineType}
           // style={{ height: "30px" }}
           size="small"
         />
@@ -384,6 +407,7 @@ const Data = () => {
           placeholder="Update Serial"
           allowClear
           onChange={onChangeCorrectPF}
+          value={correctPF}
           // style={{ height: "30px" }}
           size="small"
         />
@@ -441,7 +465,8 @@ const Data = () => {
       visible: setVisible("PaymentSystem"),
       render: () => (
         <Select
-          defaultValue="STD"
+          // defaultValue={`${paymentSystem}`}
+          value={paymentSystem}
           // style={{ width: 120 }}
           onChange={handleChangePaymentSystem}
         >
@@ -464,6 +489,7 @@ const Data = () => {
           placeholder="Update Serial"
           allowClear
           onChange={onChangeInstallDate}
+          value={installDate}
           // style={{ margin: "100%" }}
           size="small"
         />
@@ -481,11 +507,31 @@ const Data = () => {
           <Button type="primary" onClick={hanldleTransmitClick}>
             Transmit
           </Button>
+          <Button type="primary" onClick={handleSaveFieldsData}>
+            Save
+          </Button>
         </Space>
       ),
     },
   ].filter((item) => item.visible === true);
 
+  const handleSaveFieldsData = async () => {
+    let selectedMacAddress = localStorage.getItem("macAddress");
+    await tanningDevice
+      .put(`/api/mqttPublishFields/save/${selectedMacAddress}`, {
+        MachineSerialNumber: machineSerialNumber,
+        MachineType: machineType,
+        CorrectPF: correctPF,
+        PaymentSystem: paymentSystem,
+        InstallDate: installDate,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   //Modal Functions
   const [isModalVisible, setIsModalVisible] = useState(false);
 

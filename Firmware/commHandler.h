@@ -4,6 +4,7 @@
 String dataV = "";
 String tempValue = "";
 String DataToSend = "";
+String tempDataString = "";
 void sendData_UVCommander(String d)
 {
     DataToSend = d;
@@ -24,20 +25,21 @@ void sendToUVCommander()
     if (DataToSend.length() > 0)
     {
         pollAnswer(DataToSend);
-        DataToSend="";
+        DataToSend = "";
     }
     else
     {
         pollAnswer("ALIVE OK");
     }
 }
-void sendMACAddress(){
+void sendMACAddress()
+{
     Serial2.print("MAC Address: ");
     Serial2.println(ss.getMacAddress());
 }
 void setupCommsHandler()
 {
-    Serial2.begin(115000, SERIAL_8N1, RXD2, TXD2);
+    Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
 }
 void checkAndPublishData(String topic, String msg)
 {
@@ -52,7 +54,7 @@ uint8_t UVCommanderPollHandler()
     if (Serial2.available())
     {
         dataV = Serial2.readStringUntil('\n');
-        
+
         if (checkCommand(dataV, "ALIVE") >= 0)
         {
             //pollAnswer("ALIVE OK");
@@ -76,9 +78,10 @@ uint8_t UVCommanderPollHandler()
         {
             DataToSend = "";
             tempValue = ss.StringSeparator(dataV, ' ', 1);
-            Message=dataV;
+            Message = dataV;
             genJSON();
             sendJSON();
+            pollAnswer(String("MESSAGE ") + ss.getMacAddress() + String(";") + tempValue);
 
             return 1;
         }
@@ -86,6 +89,7 @@ uint8_t UVCommanderPollHandler()
         else if (checkCommand(dataV, "PAYMENT") >= 0)
         {
             DataToSend = "";
+
             return 1;
         }
         else if (checkCommand(dataV, "NO INTERNET") >= 0)
@@ -98,6 +102,11 @@ uint8_t UVCommanderPollHandler()
             tempValue = ss.StringSeparator(dataV, ' ', 1);
 
             StartSession = tempValue;
+            int trt = TotalRunningTime.toInt() + tempValue.toInt();
+            int tsc = TotalSessionCount.toInt() + 1;
+            tempDataString = String(trt) + String(",") + String(tsc) + String(",") + TotalSessionCorrectlyEnded + String(",") + TotalSessionEndedBeforeTime;
+            writeData(tempDataString.c_str());
+
             genJSON();
             sendJSON();
             pollAnswer(String("START ") + tempValue);
@@ -111,6 +120,7 @@ uint8_t UVCommanderPollHandler()
             EndSession = tempValue;
             genJSON();
             sendJSON();
+            pollAnswer(String("STOP ") + ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
 
@@ -120,6 +130,7 @@ uint8_t UVCommanderPollHandler()
             Temperature = tempValue;
             genJSON();
             sendJSON();
+            pollAnswer(String("TEMP ") + ss.getMacAddress() + String(";") + tempValue);
 
             return 1;
         }
@@ -130,6 +141,7 @@ uint8_t UVCommanderPollHandler()
             SensorFilters = tempValue;
             genJSON();
             sendJSON();
+            pollAnswer(String("FILTER ") + ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
 
@@ -139,6 +151,7 @@ uint8_t UVCommanderPollHandler()
             LampMaintenance = tempValue;
             genJSON();
             sendJSON();
+            pollAnswer(String("LAMP ") + ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
 
@@ -148,6 +161,7 @@ uint8_t UVCommanderPollHandler()
             AnnualMaintenance = tempValue;
             genJSON();
             sendJSON();
+            pollAnswer(String("YEAR ") + ss.getMacAddress() + String(";") + tempValue);
 
             return 1;
         }
@@ -172,6 +186,7 @@ uint8_t UVCommanderPollHandler()
             InputVoltage = tempValue;
             genJSON();
             sendJSON();
+            pollAnswer(String("VOLT ") + ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
 
@@ -179,9 +194,11 @@ uint8_t UVCommanderPollHandler()
         {
             tempValue = ss.StringSeparator(dataV, ' ', 1);
             checkAndPublishData("tanning-device/updateRst", ss.getMacAddress() + String(";") + tempValue);
+            pollAnswer(String("RST ") + ss.getMacAddress() + String(";") + tempValue);
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
     }

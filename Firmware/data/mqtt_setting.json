@@ -47,6 +47,41 @@
       "label": "Channel ID"
     },
     {
+      "name": "newline3",
+      "type": "ACElement",
+      "value": "<hr>"
+    },
+    {
+      "name": "header2",
+      "type": "ACText",
+      "value": "<h2>Machine Parameters</h2>",
+      "style": "text-align:center;color:#2f4f4f;"
+    },
+    {
+      "name": "totalRunningTime",
+      "type": "ACText",
+      "value": "0",
+      "style": "font-family:serif;color:#4ba2ea;"
+    },
+    {
+      "name": "totalSessionCount",
+      "type": "ACText",
+      "value": "0",
+      "style": "font-family:serif;color:#4ba2ea;"
+    },
+    {
+      "name": "totalSessionEndedCorrectly",
+      "type": "ACText",
+      "value": "0",
+      "style": "font-family:serif;color:#4ba2ea;"
+    },
+    {
+      "name": "totalSessionEndedBeforeTime",
+      "type": "ACText",
+      "value": "0",
+      "style": "font-family:serif;color:#4ba2ea;"
+    },
+    {
       "name": "newline",
       "type": "ACElement",
       "value": "<hr>"
@@ -61,7 +96,7 @@
       "name": "apPass",
       "type": "ACInput",
       "label": "ESP AP Password",
-      "value": "123456789AP"
+      "value": "12345678"
     },
     {
       "name": "settingsPass",

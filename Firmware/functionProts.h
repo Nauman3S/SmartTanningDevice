@@ -16,3 +16,5 @@ void mqttPublish(String path, String msg);
 
 
 void sendJSON();
+
+void writeData(const char *message);

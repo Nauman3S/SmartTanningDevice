@@ -7,7 +7,10 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 
 const app = express();
-
+// app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
 const userRoute = require("./routes/api/users");
 const mqttRoute = require("./routes/api/mqtt");
 const checkRoute = require("./routes/api/check");
@@ -17,11 +20,16 @@ const mqttPublishFieldsRoute = require("./routes/api/mqttPublishFields");
 //Database Connection
 require("./db/connection");
 
-app.use(cors());
+// // app.use(cors());
+// app.use(cors({
+//   origin: '*'
+// }));
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(fileUpload());
 

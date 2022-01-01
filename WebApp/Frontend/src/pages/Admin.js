@@ -103,6 +103,11 @@ const Admin = () => {
   const [data, setData] = useState([]);
   const [macAddress, setMacAddress] = useState("");
   const [userMacAddress, setUserMacAddress] = useState([]);
+  const [machineType, setMachineType] = useState();
+  const [machineSerialNumber, setMachineSerialNumber] = useState();
+  const [correctPF, setCorrectPF] = useState();
+  const [paymentSystem, setPaymentSystem] = useState();
+  const [installDate, setInstallDate] = useState();
   //   const [defaultCheckedList, setDefaultCheckedList] = useState([]);
 
   // setDefaultCheckedList()
@@ -130,9 +135,9 @@ const Admin = () => {
       }
     }, [delay]);
   };
-  const tanningDeviceData = () => {
+  const tanningDeviceData = async () => {
     // console.log("Calling");
-    tanningDevice
+    await tanningDevice
       .post("/api/mqtt/getOne", {
         macAddress: localStorage.getItem("macAddress"),
       })
@@ -154,7 +159,7 @@ const Admin = () => {
         console.log(err);
       });
 
-    tanningDevice
+    await tanningDevice
       .get("/api/check")
       .then((response) => {
         // console.log(response.data[0].Timestamp);
@@ -209,6 +214,17 @@ const Admin = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    await tanningDevice
+      .get(`/api/mqttPublishFields/${localStorage.getItem("macAddress")}`)
+      .then((res) => {
+        console.log(res.data.PaymentSystem);
+        setMachineSerialNumber(res.data.MachineSerialNumber);
+        setMachineType(res.data.MachineType);
+        setCorrectPF(res.data.CorrectPF);
+        setPaymentSystem(res.data.PaymentSystem);
+        setInstallDate(res.data.InstallDate);
+      });
   };
 
   useEffect(() => {
@@ -248,22 +264,27 @@ const Admin = () => {
   const onChangeMachineType = (e) => {
     // console.log(e.target.value);
     publishMsgObj.MachineType = e.target.value;
+    setMachineType(e.target.value);
   };
   const onChangeMachineSerialNumber = (e) => {
     // console.log(e.target.value);
     publishMsgObj.MachineSerialNumber = e.target.value;
+    setMachineSerialNumber(e.target.value);
   };
   const onChangeCorrectPF = (e) => {
     // console.log(e.target.value);
     publishMsgObj.CorrectPF = e.target.value;
+    setCorrectPF(e.target.value);
   };
   const handleChangePaymentSystem = (value) => {
     // console.log(value);
     publishMsgObj.PaymentSystem = value;
+    setPaymentSystem(value);
   };
   const onChangeInstallDate = (e) => {
     // console.log(e.target.value);
     publishMsgObj.InstallDate = e.target.value;
+    setInstallDate(e.target.value);
   };
   //   console.log("OBJ");
 
@@ -310,6 +331,7 @@ const Admin = () => {
           placeholder="Serial"
           allowClear
           onChange={onChangeMachineSerialNumber}
+          value={machineSerialNumber}
           size="small"
         />
       ),
@@ -326,6 +348,7 @@ const Admin = () => {
           placeholder="Type"
           allowClear
           onChange={onChangeMachineType}
+          value={machineType}
           size="small"
         />
       ),
@@ -491,6 +514,7 @@ const Admin = () => {
           placeholder="Update Serial"
           allowClear
           onChange={onChangeCorrectPF}
+          value={correctPF}
           // style={{ height: "30px" }}
           size="small"
         />
@@ -548,8 +572,9 @@ const Admin = () => {
       visible: setVisible("PaymentSystem"),
       render: () => (
         <Select
-          defaultValue="STD"
+          // defaultValue={`${paymentSystem}`}
           // style={{ width: 120 }}
+          value={paymentSystem}
           onChange={handleChangePaymentSystem}
         >
           <Option value="STD">STD</Option>
@@ -572,6 +597,7 @@ const Admin = () => {
           allowClear
           onChange={onChangeInstallDate}
           // style={{ margin: "100%" }}
+          value={installDate}
           size="small"
         />
       ),
@@ -588,10 +614,32 @@ const Admin = () => {
           <Button type="primary" onClick={hanldleTransmitClick}>
             Transmit
           </Button>
+          <Button type="primary" onClick={handleSaveFieldsData}>
+            Save
+          </Button>
         </Space>
       ),
     },
   ].filter((item) => item.visible === true);
+  console.log(paymentSystem);
+
+  const handleSaveFieldsData = async () => {
+    let selectedMacAddress = localStorage.getItem("macAddress");
+    await tanningDevice
+      .put(`/api/mqttPublishFields/save/${selectedMacAddress}`, {
+        MachineSerialNumber: machineSerialNumber,
+        MachineType: machineType,
+        CorrectPF: correctPF,
+        PaymentSystem: paymentSystem,
+        InstallDate: installDate,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   //   console.log(environmentCol);
   const onChange = (list) => {
     setCheckedList(list);

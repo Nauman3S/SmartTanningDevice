@@ -4,6 +4,7 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const { UserModel } = require("../../models/user");
 const mqttMessageModel = require("../../models/mqttmessage");
+const mqttPublishFieldsModel = require("../../models/mqttPublishFields");
 
 //get all users
 router.get("/", async (req, res) => {
@@ -136,6 +137,15 @@ router.put("/update/:id", async (req, res) => {
         Message: "",
       });
       mqttMessage.save();
+      let mqttPublishFields = new mqttPublishFieldsModel({
+        macAddress: req.body.macAddress,
+        MachineSerialNumber: "",
+        MachineType: "",
+        CorrectPF: "",
+        PaymentSystem: "",
+        InstallDate: "",
+      });
+      mqttPublishFields.save();
     }
     return res.send("Data saved");
   } catch (err) {
